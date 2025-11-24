@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../papilio_wishbone_libraries"
+		},
+		{
+			"path": "../2024/papilio-labs/DesignLab_Examples"
+		}
+	],
+	"settings": {}
+}

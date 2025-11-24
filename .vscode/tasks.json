@@ -1,0 +1,56 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "FPGA: Build (TCL)",
+      "type": "shell",
+      "command": "gw_sh.exe",
+      "args": [
+        "build.tcl"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/src/gateware",
+        "shell": {
+          "executable": "powershell.exe"
+        }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+    ,
+    {
+      "label": "FPGA: Build (TCL) (WSL)",
+      "type": "shell",
+      "command": "/usr/bin/wsl",
+      "args": [
+        "-e",
+        "bash",
+        "-lc",
+        "'/mnt/c/Program\\ Files/Gowin/IDE/bin/gw_sh.exe' build.tcl"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/src/gateware",
+        "shell": {
+          "executable": "bash",
+          "args": ["-lc"]
+        }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

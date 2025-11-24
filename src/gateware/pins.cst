@@ -1,0 +1,23 @@
+IO_LOC "clk_27mhz" H11;
+IO_PORT "clk_27mhz" PULL_MODE=UP;
+
+IO_LOC "rst_n" C7;
+IO_PORT "rst_n" PULL_MODE=UP;
+
+IO_LOC "rgb_led" P9;
+IO_PORT "rgb_led" PULL_MODE=NONE;
+
+IO_LOC "esp_miso" C11;
+IO_LOC "esp_clk" A11;
+IO_LOC "esp_mosi" B11;
+IO_LOC "esp_cs_n" A12;
+
+// HDMI differential pairs - Using LVCMOS18D (1.8V differential) for GW2A-LV18 device
+IO_LOC "O_tmds_clk_p" P6,T6;
+IO_PORT "O_tmds_clk_p" IO_TYPE=LVCMOS18D PULL_MODE=NONE;
+IO_LOC "O_tmds_data_p[0]" M6,T8;
+IO_PORT "O_tmds_data_p[0]" IO_TYPE=LVCMOS18D PULL_MODE=NONE;
+IO_LOC "O_tmds_data_p[1]" T11,P11;
+IO_PORT "O_tmds_data_p[1]" IO_TYPE=LVCMOS18D PULL_MODE=NONE;
+IO_LOC "O_tmds_data_p[2]" T12,R11;
+IO_PORT "O_tmds_data_p[2]" IO_TYPE=LVCMOS18D PULL_MODE=NONE;

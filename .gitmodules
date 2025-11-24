@@ -1,0 +1,3 @@
+[submodule "libs/papilio_hdmi"]
+	path = libs/papilio_hdmi
+	url = https://github.com/GadgetFactory/papilio_hdmi.git
