@@ -1,3 +1,9 @@
 [submodule "libs/papilio_hdmi"]
 	path = libs/papilio_hdmi
 	url = https://github.com/GadgetFactory/papilio_hdmi.git
+[submodule "libs/papilio_rgb_led"]
+	path = libs/papilio_rgb_led
+	url = https://github.com/GadgetFactory/papilio_rgb_led.git
+[submodule "libs/papilio_wishbone_spi_master"]
+	path = libs/papilio_wishbone_spi_master
+	url = https://github.com/GadgetFactory/papilio_wishbone_spi_master.git
