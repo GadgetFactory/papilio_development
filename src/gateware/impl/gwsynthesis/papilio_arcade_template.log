@@ -1,0 +1,92 @@
+GowinSynthesis start
+Running parser ...
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\uart_tx.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\wb_address_decoder.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\TMDS_rPLL.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\char_ram_8x8.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\color_bar_generator.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\gowin_rpll.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\hdmi_timing.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\simple_hdmi_tx.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\testpattern.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_wb.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_hdmi_colorbar.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_text_mode.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_ctrl.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v'
+WARN  (EX3073) : Port 'video_attr_data' remains unconnected for this instance("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":169)
+Compiling module 'top'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":5)
+Compiling module 'simple_spi_wb_bridge_debug'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v":5)
+WARN  (EX3791) : Expression size 4 truncated to fit in target size 3("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v":69)
+WARN  (EX3791) : Expression size 3 truncated to fit in target size 2("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v":83)
+WARN  (EX3791) : Expression size 28 truncated to fit in target size 27("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v":157)
+Compiling module 'uart_tx'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\uart_tx.v":2)
+WARN  (EX3791) : Expression size 17 truncated to fit in target size 16("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\uart_tx.v":34)
+WARN  (EX3791) : Expression size 5 truncated to fit in target size 4("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\uart_tx.v":39)
+Compiling module 'wb_address_decoder'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\wb_address_decoder.v":4)
+Compiling module 'wb_simple_rgb_led'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v":4)
+WARN  (EX3791) : Expression size 32 truncated to fit in target size 16("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v":83)
+Compiling module 'ws2812b_controller'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v":85)
+WARN  (EX3791) : Expression size 32 truncated to fit in target size 5("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v":147)
+WARN  (EX3791) : Expression size 17 truncated to fit in target size 16("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v":150)
+WARN  (EX3791) : Expression size 17 truncated to fit in target size 16("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v":161)
+Compiling module 'wb_video_ctrl'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_ctrl.v":8)
+Compiling module 'video_top_wb'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_wb.v":5)
+Compiling module 'testpattern'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\testpattern.v":17)
+WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_wb.v":116)
+WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_wb.v":124)
+Compiling module 'wb_text_mode'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_text_mode.v":6)
+Compiling module 'font_rom_8x8'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\char_ram_8x8.v":65)
+Compiling module 'TMDS_rPLL'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\TMDS_rPLL.v":2)
+Compiling module 'simple_hdmi_tx'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\simple_hdmi_tx.v":5)
+Compiling module 'tmds_encoder'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v":5)
+WARN  (EX3791) : Expression size 32 truncated to fit in target size 5("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v":86)
+WARN  (EX3791) : Expression size 32 truncated to fit in target size 5("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v":88)
+WARN  (EX3791) : Expression size 32 truncated to fit in target size 5("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v":95)
+WARN  (EX3791) : Expression size 32 truncated to fit in target size 5("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v":100)
+WARN  (EX3670) : Actual bit length 12 differs from formal bit length 11 for port 'O_text_char_addr'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_ctrl.v":76)
+Compiling module 'wb_char_ram'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":11)
+Extracting RAM for identifier 'char_ram'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":38)
+Extracting RAM for identifier 'attr_ram'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":39)
+WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":44)
+WARN  (EX3791) : Expression size 8 truncated to fit in target size 7("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":81)
+WARN  (EX3791) : Expression size 6 truncated to fit in target size 5("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":85)
+WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":98)
+WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":104)
+WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":123)
+WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":129)
+WARN  (EX2565) : Input 'text_attr_data[7]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
+WARN  (EX2565) : Input 'text_attr_data[6]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
+WARN  (EX2565) : Input 'text_attr_data[5]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
+WARN  (EX2565) : Input 'text_attr_data[4]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
+WARN  (EX2565) : Input 'text_attr_data[3]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
+WARN  (EX2565) : Input 'text_attr_data[2]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
+WARN  (EX2565) : Input 'text_attr_data[1]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
+WARN  (EX2565) : Input 'text_attr_data[0]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
+NOTE  (EX0101) : Current top module is "top"
+[5%] Running netlist conversion ...
+Running device independent optimization ...
+[10%] Optimizing Phase 0 completed
+[15%] Optimizing Phase 1 completed
+[25%] Optimizing Phase 2 completed
+Running inference ...
+[30%] Inferring Phase 0 completed
+[40%] Inferring Phase 1 completed
+[50%] Inferring Phase 2 completed
+[55%] Inferring Phase 3 completed
+Running technical mapping ...
+[60%] Tech-Mapping Phase 0 completed
+[65%] Tech-Mapping Phase 1 completed
+[75%] Tech-Mapping Phase 2 completed
+[80%] Tech-Mapping Phase 3 completed
+[90%] Tech-Mapping Phase 4 completed
+WARN  (NL0002) : The module "wb_address_decoder" instantiated to "u_wb_decoder" is swept in optimizing("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":118)
+[95%] Generate netlist file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\gwsynthesis\papilio_arcade_template.vg" completed
+[100%] Generate report file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\gwsynthesis\papilio_arcade_template_syn.rpt.html" completed
+GowinSynthesis finish

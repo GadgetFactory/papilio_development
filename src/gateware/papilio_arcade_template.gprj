@@ -6,30 +6,42 @@
     <Device name="GW2A-18C" pn="GW2A-LV18PG256C8/I7">gw2a18c-011</Device>
     <TopModule>top</TopModule>
     <FileList>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/.pio/libdeps/esp32-s3-devkitc-1/papilio_rgb_led/gateware/wb_rgb_led_ctrl.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/.pio/libdeps/esp32-s3-devkitc-1/papilio_rgb_led/gateware/wb_simple_rgb_led.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/.pio/libdeps/esp32-s3-devkitc-1/papilio_wishbone_spi_master/gateware/simple_spi_wb_bridge_debug.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/.pio/libdeps/esp32-s3-devkitc-1/papilio_wishbone_spi_master/gateware/uart_tx.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/.pio/libdeps/esp32-s3-devkitc-1/papilio_wishbone_spi_master/gateware/wb_address_decoder.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/libs/papilio_hdmi/gateware/src/TMDS_rPLL.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/libs/papilio_hdmi/gateware/src/char_ram_8x8.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/libs/papilio_hdmi/gateware/src/color_bar_generator.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/libs/papilio_hdmi/gateware/src/gowin_rpll.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/libs/papilio_hdmi/gateware/src/hdmi_timing.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/libs/papilio_hdmi/gateware/src/testpattern.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/libs/papilio_hdmi/gateware/src/tmds_encoder.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/libs/papilio_hdmi/gateware/src/video_top.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/libs/papilio_hdmi/gateware/src/video_top_wb.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/libs/papilio_hdmi/gateware/src/wb_char_ram.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/libs/papilio_hdmi/gateware/src/wb_hdmi_colorbar.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/libs/papilio_hdmi/gateware/src/simple_hdmi_tx.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/libs/papilio_hdmi/gateware/src/wb_text_mode.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/template_test/libs/papilio_hdmi/gateware/src/wb_video_ctrl.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_rgb_led/gateware/wb_rgb_led_ctrl.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_rgb_led/gateware/wb_simple_rgb_led.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_wishbone_spi_master/gateware/simple_spi_wb_bridge_debug.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_wishbone_spi_master/gateware/uart_tx.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_wishbone_spi_master/gateware/wb_address_decoder.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/TMDS_rPLL.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/char_ram_8x8.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/color_bar_generator.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/gowin_rpll.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/hdmi_timing.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/simple_hdmi_tx.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/testpattern.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/tmds_encoder.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/video_top.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/video_top_wb.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/wb_char_ram.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/wb_hdmi_colorbar.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/wb_text_mode.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/wb_video_ctrl.v" type="file.verilog" enable="1"/>
         <File path="top.v" type="file.verilog" enable="1"/>
         <File path="pins.cst" type="file.cst" enable="1"/>
         <File path="timing.sdc" type="file.sdc" enable="1"/>
     </FileList>
 </Project>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
