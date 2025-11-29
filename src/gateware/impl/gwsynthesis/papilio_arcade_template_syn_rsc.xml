@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Module name="top" Lut="1" T_Register="330(0)" T_Alu="85(0)" T_Lut="674(1)" T_MULT18X18="2(0)" T_Bsram="16(0)">
- <SubModule name="u_spi_wb_bridge" Register="137" Lut="182" T_Register="160(137)" T_Lut="217(182)">
-  <SubModule name="uart_inst" Register="23" Lut="35" T_Register="23(23)" T_Lut="35(35)"/>
+<Module name="top" Lut="13" T_Register="344(0)" T_Alu="78(0)" T_Lut="573(13)" T_Bsram="16(0)">
+ <SubModule name="u_spi_bridge" Register="113" Lut="57" T_Register="113(113)" T_Lut="57(57)"/>
+ <SubModule name="u_wb_rgb_led" Register="51" Lut="54" T_Register="77(51)" T_Lut="135(54)">
+  <SubModule name="ws2812b_inst" Register="26" Lut="81" T_Register="26(26)" T_Lut="81(81)"/>
  </SubModule>
- <SubModule name="u_wb_rgb_led" Register="43" Lut="42" T_Register="68(43)" T_Lut="122(42)">
-  <SubModule name="ws2812b_inst" Register="25" Lut="80" T_Register="25(25)" T_Lut="80(80)"/>
- </SubModule>
- <SubModule name="u_wb_char_ram" Register="1" Lut="1" T_Register="1(1)" T_Lut="1(1)"/>
- <SubModule name="u_video_top" Register="28" Alu="17" Lut="116" MULT18X18="2" Bsram="16" T_Register="101(28)" T_Alu="85(17)" T_Lut="333(116)" T_MULT18X18="2(2)" T_Bsram="16(16)">
+ <SubModule name="u_video_top" Register="81" Alu="10" Lut="151" Bsram="16" T_Register="154(81)" T_Alu="78(10)" T_Lut="368(151)" T_Bsram="16(16)">
   <SubModule name="u_tmds_rpll"/>
   <SubModule name="DVI_TX_Top_inst" Register="73" Alu="68" Lut="217" T_Register="73(73)" T_Alu="68(68)" T_Lut="217(217)"/>
  </SubModule>

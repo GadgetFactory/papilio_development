@@ -105,38 +105,148 @@ void unroute_usb_jtag_to_gpio() {
   Serial.println("[JTAG] Bridge disabled");
 }
 
+// SPI clock speed - 8MHz works well with the FPGA bridge
+#define SPI_SPEED 8000000
+
+// ============================================================================
+// Simple 5x7 Font (ASCII 32-127)
+// ============================================================================
+const uint8_t font5x7[][5] PROGMEM = {
+  {0x00, 0x00, 0x00, 0x00, 0x00}, // space
+  {0x00, 0x00, 0x5F, 0x00, 0x00}, // !
+  {0x00, 0x07, 0x00, 0x07, 0x00}, // "
+  {0x14, 0x7F, 0x14, 0x7F, 0x14}, // #
+  {0x24, 0x2A, 0x7F, 0x2A, 0x12}, // $
+  {0x23, 0x13, 0x08, 0x64, 0x62}, // %
+  {0x36, 0x49, 0x55, 0x22, 0x50}, // &
+  {0x00, 0x05, 0x03, 0x00, 0x00}, // '
+  {0x00, 0x1C, 0x22, 0x41, 0x00}, // (
+  {0x00, 0x41, 0x22, 0x1C, 0x00}, // )
+  {0x08, 0x2A, 0x1C, 0x2A, 0x08}, // *
+  {0x08, 0x08, 0x3E, 0x08, 0x08}, // +
+  {0x00, 0x50, 0x30, 0x00, 0x00}, // ,
+  {0x08, 0x08, 0x08, 0x08, 0x08}, // -
+  {0x00, 0x60, 0x60, 0x00, 0x00}, // .
+  {0x20, 0x10, 0x08, 0x04, 0x02}, // /
+  {0x3E, 0x51, 0x49, 0x45, 0x3E}, // 0
+  {0x00, 0x42, 0x7F, 0x40, 0x00}, // 1
+  {0x42, 0x61, 0x51, 0x49, 0x46}, // 2
+  {0x21, 0x41, 0x45, 0x4B, 0x31}, // 3
+  {0x18, 0x14, 0x12, 0x7F, 0x10}, // 4
+  {0x27, 0x45, 0x45, 0x45, 0x39}, // 5
+  {0x3C, 0x4A, 0x49, 0x49, 0x30}, // 6
+  {0x01, 0x71, 0x09, 0x05, 0x03}, // 7
+  {0x36, 0x49, 0x49, 0x49, 0x36}, // 8
+  {0x06, 0x49, 0x49, 0x29, 0x1E}, // 9
+  {0x00, 0x36, 0x36, 0x00, 0x00}, // :
+  {0x00, 0x56, 0x36, 0x00, 0x00}, // ;
+  {0x00, 0x08, 0x14, 0x22, 0x41}, // <
+  {0x14, 0x14, 0x14, 0x14, 0x14}, // =
+  {0x41, 0x22, 0x14, 0x08, 0x00}, // >
+  {0x02, 0x01, 0x51, 0x09, 0x06}, // ?
+  {0x32, 0x49, 0x79, 0x41, 0x3E}, // @
+  {0x7E, 0x11, 0x11, 0x11, 0x7E}, // A
+  {0x7F, 0x49, 0x49, 0x49, 0x36}, // B
+  {0x3E, 0x41, 0x41, 0x41, 0x22}, // C
+  {0x7F, 0x41, 0x41, 0x22, 0x1C}, // D
+  {0x7F, 0x49, 0x49, 0x49, 0x41}, // E
+  {0x7F, 0x09, 0x09, 0x01, 0x01}, // F
+  {0x3E, 0x41, 0x41, 0x51, 0x32}, // G
+  {0x7F, 0x08, 0x08, 0x08, 0x7F}, // H
+  {0x00, 0x41, 0x7F, 0x41, 0x00}, // I
+  {0x20, 0x40, 0x41, 0x3F, 0x01}, // J
+  {0x7F, 0x08, 0x14, 0x22, 0x41}, // K
+  {0x7F, 0x40, 0x40, 0x40, 0x40}, // L
+  {0x7F, 0x02, 0x04, 0x02, 0x7F}, // M
+  {0x7F, 0x04, 0x08, 0x10, 0x7F}, // N
+  {0x3E, 0x41, 0x41, 0x41, 0x3E}, // O
+  {0x7F, 0x09, 0x09, 0x09, 0x06}, // P
+  {0x3E, 0x41, 0x51, 0x21, 0x5E}, // Q
+  {0x7F, 0x09, 0x19, 0x29, 0x46}, // R
+  {0x46, 0x49, 0x49, 0x49, 0x31}, // S
+  {0x01, 0x01, 0x7F, 0x01, 0x01}, // T
+  {0x3F, 0x40, 0x40, 0x40, 0x3F}, // U
+  {0x1F, 0x20, 0x40, 0x20, 0x1F}, // V
+  {0x7F, 0x20, 0x18, 0x20, 0x7F}, // W
+  {0x63, 0x14, 0x08, 0x14, 0x63}, // X
+  {0x03, 0x04, 0x78, 0x04, 0x03}, // Y
+  {0x61, 0x51, 0x49, 0x45, 0x43}, // Z
+};
+
+void drawChar(int16_t x, int16_t y, char c, uint8_t color) {
+  if (c < 32 || c > 90) c = 32;  // Default to space for unsupported chars
+  int idx = c - 32;
+  
+  fpgaSPI->beginTransaction(SPISettings(SPI_SPEED, MSBFIRST, SPI_MODE0));
+  for (int col = 0; col < 5; col++) {
+    uint8_t line = pgm_read_byte(&font5x7[idx][col]);
+    for (int row = 0; row < 7; row++) {
+      if (line & (1 << row)) {
+        int16_t px = x + col;
+        int16_t py = y + row;
+        if (px >= 0 && px < 160 && py >= 0 && py < 120) {
+          uint16_t addr = ((py * 160 + px) << 2) & 0x7FFF;
+          digitalWrite(SPI_CS, LOW);
+          fpgaSPI->transfer(0x01);
+          fpgaSPI->transfer((addr >> 8) & 0xFF);
+          fpgaSPI->transfer(addr & 0xFF);
+          fpgaSPI->transfer(color);
+          digitalWrite(SPI_CS, HIGH);
+        }
+      }
+    }
+  }
+  fpgaSPI->endTransaction();
+}
+
+void drawString(int16_t x, int16_t y, const char* str, uint8_t color) {
+  while (*str) {
+    drawChar(x, y, *str, color);
+    x += 6;  // 5 pixels + 1 space
+    str++;
+  }
+}
+
 // ============================================================================
 // Wishbone SPI Functions
 // ============================================================================
 
 void wishboneWrite(uint16_t address, uint8_t data) {
-  fpgaSPI->beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
+  fpgaSPI->beginTransaction(SPISettings(SPI_SPEED, MSBFIRST, SPI_MODE0));
   digitalWrite(SPI_CS, LOW);
-  delayMicroseconds(1);
   fpgaSPI->transfer(0x01);                    // CMD_WRITE
   fpgaSPI->transfer((address >> 8) & 0xFF);   // Address high byte
   fpgaSPI->transfer(address & 0xFF);          // Address low byte
   fpgaSPI->transfer(data);                    // Data
-  delayMicroseconds(1);
   digitalWrite(SPI_CS, HIGH);
   fpgaSPI->endTransaction();
-  delayMicroseconds(10);
+}
+
+// Fast write for consecutive addresses - keeps CS low and reuses transaction
+void wishboneWriteBurst(uint16_t startAddress, const uint8_t* data, uint16_t count) {
+  fpgaSPI->beginTransaction(SPISettings(SPI_SPEED, MSBFIRST, SPI_MODE0));
+  for (uint16_t i = 0; i < count; i++) {
+    uint16_t addr = startAddress + (i << 2);  // Each pixel is 4 bytes apart
+    digitalWrite(SPI_CS, LOW);
+    fpgaSPI->transfer(0x01);                    // CMD_WRITE
+    fpgaSPI->transfer((addr >> 8) & 0xFF);      // Address high byte
+    fpgaSPI->transfer(addr & 0xFF);             // Address low byte
+    fpgaSPI->transfer(data[i]);                 // Data
+    digitalWrite(SPI_CS, HIGH);
+  }
+  fpgaSPI->endTransaction();
 }
 
 uint8_t wishboneRead(uint16_t address) {
   uint8_t result = 0;
-  fpgaSPI->beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
+  fpgaSPI->beginTransaction(SPISettings(SPI_SPEED, MSBFIRST, SPI_MODE0));
   digitalWrite(SPI_CS, LOW);
-  delayMicroseconds(1);
   fpgaSPI->transfer(0x00);                    // CMD_READ
   fpgaSPI->transfer((address >> 8) & 0xFF);   // Address high byte
   fpgaSPI->transfer(address & 0xFF);          // Address low byte
-  // Wait for Wishbone read to complete before clocking out result
-  // At 27MHz FPGA clock, 10us = 270 cycles, plenty of time
-  delayMicroseconds(10);
-  
+  // Small delay for Wishbone read to complete
+  delayMicroseconds(2);
   result = fpgaSPI->transfer(0x00);           // Read result
-  delayMicroseconds(1);
   digitalWrite(SPI_CS, HIGH);
   fpgaSPI->endTransaction();
   return result;
@@ -238,15 +348,24 @@ void mcpProcessCommand(String cmd) {
       if (cmd.length() >= 4) {
         uint8_t color = strtol(cmd.substring(2, 4).c_str(), NULL, 16);
         Serial.printf("Filling framebuffer with 0x%02X...\n", color);
+        
+        // Fast fill - use burst writes in chunks
+        unsigned long startTime = millis();
+        fpgaSPI->beginTransaction(SPISettings(SPI_SPEED, MSBFIRST, SPI_MODE0));
         for (uint16_t pixel = 0; pixel < 19200; pixel++) {
-          // Word-aligned addressing: pixel * 4
           uint16_t addr = (pixel << 2) & 0x7FFF;
-          wishboneWrite(addr, color);
-          if ((pixel % 1000) == 0) {
-            Serial.printf("  %d/19200\n", pixel);
-          }
+          digitalWrite(SPI_CS, LOW);
+          fpgaSPI->transfer(0x01);
+          fpgaSPI->transfer((addr >> 8) & 0xFF);
+          fpgaSPI->transfer(addr & 0xFF);
+          fpgaSPI->transfer(color);
+          digitalWrite(SPI_CS, HIGH);
         }
-        mcpSendResponse("OK FILL DONE");
+        fpgaSPI->endTransaction();
+        unsigned long elapsed = millis() - startTime;
+        
+        Serial.printf("OK FILL DONE in %lu ms\n", elapsed);
+        Serial.flush();  // Ensure output is sent immediately
       } else {
         mcpSendResponse("ERR: F CC");
       }
@@ -272,6 +391,26 @@ void mcpProcessCommand(String cmd) {
         }
       } else {
         mcpSendResponse("ERR: P XXXX YYYY CC");
+      }
+      break;
+    }
+    
+    case 'S':
+    case 's': {
+      // String/text drawing: S XX YY CC text...
+      // XX=x position (hex), YY=y position (hex), CC=color (hex), then text
+      if (cmd.length() >= 12) {
+        uint16_t x = strtol(cmd.substring(2, 4).c_str(), NULL, 16);
+        uint16_t y = strtol(cmd.substring(5, 7).c_str(), NULL, 16);
+        uint8_t color = strtol(cmd.substring(8, 10).c_str(), NULL, 16);
+        String text = cmd.substring(11);
+        text.toUpperCase();  // Font only has uppercase
+        drawString(x, y, text.c_str(), color);
+        char response[64];
+        snprintf(response, sizeof(response), "OK S \"%s\" at %d,%d color %02X", text.c_str(), x, y, color);
+        mcpSendResponse(response);
+      } else {
+        mcpSendResponse("ERR: S XX YY CC text");
       }
       break;
     }
@@ -325,6 +464,7 @@ void mcpProcessCommand(String cmd) {
       mcpSendResponse("D             - Dump debug registers");
       mcpSendResponse("F CC          - Fill framebuffer with CC");
       mcpSendResponse("P XXXX YYYY CC - Put pixel");
+      mcpSendResponse("S XX YY CC text - Draw text (uppercase)");
       mcpSendResponse("T             - Draw test pattern");
       mcpSendResponse("J [1|0]       - Enable/disable JTAG bridge");
       mcpSendResponse("G             - GPIO debug (read MISO pin)");

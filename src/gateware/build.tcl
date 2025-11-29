@@ -29,6 +29,10 @@ open_project papilio_arcade_template.gprj
 # Enable SystemVerilog support for HDMI modules
 set_option -verilog_std sysv2017
 
+# Enable GAO (Gowin Analyzer Oscilloscope) for debugging
+# Uncomment the next line to enable GAO
+# set_option -use_rao_file 1
+
 # Preferred way to set top module in newer Gowin shells
 if {[catch {set_option -top_module top} err]} {
 	puts "set_option -top_module failed or not available: $err"

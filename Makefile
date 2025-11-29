@@ -39,4 +39,4 @@ gateware:
 synth: gateware
 
 flash-fpga: gateware
-	"$(PESPTOOL)" $(FPGA_BIN)
+	"$(PESPTOOL)" --port COM4 write-flash 0x100000 $(FPGA_BIN)

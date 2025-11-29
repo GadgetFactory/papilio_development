@@ -53,7 +53,7 @@ class PapilioController:
             return False
             
         try:
-            self.serial = serial.Serial(port, self.baud, timeout=2)
+            self.serial = serial.Serial(port, self.baud, timeout=0.5)
             # Clear any pending data
             self.serial.reset_input_buffer()
             return True
@@ -83,7 +83,7 @@ class PapilioController:
             # Read response lines
             response_lines = []
             timeout_count = 0
-            while timeout_count < 3:
+            while timeout_count < 2:
                 line = self.serial.readline().decode('utf-8', errors='ignore').strip()
                 if line:
                     response_lines.append(line)
