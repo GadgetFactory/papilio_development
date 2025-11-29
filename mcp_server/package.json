@@ -1,0 +1,12 @@
+{
+  "name": "papilio-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for controlling Papilio Arcade FPGA board",
+  "main": "papilio_mcp_server.py",
+  "scripts": {
+    "start": "python papilio_mcp_server.py"
+  },
+  "keywords": ["mcp", "fpga", "papilio", "arcade"],
+  "author": "Gadget Factory",
+  "license": "MIT"
+}
