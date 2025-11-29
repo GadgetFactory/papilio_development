@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE gowin-synthesis-project>
+<Project>
+    <Version>beta</Version>
+    <Device id="GW2A-18C" package="PBGA256" speed="8" partNumber="GW2A-LV18PG256C8/I7"/>
+    <FileList>
+        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd" type="vhdl"/>
+        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd" type="vhdl"/>
+        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA_char_ram_8x8_sp.vhd" type="vhdl"/>
+        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd" type="vhdl"/>
+        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\hqvga_test_top.vhd" type="vhdl"/>
+    </FileList>
+    <OptionList>
+        <Option type="disable_insert_pad" value="0"/>
+        <Option type="global_freq" value="100.000"/>
+        <Option type="looplimit" value="2000"/>
+        <Option type="output_file" value="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\impl\gwsynthesis\hqvga_test.vg"/>
+        <Option type="print_all_synthesis_warning" value="0"/>
+        <Option type="ram_rw_check" value="0"/>
+        <Option type="top_module" value="hqvga_test_top"/>
+        <Option type="vcc" value="1.0"/>
+        <Option type="verilog_language" value="verilog-2001"/>
+        <Option type="vhdl_language" value="vhdl-1993"/>
+    </OptionList>
+</Project>

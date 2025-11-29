@@ -7,7 +7,7 @@ Running placement......
 [10%] Placement Phase 0 completed
 [20%] Placement Phase 1 completed
 [30%] Placement Phase 2 completed
-WARN  (TA1132) :  'u_wb_video_ctrl/u_video/u_clkdiv/CLKOUT.default_gen_clk' was determined to be a clock but was not created.
+WARN  (TA1132) :  'u_video_top/u_clkdiv/CLKOUT.default_gen_clk' was determined to be a clock but was not created.
 [50%] Placement Phase 3 completed
 Running routing......
 [60%] Routing Phase 0 completed
@@ -26,5 +26,5 @@ Generate file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_develop
 Generate file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\pnr\papilio_arcade_template.rpt.html" completed
 Generate file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\pnr\papilio_arcade_template.rpt.txt" completed
 Generate file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\pnr\papilio_arcade_template.tr.html" completed
-Mon Nov 24 09:59:59 2025
+Fri Nov 28 20:21:43 2025
 

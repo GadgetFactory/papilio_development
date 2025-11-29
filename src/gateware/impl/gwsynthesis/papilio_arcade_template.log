@@ -1,10 +1,6 @@
 GowinSynthesis start
 Running parser ...
-Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v'
-Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v'
-Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v'
-Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\uart_tx.v'
-Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\wb_address_decoder.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\dvi_tx.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\TMDS_rPLL.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\char_ram_8x8.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\color_bar_generator.v'
@@ -14,62 +10,160 @@ Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papili
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\testpattern.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_800x600.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_hqvga.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_framebuffer.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\TMDS_rPLL_250.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_wb.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v'
+WARN  (EX2830) : Data object 'font_addr' is already declared("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":43)
+Previous declaration of 'font_addr' is from here("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":41)
+WARN  (EX3671) : Second declaration of 'font_addr' is ignored("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":43)
+WARN  (EX2830) : Data object 'font_data_reg' is already declared("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":44)
+Previous declaration of 'font_data_reg' is from here("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":42)
+WARN  (EX3671) : Second declaration of 'font_data_reg' is ignored("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":44)
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_hdmi_colorbar.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_text_mode.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_ctrl.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_vga_to_hdmi\gateware\src\tmds_pll.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_vga_to_hdmi\gateware\src\tmds_serializer.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_vga_to_hdmi\gateware\src\vga_to_hdmi.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\uart_tx.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\wb_address_decoder.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\wb_address_decoder_4.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\gowin_rpll_27_50.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\gowin_rpll_50_250.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v'
-WARN  (EX3073) : Port 'video_attr_data' remains unconnected for this instance("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":169)
+Analyzing VHDL file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd'
+Analyzing entity 'hqvga'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":43)
+Analyzing architecture 'behave'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":75)
+Analyzing VHDL file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA_char_ram_8x8_sp.vhd'
+Analyzing entity 'hqvga_char_ram_8x8_sp'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA_char_ram_8x8_sp.vhd":41)
+Analyzing architecture 'behave'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA_char_ram_8x8_sp.vhd":48)
+WARN  (EX4319) : Shared variables must be of a protected type("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA_char_ram_8x8_sp.vhd":56)
+Analyzing VHDL file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd'
+Analyzing entity 'generic_dp_ram'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd":39)
+Analyzing architecture 'behave'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd":61)
+WARN  (EX4319) : Shared variables must be of a protected type("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd":67)
+Analyzing VHDL file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd'
+Analyzing entity 'zpuino_vga_ram'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd":39)
+Analyzing architecture 'behave'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd":66)
 Compiling module 'top'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":5)
+WARN  (EX3791) : Expression size 11 truncated to fit in target size 10("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":139)
+WARN  (EX3791) : Expression size 12 truncated to fit in target size 11("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":141)
 Compiling module 'simple_spi_wb_bridge_debug'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v":5)
-WARN  (EX3791) : Expression size 4 truncated to fit in target size 3("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v":69)
-WARN  (EX3791) : Expression size 3 truncated to fit in target size 2("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v":83)
-WARN  (EX3791) : Expression size 28 truncated to fit in target size 27("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v":157)
+WARN  (EX3791) : Expression size 4 truncated to fit in target size 3("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v":72)
+WARN  (EX3791) : Expression size 4 truncated to fit in target size 3("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v":88)
+WARN  (EX3791) : Expression size 28 truncated to fit in target size 27("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v":163)
 Compiling module 'uart_tx'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\uart_tx.v":2)
 WARN  (EX3791) : Expression size 17 truncated to fit in target size 16("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\uart_tx.v":34)
 WARN  (EX3791) : Expression size 5 truncated to fit in target size 4("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\uart_tx.v":39)
-Compiling module 'wb_address_decoder'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\wb_address_decoder.v":4)
+Compiling module 'wb_address_decoder_4'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\wb_address_decoder_4.v":12)
 Compiling module 'wb_simple_rgb_led'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v":4)
 WARN  (EX3791) : Expression size 32 truncated to fit in target size 16("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v":83)
 Compiling module 'ws2812b_controller'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v":85)
 WARN  (EX3791) : Expression size 32 truncated to fit in target size 5("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v":147)
 WARN  (EX3791) : Expression size 17 truncated to fit in target size 16("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v":150)
 WARN  (EX3791) : Expression size 17 truncated to fit in target size 16("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v":161)
-Compiling module 'wb_video_ctrl'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_ctrl.v":8)
-Compiling module 'video_top_wb'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_wb.v":5)
-Compiling module 'testpattern'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\testpattern.v":17)
-WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_wb.v":116)
-WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_wb.v":124)
-Compiling module 'wb_text_mode'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_text_mode.v":6)
-Compiling module 'font_rom_8x8'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\char_ram_8x8.v":65)
-Compiling module 'TMDS_rPLL'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\TMDS_rPLL.v":2)
-Compiling module 'simple_hdmi_tx'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\simple_hdmi_tx.v":5)
-Compiling module 'tmds_encoder'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v":5)
-WARN  (EX3791) : Expression size 32 truncated to fit in target size 5("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v":86)
-WARN  (EX3791) : Expression size 32 truncated to fit in target size 5("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v":88)
-WARN  (EX3791) : Expression size 32 truncated to fit in target size 5("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v":95)
-WARN  (EX3791) : Expression size 32 truncated to fit in target size 5("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v":100)
-WARN  (EX3670) : Actual bit length 12 differs from formal bit length 11 for port 'O_text_char_addr'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_ctrl.v":76)
 Compiling module 'wb_char_ram'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":11)
-Extracting RAM for identifier 'char_ram'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":38)
-Extracting RAM for identifier 'attr_ram'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":39)
-WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":44)
-WARN  (EX3791) : Expression size 8 truncated to fit in target size 7("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":81)
-WARN  (EX3791) : Expression size 6 truncated to fit in target size 5("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":85)
-WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":98)
-WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":104)
-WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":123)
-WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":129)
-WARN  (EX2565) : Input 'text_attr_data[7]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
-WARN  (EX2565) : Input 'text_attr_data[6]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
-WARN  (EX2565) : Input 'text_attr_data[5]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
-WARN  (EX2565) : Input 'text_attr_data[4]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
-WARN  (EX2565) : Input 'text_attr_data[3]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
-WARN  (EX2565) : Input 'text_attr_data[2]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
-WARN  (EX2565) : Input 'text_attr_data[1]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
-WARN  (EX2565) : Input 'text_attr_data[0]' on this instance is undriven. Assigning to 0, simulation mismatch possible. Please assign the input or remove the declaration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":153)
+Extracting RAM for identifier 'char_ram'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":47)
+Extracting RAM for identifier 'attr_ram'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":48)
+WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":53)
+WARN  (EX3791) : Expression size 8 truncated to fit in target size 7("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":96)
+WARN  (EX3791) : Expression size 6 truncated to fit in target size 5("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":100)
+WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":113)
+WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":119)
+WARN  (EX3791) : Expression size 7 truncated to fit in target size 6("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":130)
+WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":148)
+WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v":154)
+Switching to VHDL mode to elaborate design unit 'HQVGA'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":352)
+Processing 'HQVGA(behave)'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":43)
+Processing 'zpuino_vga_ram(behave)'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd":39)
+WARN  (EX4206) : Using initial value for 'nodata' since it is never assigned("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd":97)
+Processing 'generic_dp_ram(address_bits=14,data_bits=8)(behave)'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd":39)
+Extracting RAM for identifier 'RAM'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd":67)
+Processing 'generic_dp_ram(address_bits=12,data_bits=8)(behave)'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd":39)
+Extracting RAM for identifier 'RAM'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd":67)
+Returning to Verilog mode to proceed with elaboration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":352)
+Compiling module 'video_top_framebuffer'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_framebuffer.v":19)
+Extracting RAM for identifier 'framebuffer'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_framebuffer.v":102)
+Compiling module 'TMDS_rPLL'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\TMDS_rPLL.v":2)
+Compiling module 'DVI_TX_Top'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\dvi_tx.v":1034)
+Compiling module '**'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\dvi_tx.v":1033)
+WARN  (EX1998) : Net 'video_char_addr[11]' does not have a driver("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":74)
+WARN  (EX1998) : Net 'hdmi_pix_clk' does not have a driver("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":172)
+WARN  (EX1998) : Net 'hdmi_pix_clk_locked' does not have a driver("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":173)
 NOTE  (EX0101) : Current top module is "top"
+WARN  (EX0211) : The output port "wishbone_out[100]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[99]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[98]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[97]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[96]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[95]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[94]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[93]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[92]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[91]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[90]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[89]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[88]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[87]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[86]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[85]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[84]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[83]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[82]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[81]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[80]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[79]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[78]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[77]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[76]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[75]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[74]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[73]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[72]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[71]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[70]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[69]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[68]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[67]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[66]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[65]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[64]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[63]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[62]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[61]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[60]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[59]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[58]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[57]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[56]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[55]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[54]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[53]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[52]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[51]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[50]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[49]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[48]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[47]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[46]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[45]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[44]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[43]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[42]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[41]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[40]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[39]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[38]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[37]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[36]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[35]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[34]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
 [5%] Running netlist conversion ...
 Running device independent optimization ...
 [10%] Optimizing Phase 0 completed
@@ -86,7 +180,11 @@ Running technical mapping ...
 [75%] Tech-Mapping Phase 2 completed
 [80%] Tech-Mapping Phase 3 completed
 [90%] Tech-Mapping Phase 4 completed
-WARN  (NL0002) : The module "wb_address_decoder" instantiated to "u_wb_decoder" is swept in optimizing("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":118)
+WARN  (NL0002) : The module "HQVGA" instantiated to "u_hqvga" is swept in optimizing("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":336)
+WARN  (NL0002) : The module "zpuino_vga_ram" instantiated to "ram" is swept in optimizing("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":253)
+WARN  (NL0002) : The module "generic_dp_ram" instantiated to "ram0" is swept in optimizing("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd":133)
+WARN  (NL0002) : The module "generic_dp_ram" instantiated to "ram1" is swept in optimizing("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd":154)
+WARN  (NL0002) : The module "wb_address_decoder_4" instantiated to "u_wb_decoder" is swept in optimizing("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":236)
 [95%] Generate netlist file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\gwsynthesis\papilio_arcade_template.vg" completed
 [100%] Generate report file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\gwsynthesis\papilio_arcade_template_syn.rpt.html" completed
 GowinSynthesis finish

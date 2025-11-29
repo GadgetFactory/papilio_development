@@ -1,0 +1,117 @@
+GowinSynthesis start
+Running parser ...
+Analyzing VHDL file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd'
+Analyzing entity 'generic_dp_ram'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd":39)
+Analyzing architecture 'behave'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd":61)
+WARN  (EX4319) : Shared variables must be of a protected type("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd":67)
+Analyzing VHDL file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd'
+Analyzing entity 'zpuino_vga_ram'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd":39)
+Analyzing architecture 'behave'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd":66)
+Analyzing VHDL file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA_char_ram_8x8_sp.vhd'
+Analyzing entity 'hqvga_char_ram_8x8_sp'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA_char_ram_8x8_sp.vhd":41)
+Analyzing architecture 'behave'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA_char_ram_8x8_sp.vhd":48)
+WARN  (EX4319) : Shared variables must be of a protected type("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA_char_ram_8x8_sp.vhd":56)
+Analyzing VHDL file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd'
+Analyzing entity 'hqvga'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":43)
+Analyzing architecture 'behave'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":74)
+Analyzing VHDL file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\hqvga_test_top.vhd'
+Analyzing entity 'hqvga_test_top'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\hqvga_test_top.vhd":8)
+Analyzing architecture 'behave'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\hqvga_test_top.vhd":25)
+Processing 'hqvga_test_top(behave)'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\hqvga_test_top.vhd":8)
+Processing 'HQVGA(behave)'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":43)
+Processing 'zpuino_vga_ram(behave)'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd":39)
+WARN  (EX4206) : Using initial value for 'nodata' since it is never assigned("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd":97)
+Processing 'generic_dp_ram(address_bits=14,data_bits=8)(behave)'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd":39)
+Extracting RAM for identifier 'RAM'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd":67)
+Processing 'generic_dp_ram(address_bits=12,data_bits=8)(behave)'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd":39)
+Extracting RAM for identifier 'RAM'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd":67)
+NOTE  (EX0101) : Current top module is "hqvga_test_top"
+WARN  (EX0211) : The output port "wishbone_out[100]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[99]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[98]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[97]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[96]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[95]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[94]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[93]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[92]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[91]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[90]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[89]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[88]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[87]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[86]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[85]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[84]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[83]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[82]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[81]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[80]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[79]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[78]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[77]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[76]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[75]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[74]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[73]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[72]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[71]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[70]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[69]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[68]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[67]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[66]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[65]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[64]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[63]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[62]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[61]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[60]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[59]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[58]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[57]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[56]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[55]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[54]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[53]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[52]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[51]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[50]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[49]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[48]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[47]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[46]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[45]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[44]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[43]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[42]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[41]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[40]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[39]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[38]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[37]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[36]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[35]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+WARN  (EX0211) : The output port "wishbone_out[34]" of module "HQVGA" has no driver, assigning undriven bits to Z, simulation mismatch possible("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":49)
+[5%] Running netlist conversion ...
+Running device independent optimization ...
+[10%] Optimizing Phase 0 completed
+[15%] Optimizing Phase 1 completed
+[25%] Optimizing Phase 2 completed
+Running inference ...
+[30%] Inferring Phase 0 completed
+[40%] Inferring Phase 1 completed
+[50%] Inferring Phase 2 completed
+[55%] Inferring Phase 3 completed
+Running technical mapping ...
+[60%] Tech-Mapping Phase 0 completed
+[65%] Tech-Mapping Phase 1 completed
+[75%] Tech-Mapping Phase 2 completed
+[80%] Tech-Mapping Phase 3 completed
+[90%] Tech-Mapping Phase 4 completed
+WARN  (NL0002) : The module "zpuino_vga_ram" instantiated to "ram" is swept in optimizing("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd":250)
+WARN  (NL0002) : The module "generic_dp_ram" instantiated to "ram0" is swept in optimizing("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd":133)
+WARN  (NL0002) : The module "generic_dp_ram" instantiated to "ram1" is swept in optimizing("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd":154)
+[95%] Generate netlist file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\impl\gwsynthesis\hqvga_test.vg" completed
+[100%] Generate report file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\impl\gwsynthesis\hqvga_test_syn.rpt.html" completed
+GowinSynthesis finish

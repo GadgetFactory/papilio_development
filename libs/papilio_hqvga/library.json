@@ -1,0 +1,25 @@
+{
+  "name": "papilio_hqvga",
+  "version": "0.1.0",
+  "description": "HQVGA (160x120) video output library for Papilio boards with FPGA + ESP32-S3. Ported from ZPUINO VGA library.",
+  "keywords": "vga, video, graphics, display, hqvga, fpga, gowin",
+  "authors": [
+    {
+      "name": "Alvaro Lopes",
+      "email": "alvieboy@alvie.com"
+    },
+    {
+      "name": "Jack Gassett",
+      "email": "jack@gadgetfactory.net",
+      "maintainer": true
+    }
+  ],
+  "license": "BSD-2-Clause",
+  "homepage": "https://github.com/GadgetFactory/DesignLab_Examples",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GadgetFactory/DesignLab_Examples.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "espressif32"
+}

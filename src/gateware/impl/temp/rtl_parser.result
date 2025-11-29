@@ -1,0 +1,372 @@
+[
+ {
+  "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_rgb_led/gateware/wb_rgb_led_ctrl.v",
+  "InstLine" : 3,
+  "InstName" : "wb_rgb_led_ctrl",
+  "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_rgb_led/gateware/wb_rgb_led_ctrl.v",
+  "ModuleLine" : 3,
+  "ModuleName" : "wb_rgb_led_ctrl",
+  "SubInsts" : [
+   {
+    "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_rgb_led/gateware/wb_rgb_led_ctrl.v",
+    "InstLine" : 72,
+    "InstName" : "ws2812b_inst",
+    "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_rgb_led/gateware/wb_rgb_led_ctrl.v",
+    "ModuleLine" : 85,
+    "ModuleName" : "ws2812b_controller"
+   }
+  ]
+ },
+ {
+  "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_wishbone_spi_master/gateware/wb_address_decoder.v",
+  "InstLine" : 4,
+  "InstName" : "wb_address_decoder",
+  "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_wishbone_spi_master/gateware/wb_address_decoder.v",
+  "ModuleLine" : 4,
+  "ModuleName" : "wb_address_decoder"
+ },
+ {
+  "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/gowin_rpll.v",
+  "InstLine" : 2,
+  "InstName" : "Gowin_rPLL",
+  "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/gowin_rpll.v",
+  "ModuleLine" : 2,
+  "ModuleName" : "Gowin_rPLL"
+ },
+ {
+  "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_hdmi_colorbar.v",
+  "InstLine" : 6,
+  "InstName" : "wb_hdmi_colorbar",
+  "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_hdmi_colorbar.v",
+  "ModuleLine" : 6,
+  "ModuleName" : "wb_hdmi_colorbar",
+  "SubInsts" : [
+   {
+    "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_hdmi_colorbar.v",
+    "InstLine" : 61,
+    "InstName" : "u_timing",
+    "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/hdmi_timing.v",
+    "ModuleLine" : 5,
+    "ModuleName" : "hdmi_timing"
+   },
+   {
+    "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_hdmi_colorbar.v",
+    "InstLine" : 74,
+    "InstName" : "u_colorbar",
+    "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/color_bar_generator.v",
+    "ModuleLine" : 4,
+    "ModuleName" : "color_bar_generator"
+   },
+   {
+    "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_hdmi_colorbar.v",
+    "InstLine" : 88,
+    "InstName" : "u_encoder_ch0",
+    "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/tmds_encoder.v",
+    "ModuleLine" : 5,
+    "ModuleName" : "tmds_encoder"
+   },
+   {
+    "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_hdmi_colorbar.v",
+    "InstLine" : 98,
+    "InstName" : "u_encoder_ch1",
+    "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/tmds_encoder.v",
+    "ModuleLine" : 5,
+    "ModuleName" : "tmds_encoder"
+   },
+   {
+    "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_hdmi_colorbar.v",
+    "InstLine" : 108,
+    "InstName" : "u_encoder_ch2",
+    "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/tmds_encoder.v",
+    "ModuleLine" : 5,
+    "ModuleName" : "tmds_encoder"
+   }
+  ]
+ },
+ {
+  "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_video_ctrl.v",
+  "InstLine" : 8,
+  "InstName" : "wb_video_ctrl",
+  "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_video_ctrl.v",
+  "ModuleLine" : 8,
+  "ModuleName" : "wb_video_ctrl",
+  "SubInsts" : [
+   {
+    "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_video_ctrl.v",
+    "InstLine" : 74,
+    "InstName" : "u_video",
+    "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/video_top_wb.v",
+    "ModuleLine" : 5,
+    "ModuleName" : "video_top_wb",
+    "SubInsts" : [
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/video_top_wb.v",
+      "InstLine" : 69,
+      "InstName" : "testpattern_inst",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/testpattern.v",
+      "ModuleLine" : 17,
+      "ModuleName" : "testpattern"
+     },
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/video_top_wb.v",
+      "InstLine" : 136,
+      "InstName" : "text_mode_inst",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_text_mode.v",
+      "ModuleLine" : 6,
+      "ModuleName" : "wb_text_mode",
+      "SubInsts" : [
+       {
+        "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_text_mode.v",
+        "InstLine" : 71,
+        "InstName" : "font_rom",
+        "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/char_ram_8x8.v",
+        "ModuleLine" : 66,
+        "ModuleName" : "font_rom_8x8"
+       }
+      ]
+     },
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/video_top_wb.v",
+      "InstLine" : 170,
+      "InstName" : "u_tmds_rpll",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/TMDS_rPLL.v",
+      "ModuleLine" : 2,
+      "ModuleName" : "TMDS_rPLL"
+     },
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/video_top_wb.v",
+      "InstLine" : 191,
+      "InstName" : "hdmi_tx",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/simple_hdmi_tx.v",
+      "ModuleLine" : 5,
+      "ModuleName" : "simple_hdmi_tx",
+      "SubInsts" : [
+       {
+        "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/simple_hdmi_tx.v",
+        "InstLine" : 29,
+        "InstName" : "enc_r",
+        "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/tmds_encoder.v",
+        "ModuleLine" : 5,
+        "ModuleName" : "tmds_encoder"
+       },
+       {
+        "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/simple_hdmi_tx.v",
+        "InstLine" : 39,
+        "InstName" : "enc_g",
+        "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/tmds_encoder.v",
+        "ModuleLine" : 5,
+        "ModuleName" : "tmds_encoder"
+       },
+       {
+        "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/simple_hdmi_tx.v",
+        "InstLine" : 49,
+        "InstName" : "enc_b",
+        "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/tmds_encoder.v",
+        "ModuleLine" : 5,
+        "ModuleName" : "tmds_encoder"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v",
+  "InstLine" : 5,
+  "InstName" : "top",
+  "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v",
+  "ModuleLine" : 5,
+  "ModuleName" : "top",
+  "SubInsts" : [
+   {
+    "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v",
+    "InstLine" : 107,
+    "InstName" : "u_pll_50mhz",
+    "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/gowin_rpll_27_50.v",
+    "ModuleLine" : 22,
+    "ModuleName" : "gowin_rpll_27_50"
+   },
+   {
+    "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v",
+    "InstLine" : 114,
+    "InstName" : "u_spi_wb_bridge",
+    "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_wishbone_spi_master/gateware/simple_spi_wb_bridge_debug.v",
+    "ModuleLine" : 5,
+    "ModuleName" : "simple_spi_wb_bridge_debug",
+    "SubInsts" : [
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_wishbone_spi_master/gateware/simple_spi_wb_bridge_debug.v",
+      "InstLine" : 176,
+      "InstName" : "uart_inst",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_wishbone_spi_master/gateware/uart_tx.v",
+      "ModuleLine" : 2,
+      "ModuleName" : "uart_tx"
+     }
+    ]
+   },
+   {
+    "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v",
+    "InstLine" : 134,
+    "InstName" : "u_wb_decoder",
+    "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_wishbone_spi_master/gateware/wb_address_decoder_4.v",
+    "ModuleLine" : 12,
+    "ModuleName" : "wb_address_decoder_4"
+   },
+   {
+    "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v",
+    "InstLine" : 176,
+    "InstName" : "u_wb_rgb_led",
+    "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_rgb_led/gateware/wb_simple_rgb_led.v",
+    "ModuleLine" : 4,
+    "ModuleName" : "wb_simple_rgb_led",
+    "SubInsts" : [
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_rgb_led/gateware/wb_simple_rgb_led.v",
+      "InstLine" : 95,
+      "InstName" : "ws2812b_inst",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_rgb_led/gateware/wb_rgb_led_ctrl.v",
+      "ModuleLine" : 85,
+      "ModuleName" : "ws2812b_controller"
+     }
+    ]
+   },
+   {
+    "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v",
+    "InstLine" : 223,
+    "InstName" : "u_wb_char_ram",
+    "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_char_ram.v",
+    "ModuleLine" : 11,
+    "ModuleName" : "wb_char_ram"
+   },
+   {
+    "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v",
+    "InstLine" : 266,
+    "InstName" : "u_hqvga",
+    "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hqvga/gateware/src/HQVGA.vhd",
+    "ModuleLine" : 43,
+    "ModuleName" : "HQVGA",
+    "SubInsts" : [
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hqvga/gateware/src/HQVGA.vhd",
+      "InstLine" : 253,
+      "InstName" : "ram",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hqvga/gateware/src/zpuino_vga_ram.vhd",
+      "ModuleLine" : 39,
+      "ModuleName" : "zpuino_vga_ram",
+      "SubInsts" : [
+       {
+        "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hqvga/gateware/src/zpuino_vga_ram.vhd",
+        "InstLine" : 133,
+        "InstName" : "ram0",
+        "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hqvga/gateware/src/generic_dp_ram.vhd",
+        "ModuleLine" : 39,
+        "ModuleName" : "generic_dp_ram"
+       },
+       {
+        "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hqvga/gateware/src/zpuino_vga_ram.vhd",
+        "InstLine" : 154,
+        "InstName" : "ram1",
+        "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hqvga/gateware/src/generic_dp_ram.vhd",
+        "ModuleLine" : 39,
+        "ModuleName" : "generic_dp_ram"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v",
+    "InstLine" : 289,
+    "InstName" : "u_vga_hdmi",
+    "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/vga_to_hdmi.v",
+    "ModuleLine" : 13,
+    "ModuleName" : "vga_to_hdmi",
+    "SubInsts" : [
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/vga_to_hdmi.v",
+      "InstLine" : 37,
+      "InstName" : "u_pll",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/tmds_pll.v",
+      "ModuleLine" : 7,
+      "ModuleName" : "tmds_pll",
+      "SubInsts" : [
+       {
+        "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/tmds_pll.v",
+        "InstLine" : 14,
+        "InstName" : "u_pll",
+        "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/gowin_rpll_50_250.v",
+        "ModuleLine" : 23,
+        "ModuleName" : "gowin_rpll_50_250"
+       }
+      ]
+     },
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/vga_to_hdmi.v",
+      "InstLine" : 61,
+      "InstName" : "u_encoder_ch0",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/tmds_encoder.v",
+      "ModuleLine" : 5,
+      "ModuleName" : "tmds_encoder"
+     },
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/vga_to_hdmi.v",
+      "InstLine" : 72,
+      "InstName" : "u_encoder_ch1",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/tmds_encoder.v",
+      "ModuleLine" : 5,
+      "ModuleName" : "tmds_encoder"
+     },
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/vga_to_hdmi.v",
+      "InstLine" : 83,
+      "InstName" : "u_encoder_ch2",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/tmds_encoder.v",
+      "ModuleLine" : 5,
+      "ModuleName" : "tmds_encoder"
+     },
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/vga_to_hdmi.v",
+      "InstLine" : 94,
+      "InstName" : "u_ser_ch0",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/tmds_serializer.v",
+      "ModuleLine" : 8,
+      "ModuleName" : "tmds_serializer"
+     },
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/vga_to_hdmi.v",
+      "InstLine" : 103,
+      "InstName" : "u_ser_ch1",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/tmds_serializer.v",
+      "ModuleLine" : 8,
+      "ModuleName" : "tmds_serializer"
+     },
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/vga_to_hdmi.v",
+      "InstLine" : 112,
+      "InstName" : "u_ser_ch2",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/tmds_serializer.v",
+      "ModuleLine" : 8,
+      "ModuleName" : "tmds_serializer"
+     },
+     {
+      "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/vga_to_hdmi.v",
+      "InstLine" : 122,
+      "InstName" : "u_ser_clk",
+      "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_vga_to_hdmi/gateware/src/tmds_serializer.v",
+      "ModuleLine" : 8,
+      "ModuleName" : "tmds_serializer"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "InstFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hqvga/gateware/src/HQVGA_char_ram_8x8_sp.vhd",
+  "InstLine" : 41,
+  "InstName" : "HQVGA_char_ram_8x8_sp",
+  "ModuleFile" : "C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hqvga/gateware/src/HQVGA_char_ram_8x8_sp.vhd",
+  "ModuleLine" : 41,
+  "ModuleName" : "HQVGA_char_ram_8x8_sp"
+ }
+]
