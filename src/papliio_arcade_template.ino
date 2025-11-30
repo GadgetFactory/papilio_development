@@ -15,6 +15,12 @@
   Based on: https://github.com/emard/esp32s3-jtag
 */
 
+#ifdef EXAMPLE_OVERRIDE
+
+// Example override active: template firmware excluded.
+
+#else
+
 #include <SPI.h>
 #include "soc/usb_serial_jtag_reg.h"
 #include "soc/gpio_sig_map.h"
@@ -613,3 +619,5 @@ void loop() {
   
   delay(1);
 }
+
+#endif // EXAMPLE_OVERRIDE
