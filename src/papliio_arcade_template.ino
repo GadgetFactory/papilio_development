@@ -6,7 +6,13 @@
   Press any key in Serial Monitor to manually advance.
   
   Hardware: Papilio Arcade board with ESP32-S3 and FPGA
+  
+  MCP Debug: Uncomment the line below to enable MCP debug interface.
+  This allows AI assistants (via MCP server) to read/write FPGA registers.
 */
+
+#define PAPILIO_MCP_ENABLED  // Uncomment to enable MCP debug interface
+#include <PapilioMCP.h>
 
 #include <HDMIController.h>
 
@@ -37,6 +43,9 @@ void setup() {
   // Initialize HDMI controller
   hdmi = new HDMIController(nullptr, SPI_CS, SPI_CLK, SPI_MOSI, SPI_MISO);
   hdmi->begin();
+  
+  // Initialize MCP debug (does nothing if PAPILIO_MCP_ENABLED not defined)
+  PapilioMCP.begin();
   
   Serial.println("Ready! Auto-cycling every 3 seconds.");
   Serial.println("Press any key to advance manually.\n");
@@ -74,6 +83,15 @@ void updateDisplay() {
 }
 
 void loop() {
+  // Process MCP debug commands (does nothing if not enabled)
+  PapilioMCP.update();
+  
+  // Skip sketch logic when MCP is paused (allows MCP full control)
+  if (PapilioMCP.isPaused()) {
+    delay(10);
+    return;
+  }
+  
   // Manual advance on key press
   if (Serial.available()) {
     Serial.read();

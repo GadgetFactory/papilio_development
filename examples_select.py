@@ -7,7 +7,7 @@ Import("env")
 ENV_MAP = {
     'text_mode_test': 'examples/text_mode_test/text_mode_test.ino',
     'spaceinvaders_hdmi': 'examples/spaceinvaders_hdmi/spaceinvaders_hdmi.ino',
-    'mcp_debug_firmware': 'libs/papilio_mcp_server/examples/mcp_debug_firmware/mcp_debug_firmware.ino',
+    'mcp_debug_firmware': 'libs/papilio_mcp_server/examples/mcp_debug_simple/mcp_debug_simple.ino',
 }
 
 # __file__ may not be defined in PlatformIO pre scripts; fallback to CWD
@@ -34,6 +34,22 @@ if not source_path.exists():
 
 # Ensure src directory exists
 SRC_DIR.mkdir(exist_ok=True)
+
+# Clean up any leftover files from interrupted builds
+if TARGET_FILE.exists():
+    TARGET_FILE.unlink()
+    print(f'[examples_select] Cleaned up leftover {TARGET_FILE.name}')
+
+# Also clean up any .cpp version that PlatformIO may have created
+target_cpp = SRC_DIR / '__active_example.ino.cpp'
+if target_cpp.exists():
+    target_cpp.unlink()
+    print(f'[examples_select] Cleaned up leftover {target_cpp.name}')
+
+# Restore template if it was left in disabled state
+if TEMPLATE_BACKUP.exists() and not TEMPLATE_FILE.exists():
+    TEMPLATE_BACKUP.rename(TEMPLATE_FILE)
+    print(f'[examples_select] Restored template from previous interrupted build')
 
 # Temporarily rename template so Arduino builder doesn't see two .ino files
 if TEMPLATE_FILE.exists() and not TEMPLATE_BACKUP.exists():
