@@ -1,5 +1,6 @@
 // top.v
-// Papilio Arcade Board - HDMI Framebuffer with MCP Debug Interface
+// Papilio Arcade Board - Combined Video with MCP Debug Interface
+// Supports: Framebuffer, Text Mode, and Test Patterns
 
 (* top = "true" *)
 module top (
@@ -54,86 +55,69 @@ module top (
         .wb_ack_i(wb_ack_i)
     );
     
-    // Wishbone signals - Slave 0 (RGB LED, addresses 0x81xx)
-    wire [7:0] s0_wb_adr;
-    wire [7:0] s0_wb_dat_o;
-    wire [7:0] s0_wb_dat_i;
-    wire s0_wb_cyc;
-    wire s0_wb_stb;
-    wire s0_wb_we;
-    wire s0_wb_ack;
+    // =========================================================================
+    // Address Decoding
+    // =========================================================================
+    // Address map:
+    //   0x0000-0x7FFF: Video module (framebuffer + control)
+    //   0x8100-0x81FF: RGB LED controller
     
-    // Debug signals from framebuffer
-    wire [31:0] fb_debug_status;
-    wire [31:0] fb_debug_wb;
-    wire [31:0] fb_debug_read;
-    
-    // Address decoding (all false since wb_cyc_o = 0)
-    wire framebuffer_selected = (wb_adr_o[15] == 1'b0);
-    wire debug_reg_selected = (wb_adr_o[15:8] == 8'h80);
+    wire video_selected = (wb_adr_o[15:8] != 8'h81);  // Everything except 0x81xx
     wire rgb_led_selected = (wb_adr_o[15:8] == 8'h81);
-    
-    // HDMI Framebuffer ACK signal
-    wire hdmi_fb_ack;
-    wire [7:0] hdmi_fb_dat;
-    
-    // =========================================================================
-    // Wishbone bus multiplexer - connect slave outputs back to master
-    // =========================================================================
-    assign wb_dat_i = rgb_led_selected   ? s0_wb_dat_i :
-                      framebuffer_selected ? hdmi_fb_dat :
-                      8'hFF;
-    
-    assign wb_ack_i = (rgb_led_selected && s0_wb_ack) ||
-                      (framebuffer_selected && hdmi_fb_ack);
     
     // =========================================================================
     // RGB LED Slave (at 0x8100-0x81FF)
     // =========================================================================
-    assign s0_wb_adr = wb_adr_o[7:0];
-    assign s0_wb_dat_o = wb_dat_o;
-    assign s0_wb_cyc = wb_cyc_o && rgb_led_selected;
-    assign s0_wb_stb = wb_stb_o && rgb_led_selected;
-    assign s0_wb_we = wb_we_o;
+    wire [7:0] s0_wb_dat_i;
+    wire s0_wb_ack;
     
     wb_simple_rgb_led u_wb_rgb_led (
         .clk(clk_27mhz),
         .rst(rst),
-        .wb_adr_i(s0_wb_adr),
-        .wb_dat_i(s0_wb_dat_o),
+        .wb_adr_i(wb_adr_o[7:0]),
+        .wb_dat_i(wb_dat_o),
         .wb_dat_o(s0_wb_dat_i),
-        .wb_cyc_i(s0_wb_cyc),
-        .wb_stb_i(s0_wb_stb),
-        .wb_we_i(s0_wb_we),
+        .wb_cyc_i(wb_cyc_o && rgb_led_selected),
+        .wb_stb_i(wb_stb_o && rgb_led_selected),
+        .wb_we_i(wb_we_o),
         .wb_ack_o(s0_wb_ack),
         .led_out(rgb_led)
     );
     
     // =========================================================================
-    // HDMI Framebuffer (160x120 @ 720p)
+    // Combined Video Module (Framebuffer + Text + Test Patterns)
     // =========================================================================
-    video_top_framebuffer u_video_top (
+    wire [7:0] video_wb_dat;
+    wire video_wb_ack;
+    
+    video_top_combined u_video_top (
         .I_clk(clk_27mhz),
         .I_rst_n(rst_n),
         // Wishbone slave interface
         .I_wb_clk(clk_27mhz),
         .I_wb_rst(rst),
-        .I_wb_adr(wb_adr_o[14:0]),
+        .I_wb_adr(wb_adr_o[15:0]),
         .I_wb_dat(wb_dat_o),
         .I_wb_we(wb_we_o),
-        .I_wb_stb(wb_stb_o && framebuffer_selected),
-        .I_wb_cyc(wb_cyc_o && framebuffer_selected),
-        .O_wb_ack(hdmi_fb_ack),
-        .O_wb_dat(hdmi_fb_dat),
+        .I_wb_stb(wb_stb_o && video_selected),
+        .I_wb_cyc(wb_cyc_o && video_selected),
+        .O_wb_ack(video_wb_ack),
+        .O_wb_dat(video_wb_dat),
         // HDMI output
         .O_tmds_clk_p(O_tmds_clk_p),
         .O_tmds_clk_n(O_tmds_clk_n),
         .O_tmds_data_p(O_tmds_data_p),
-        .O_tmds_data_n(O_tmds_data_n),
-        // Debug outputs
-        .O_debug_status(fb_debug_status),
-        .O_debug_wb(fb_debug_wb),
-        .O_debug_read(fb_debug_read)
+        .O_tmds_data_n(O_tmds_data_n)
     );
+    
+    // =========================================================================
+    // Wishbone Bus Multiplexer
+    // =========================================================================
+    assign wb_dat_i = rgb_led_selected ? s0_wb_dat_i :
+                      video_selected   ? video_wb_dat :
+                      8'hFF;
+    
+    assign wb_ack_i = (rgb_led_selected && s0_wb_ack) ||
+                      (video_selected && video_wb_ack);
 
 endmodule

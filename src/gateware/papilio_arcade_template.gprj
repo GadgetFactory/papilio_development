@@ -10,8 +10,11 @@
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/dvi_tx.v" type="file.verilog" enable="1"/>
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/TMDS_rPLL.v" type="file.verilog" enable="1"/>
         
-        <!-- Framebuffer module -->
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/video_top_framebuffer.v" type="file.verilog" enable="1"/>
+        <!-- Combined video module (framebuffer + text + test patterns) -->
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/video_top_combined.v" type="file.verilog" enable="1"/>
+        
+        <!-- Font ROM for text mode -->
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/char_ram_8x8.v" type="file.verilog" enable="1"/>
         
         <!-- RGB LED controller -->
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_rgb_led/gateware/wb_rgb_led_ctrl.v" type="file.verilog" enable="1"/>
@@ -28,6 +31,14 @@
         <File path="timing.sdc" type="file.sdc" enable="1"/>
     </FileList>
 </Project>
+
+
+
+
+
+
+
+
 
 
 

@@ -600,6 +600,137 @@ def handle_tools_list(request_id):
                 "type": "object",
                 "properties": {}
             }
+        },
+        {
+            "name": "set_video_mode",
+            "description": "Set the FPGA video output mode. Modes: 0=Color bars, 1=Grid, 2=Grayscale, 3=Text mode (80x26), 4=Framebuffer (160x120).",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "mode": {
+                        "type": "integer",
+                        "description": "Video mode (0-4): 0=Color bars, 1=Grid, 2=Grayscale, 3=Text, 4=Framebuffer",
+                        "minimum": 0,
+                        "maximum": 4
+                    }
+                },
+                "required": ["mode"]
+            }
+        },
+        {
+            "name": "get_video_mode",
+            "description": "Get the current FPGA video output mode.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {}
+            }
+        },
+        {
+            "name": "text_clear",
+            "description": "Clear the text mode screen (fill with spaces).",
+            "inputSchema": {
+                "type": "object",
+                "properties": {}
+            }
+        },
+        {
+            "name": "text_set_cursor",
+            "description": "Set the text cursor position for text mode.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "x": {
+                        "type": "integer",
+                        "description": "Column position (0-79)",
+                        "minimum": 0,
+                        "maximum": 79
+                    },
+                    "y": {
+                        "type": "integer",
+                        "description": "Row position (0-29)",
+                        "minimum": 0,
+                        "maximum": 29
+                    }
+                },
+                "required": ["x", "y"]
+            }
+        },
+        {
+            "name": "text_set_color",
+            "description": "Set the text color attribute for subsequent characters. Uses CGA 16-color palette.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "foreground": {
+                        "type": "integer",
+                        "description": "Foreground color (0-15): 0=Black, 1=Blue, 2=Green, 3=Cyan, 4=Red, 5=Magenta, 6=Brown, 7=LightGray, 8=DarkGray, 9=LightBlue, 10=LightGreen, 11=LightCyan, 12=LightRed, 13=LightMagenta, 14=Yellow, 15=White",
+                        "minimum": 0,
+                        "maximum": 15
+                    },
+                    "background": {
+                        "type": "integer",
+                        "description": "Background color (0-15)",
+                        "minimum": 0,
+                        "maximum": 15,
+                        "default": 0
+                    }
+                },
+                "required": ["foreground"]
+            }
+        },
+        {
+            "name": "text_write",
+            "description": "Write text at the current cursor position in text mode. Cursor auto-advances.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "description": "Text to write (ASCII characters)"
+                    }
+                },
+                "required": ["text"]
+            }
+        },
+        {
+            "name": "text_write_at",
+            "description": "Write text at a specific position in text mode.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "x": {
+                        "type": "integer",
+                        "description": "Column position (0-79)",
+                        "minimum": 0,
+                        "maximum": 79
+                    },
+                    "y": {
+                        "type": "integer",
+                        "description": "Row position (0-29)",
+                        "minimum": 0,
+                        "maximum": 29
+                    },
+                    "text": {
+                        "type": "string",
+                        "description": "Text to write (ASCII characters)"
+                    },
+                    "foreground": {
+                        "type": "integer",
+                        "description": "Foreground color (0-15)",
+                        "minimum": 0,
+                        "maximum": 15,
+                        "default": 15
+                    },
+                    "background": {
+                        "type": "integer",
+                        "description": "Background color (0-15)",
+                        "minimum": 0,
+                        "maximum": 15,
+                        "default": 0
+                    }
+                },
+                "required": ["x", "y", "text"]
+            }
         }
     ]
     
@@ -767,6 +898,70 @@ def handle_tools_call(request_id, params):
         elif tool_name == "clear_screenshot_crop":
             webcam.clear_crop_region()
             content = "Crop region cleared - will capture full frame"
+        
+        # Video mode control tools
+        elif tool_name == "set_video_mode":
+            mode = arguments.get("mode", 4)
+            # Video mode register is at 0x8000
+            result = controller.wishbone_write(0x8000, mode)
+            mode_names = {0: "Color bars", 1: "Grid", 2: "Grayscale", 3: "Text mode", 4: "Framebuffer"}
+            content = f"Set video mode to {mode} ({mode_names.get(mode, 'Unknown')})"
+            
+        elif tool_name == "get_video_mode":
+            mode = controller.wishbone_read(0x8000) & 0x07
+            mode_names = {0: "Color bars", 1: "Grid", 2: "Grayscale", 3: "Text mode", 4: "Framebuffer"}
+            content = f"Video mode: {mode} ({mode_names.get(mode, 'Unknown')})"
+        
+        # Text mode tools
+        elif tool_name == "text_clear":
+            # Set cursor to 0,0
+            controller.wishbone_write(0x8021, 0)  # cursor_x
+            controller.wishbone_write(0x8022, 0)  # cursor_y
+            # Fill with spaces (80x30 = 2400 characters)
+            controller.wishbone_write(0x8023, 0x0F)  # White on black
+            for i in range(2400):
+                controller.wishbone_write(0x8024, 0x20)  # Space character
+            # Reset cursor
+            controller.wishbone_write(0x8021, 0)
+            controller.wishbone_write(0x8022, 0)
+            content = "Text screen cleared"
+            
+        elif tool_name == "text_set_cursor":
+            x = arguments.get("x", 0)
+            y = arguments.get("y", 0)
+            controller.wishbone_write(0x8021, x & 0x7F)  # cursor_x
+            controller.wishbone_write(0x8022, y & 0x1F)  # cursor_y
+            content = f"Cursor set to ({x}, {y})"
+            
+        elif tool_name == "text_set_color":
+            fg = arguments.get("foreground", 15)
+            bg = arguments.get("background", 0)
+            attr = ((bg & 0x0F) << 4) | (fg & 0x0F)
+            controller.wishbone_write(0x8023, attr)  # default_attr
+            content = f"Text color set to fg={fg}, bg={bg} (attr=0x{attr:02X})"
+            
+        elif tool_name == "text_write":
+            text = arguments.get("text", "")
+            for ch in text:
+                controller.wishbone_write(0x8024, ord(ch) & 0xFF)
+            content = f"Wrote {len(text)} characters"
+            
+        elif tool_name == "text_write_at":
+            x = arguments.get("x", 0)
+            y = arguments.get("y", 0)
+            text = arguments.get("text", "")
+            fg = arguments.get("foreground", 15)
+            bg = arguments.get("background", 0)
+            # Set position
+            controller.wishbone_write(0x8021, x & 0x7F)
+            controller.wishbone_write(0x8022, y & 0x1F)
+            # Set color
+            attr = ((bg & 0x0F) << 4) | (fg & 0x0F)
+            controller.wishbone_write(0x8023, attr)
+            # Write characters
+            for ch in text:
+                controller.wishbone_write(0x8024, ord(ch) & 0xFF)
+            content = f"Wrote '{text}' at ({x}, {y}) with fg={fg}, bg={bg}"
         
         else:
             content = f"Unknown tool: {tool_name}"
