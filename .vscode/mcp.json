@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "papilio": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/libs/papilio_mcp_server/server/papilio_mcp_server.py",
+        "--port",
+        "COM4"
+      ]
+    }
+  }
+}

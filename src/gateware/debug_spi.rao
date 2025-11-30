@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE gowin-analyzer-project>
+<GAO_CONFIG>
+    <Version>3.0</Version>
+    <Mode>Standard</Mode>
+    <AosCore index="0" sample_clock="clk_27mhz" trig_pos="512" capture_amount="1024" implementation="0">
+        <SignalList>
+            <!-- SPI Interface Signals -->
+            <Signal>esp_cs_n</Signal>
+            <Signal>esp_clk</Signal>
+            <Signal>esp_mosi</Signal>
+            <Signal>esp_miso</Signal>
+            
+            <!-- SPI Bridge Internal State -->
+            <Bus name="u_spi_wb_bridge/byte_count">
+                <Signal>u_spi_wb_bridge/byte_count[2]</Signal>
+                <Signal>u_spi_wb_bridge/byte_count[1]</Signal>
+                <Signal>u_spi_wb_bridge/byte_count[0]</Signal>
+            </Bus>
+            <Bus name="u_spi_wb_bridge/bit_count">
+                <Signal>u_spi_wb_bridge/bit_count[2]</Signal>
+                <Signal>u_spi_wb_bridge/bit_count[1]</Signal>
+                <Signal>u_spi_wb_bridge/bit_count[0]</Signal>
+            </Bus>
+            <Signal>u_spi_wb_bridge/is_read</Signal>
+            <Signal>u_spi_wb_bridge/start_read</Signal>
+            <Signal>u_spi_wb_bridge/read_data_valid</Signal>
+            <Signal>u_spi_wb_bridge/read_data_loaded</Signal>
+            
+            <!-- Wishbone Master Signals -->
+            <Bus name="u_spi_wb_bridge/wb_adr_o">
+                <Signal>u_spi_wb_bridge/wb_adr_o[15]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[14]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[13]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[12]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[11]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[10]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[9]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[8]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[7]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[6]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[5]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[4]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[3]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[2]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[1]</Signal>
+                <Signal>u_spi_wb_bridge/wb_adr_o[0]</Signal>
+            </Bus>
+            <Signal>u_spi_wb_bridge/wb_cyc_o</Signal>
+            <Signal>u_spi_wb_bridge/wb_stb_o</Signal>
+            <Signal>u_spi_wb_bridge/wb_we_o</Signal>
+            <Signal>wb_ack_i</Signal>
+            
+            <!-- Read Data -->
+            <Bus name="u_spi_wb_bridge/read_data">
+                <Signal>u_spi_wb_bridge/read_data[7]</Signal>
+                <Signal>u_spi_wb_bridge/read_data[6]</Signal>
+                <Signal>u_spi_wb_bridge/read_data[5]</Signal>
+                <Signal>u_spi_wb_bridge/read_data[4]</Signal>
+                <Signal>u_spi_wb_bridge/read_data[3]</Signal>
+                <Signal>u_spi_wb_bridge/read_data[2]</Signal>
+                <Signal>u_spi_wb_bridge/read_data[1]</Signal>
+                <Signal>u_spi_wb_bridge/read_data[0]</Signal>
+            </Bus>
+            <Bus name="wb_dat_i">
+                <Signal>wb_dat_i[7]</Signal>
+                <Signal>wb_dat_i[6]</Signal>
+                <Signal>wb_dat_i[5]</Signal>
+                <Signal>wb_dat_i[4]</Signal>
+                <Signal>wb_dat_i[3]</Signal>
+                <Signal>wb_dat_i[2]</Signal>
+                <Signal>wb_dat_i[1]</Signal>
+                <Signal>wb_dat_i[0]</Signal>
+            </Bus>
+            
+            <!-- TX Shift Register -->
+            <Bus name="u_spi_wb_bridge/tx_shift">
+                <Signal>u_spi_wb_bridge/tx_shift[7]</Signal>
+                <Signal>u_spi_wb_bridge/tx_shift[6]</Signal>
+                <Signal>u_spi_wb_bridge/tx_shift[5]</Signal>
+                <Signal>u_spi_wb_bridge/tx_shift[4]</Signal>
+                <Signal>u_spi_wb_bridge/tx_shift[3]</Signal>
+                <Signal>u_spi_wb_bridge/tx_shift[2]</Signal>
+                <Signal>u_spi_wb_bridge/tx_shift[1]</Signal>
+                <Signal>u_spi_wb_bridge/tx_shift[0]</Signal>
+            </Bus>
+            
+            <!-- Wishbone State -->
+            <Bus name="u_spi_wb_bridge/wb_state">
+                <Signal>u_spi_wb_bridge/wb_state[2]</Signal>
+                <Signal>u_spi_wb_bridge/wb_state[1]</Signal>
+                <Signal>u_spi_wb_bridge/wb_state[0]</Signal>
+            </Bus>
+        </SignalList>
+        <TriggerList>
+            <Trigger index="0">
+                <SignalList>
+                    <Signal>esp_cs_n</Signal>
+                </SignalList>
+                <ConditionList>
+                    <Condition index="0" operation="edge_fall"/>
+                </ConditionList>
+            </Trigger>
+        </TriggerList>
+        <MatchUnit>
+            <MatchUnitList>
+                <MatchUnit index="0" enabled="true" match_type="=">
+                    <TriggerGroup index="0" condition="0"/>
+                </MatchUnit>
+            </MatchUnitList>
+        </MatchUnit>
+    </AoesCore>
+</GAO_CONFIG>

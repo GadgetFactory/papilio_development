@@ -6,39 +6,12 @@
     <FileList>
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\dvi_tx.v" type="verilog"/>
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\TMDS_rPLL.v" type="verilog"/>
+        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_combined.v" type="verilog"/>
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\char_ram_8x8.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\color_bar_generator.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\gowin_rpll.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\hdmi_timing.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\simple_hdmi_tx.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\testpattern.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_800x600.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_hqvga.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_framebuffer.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\TMDS_rPLL_250.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\video_top_wb.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_char_ram.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_hdmi_colorbar.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_text_mode.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_ctrl.v" type="verilog"/>
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v" type="verilog"/>
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_vga_to_hdmi\gateware\src\tmds_pll.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_vga_to_hdmi\gateware\src\tmds_serializer.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_vga_to_hdmi\gateware\src\vga_to_hdmi.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge_debug.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\uart_tx.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\wb_address_decoder.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\wb_address_decoder_4.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\gowin_rpll_27_50.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\gowin_rpll_50_250.v" type="verilog"/>
+        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge.v" type="verilog"/>
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA.vhd" type="vhdl"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\HQVGA_char_ram_8x8_sp.vhd" type="vhdl"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\generic_dp_ram.vhd" type="vhdl"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hqvga\gateware\src\zpuino_vga_ram.vhd" type="vhdl"/>
     </FileList>
     <OptionList>
         <Option type="disable_insert_pad" value="0"/>

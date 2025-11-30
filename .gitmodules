@@ -7,3 +7,6 @@
 [submodule "libs/papilio_wishbone_spi_master"]
 	path = libs/papilio_wishbone_spi_master
 	url = https://github.com/GadgetFactory/papilio_wishbone_spi_master.git
+[submodule "libs/papilio_mcp_server"]
+	path = libs/papilio_mcp_server
+	url = https://github.com/GadgetFactory/papilio_mcp_server.git

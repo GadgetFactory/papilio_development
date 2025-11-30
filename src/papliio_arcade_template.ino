@@ -1,66 +1,122 @@
 /*
-  Gadget Factory
-  Papilio Arcade Board - HQVGA Color Bar Example
+  Papilio Arcade - Simple Demo
+  ============================
   
-  Original HQVGA by Alvaro Lopes <alvieboy@alvie.com>
-  ESP32-S3 port by Jack Gassett
+  Cycles through HDMI video patterns and RGB LED colors.
+  Press any key in Serial Monitor to manually advance.
   
-  Hardware:
-  - Papilio Arcade board with ESP32-S3 and FPGA
-  - HDMI output (via FPGA framebuffer)
+  Hardware: Papilio Arcade board with ESP32-S3 and FPGA
+  
+  MCP Debug: Uncomment the line below to enable MCP debug interface.
+  This allows AI assistants (via MCP server) to read/write FPGA registers.
 */
 
-#include <SPI.h>
-#include <HQVGA.h>
+#define PAPILIO_MCP_ENABLED  // Uncomment to enable MCP debug interface
+#include <PapilioMCP.h>
 
-// SPI Pin Configuration for ESP32-S3
+#include <HDMIController.h>
+
+// Pin Configuration
 #define SPI_CLK   12
 #define SPI_MOSI  11
 #define SPI_MISO  9
 #define SPI_CS    10
 
-int textarea = 20;
-int colors[] = {RED, GREEN, BLUE, YELLOW, PURPLE, CYAN, WHITE, BLACK};
+// HDMI Controller
+HDMIController* hdmi = nullptr;
+
+// State
+int currentPattern = 0;
+int currentColor = 0;
+int cycleCount = 0;  // Track cycles for breakpoint demo
+unsigned long lastUpdate = 0;
+
+// Pattern and color names for display
+const char* patternNames[] = {"Color Bars", "Grid", "Grayscale", "Text Mode"};
+const char* colorNames[] = {"Red", "Green", "Blue", "Yellow", "Cyan", "Magenta", "White", "Off"};
 
 void setup() {
   Serial.begin(115200);
+  delay(2000);
   
-  // Wait for FPGA to configure
-  delay(3000);
+  Serial.println("\n=== Papilio Arcade Demo ===\n");
   
-  Serial.println("Papilio Arcade HQVGA Color Bar Test");
-  Serial.println("Original HQVGA by Alvaro Lopes");
-  Serial.println("ESP32-S3 port by Jack Gassett");
+  // Initialize HDMI controller
+  hdmi = new HDMIController(nullptr, SPI_CS, SPI_CLK, SPI_MOSI, SPI_MISO);
+  hdmi->begin();
   
-  // Initialize HQVGA with default SPI pins
-  VGA.begin(nullptr, SPI_CS, SPI_CLK, SPI_MOSI, SPI_MISO);
+  // Initialize MCP debug (does nothing if PAPILIO_MCP_ENABLED not defined)
+  PapilioMCP.begin();
   
-  Serial.println("HQVGA initialized");
+  Serial.println("Ready! Auto-cycling every 3 seconds.");
+  Serial.println("Press any key to advance manually.\n");
   
-  int width = VGA.getHSize();
-  int height = VGA.getVSize();
-  int column = width / 8;
+  updateDisplay();
+}
+
+void updateDisplay() {
+  // Set video pattern (0-3)
+  hdmi->setVideoPattern(currentPattern);
   
-  // Clear screen
-  VGA.clear();
-  VGA.setBackgroundColor(BLACK);
-  
-  // Print title text
-  VGA.setColor(RED);
-  VGA.printtext(25, 0, "Papilio/ESP32");
-  VGA.printtext(25, 10, "Color Bar Test");
-  
-  // Draw color bars
-  for (int i = 0; i < 8; i++) {
-    VGA.setColor(colors[i]);
-    VGA.drawRect(i * column, textarea, column, height - textarea);
-    Serial.printf("Drawing bar %d at x=%d\n", i, i * column);
+  // Set LED color based on currentColor
+  switch (currentColor) {
+    case 0: hdmi->setLEDColorRGB(30, 0, 0);   break;  // Red
+    case 1: hdmi->setLEDColorRGB(0, 30, 0);   break;  // Green
+    case 2: hdmi->setLEDColorRGB(0, 0, 30);   break;  // Blue
+    case 3: hdmi->setLEDColorRGB(30, 30, 0);  break;  // Yellow
+    case 4: hdmi->setLEDColorRGB(0, 30, 30);  break;  // Cyan
+    case 5: hdmi->setLEDColorRGB(30, 0, 30);  break;  // Magenta
+    case 6: hdmi->setLEDColorRGB(20, 20, 20); break;  // White
+    case 7: hdmi->setLEDColorRGB(0, 0, 0);    break;  // Off
   }
   
-  Serial.println("Color Bar test complete!");
+  // If text mode, show some text
+  if (currentPattern == 3) {
+    hdmi->clearScreen();
+    hdmi->setTextColor(HDMI_COLOR_LIGHT_CYAN, HDMI_COLOR_BLUE);
+    hdmi->setCursor(25, 12);
+    hdmi->writeString("PAPILIO ARCADE");
+  }
+  
+  Serial.printf("Pattern: %s | LED: %s\n", 
+                patternNames[currentPattern], 
+                colorNames[currentColor]);
 }
 
 void loop() {
-  // Nothing to do in loop
-  delay(1000);
+  // Process MCP debug commands (does nothing if not enabled)
+  PapilioMCP.update();
+  
+  // Skip sketch logic when MCP is paused (allows MCP full control)
+  if (PapilioMCP.isPaused()) {
+    delay(10);
+    return;
+  }
+  
+  // Manual advance on key press (Note: when MCP is enabled, serial input goes to MCP)
+  // To use breakpoints, add PapilioMCP.breakpoint("name") at strategic points in your code
+  if (Serial.available()) {
+    Serial.read();
+    // Example breakpoint - uncomment to pause here before update:
+    // PapilioMCP.breakpoint("manual_advance");
+    currentPattern = (currentPattern + 1) % 4;
+    currentColor = (currentColor + 1) % 8;
+    updateDisplay();
+    lastUpdate = millis();
+  }
+  
+  // Auto-cycle every 3 seconds
+  if (millis() - lastUpdate >= 3000) {
+    cycleCount++;
+    
+    // Breakpoint demo: pause every 4th cycle to let MCP inspect state
+    // Uncomment to test: if (cycleCount % 4 == 0) PapilioMCP.breakpoint("cycle_4");
+    
+    currentPattern = (currentPattern + 1) % 4;
+    currentColor = (currentColor + 1) % 8;
+    updateDisplay();
+    lastUpdate = millis();
+  }
+  
+  delay(10);
 }
