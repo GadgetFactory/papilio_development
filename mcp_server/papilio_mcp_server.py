@@ -175,6 +175,30 @@ class WebcamCapture:
         self.crop_region = None  # (x, y, width, height) or None for full frame
         self.save_dir = os.path.join(os.path.dirname(__file__), "screenshots")
         self.resolution = (1920, 1080)  # Default to 1080p
+        self._cap = None  # Persistent camera connection
+        self._cap_initialized = False
+    
+    def _get_camera(self):
+        """Get or create persistent camera connection for faster captures."""
+        if self._cap is None or not self._cap.isOpened():
+            self._cap = cv2.VideoCapture(self.camera_index)
+            if self._cap.isOpened():
+                # Set resolution
+                self._cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.resolution[0])
+                self._cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.resolution[1])
+                # Disable auto-focus if supported (reduces capture latency)
+                self._cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+                # Set buffer size to 1 to get the latest frame
+                self._cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+                self._cap_initialized = False
+        return self._cap
+    
+    def release_camera(self):
+        """Release the persistent camera connection."""
+        if self._cap is not None:
+            self._cap.release()
+            self._cap = None
+            self._cap_initialized = False
     
     def list_cameras(self) -> list:
         """List available camera indices."""
@@ -191,14 +215,22 @@ class WebcamCapture:
                 cap.release()
         return available
     
-    def capture(self, save_to_file: bool = True, filename: str = None) -> dict:
+    def capture(self, save_to_file: bool = True, filename: str = None,
+                format: str = "jpeg", quality: int = 80, warmup_frames: int = 2) -> dict:
         """Capture a frame from the webcam.
+        
+        Args:
+            save_to_file: Whether to save the screenshot to a file
+            filename: Optional filename (auto-generated if None)
+            format: Image format - "jpeg" (smaller/faster) or "png" (lossless)
+            quality: JPEG quality 1-100 (higher = better quality, larger file)
+            warmup_frames: Number of warmup frames (0 for fastest, 2-5 for better exposure)
         
         Returns:
             dict with keys:
             - success: bool
             - message: str
-            - image_base64: str (PNG image as base64, if successful)
+            - image_base64: str (image as base64, if successful)
             - filepath: str (if saved to file)
         """
         if not OPENCV_AVAILABLE:
@@ -207,25 +239,27 @@ class WebcamCapture:
                 "message": "OpenCV not installed. Run: pip install opencv-python"
             }
         
-        cap = cv2.VideoCapture(self.camera_index)
+        cap = self._get_camera()
         if not cap.isOpened():
             return {
                 "success": False,
                 "message": f"Could not open camera {self.camera_index}"
             }
         
-        # Set resolution
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.resolution[0])
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.resolution[1])
-        
-        # Let camera warm up and adjust exposure
-        for _ in range(5):
-            cap.read()
+        # Warmup frames - only on first capture after camera opens (for auto-exposure)
+        # After that, just grab one frame to flush the buffer
+        if not self._cap_initialized:
+            for _ in range(max(warmup_frames, 3)):
+                cap.grab()  # grab() is faster than read() for discarding frames
+            self._cap_initialized = True
+        else:
+            # Just flush buffer to get latest frame
+            cap.grab()
         
         ret, frame = cap.read()
-        cap.release()
         
         if not ret:
+            self._cap_initialized = False
             return {
                 "success": False,
                 "message": "Failed to capture frame from camera"
@@ -236,25 +270,41 @@ class WebcamCapture:
             x, y, w, h = self.crop_region
             frame = frame[y:y+h, x:x+w]
         
-        # Encode to PNG
-        _, buffer = cv2.imencode('.png', frame)
+        # Encode based on format
+        format = format.lower()
+        if format == "jpeg" or format == "jpg":
+            encode_params = [cv2.IMWRITE_JPEG_QUALITY, quality]
+            _, buffer = cv2.imencode('.jpg', frame, encode_params)
+            mime_type = "image/jpeg"
+            ext = ".jpg"
+        else:
+            # PNG with compression (0-9, higher = smaller but slower)
+            encode_params = [cv2.IMWRITE_PNG_COMPRESSION, 6]
+            _, buffer = cv2.imencode('.png', frame, encode_params)
+            mime_type = "image/png"
+            ext = ".png"
+        
         image_base64 = base64.b64encode(buffer).decode('utf-8')
         
         result = {
             "success": True,
-            "message": f"Captured {frame.shape[1]}x{frame.shape[0]} image",
+            "message": f"Captured {frame.shape[1]}x{frame.shape[0]} {format.upper()} ({len(buffer)/1024:.1f}KB)",
             "image_base64": image_base64,
+            "mime_type": mime_type,
             "width": frame.shape[1],
-            "height": frame.shape[0]
+            "height": frame.shape[0],
+            "size_bytes": len(buffer)
         }
         
         # Save to file if requested
         if save_to_file:
             os.makedirs(self.save_dir, exist_ok=True)
             if filename is None:
-                filename = f"screenshot_{int(time.time())}.png"
+                filename = f"screenshot_{int(time.time())}{ext}"
+            elif not filename.endswith(ext):
+                filename = filename.rsplit('.', 1)[0] + ext
             filepath = os.path.join(self.save_dir, filename)
-            cv2.imwrite(filepath, frame)
+            cv2.imwrite(filepath, frame, encode_params)
             result["filepath"] = filepath
         
         return result
@@ -507,7 +557,7 @@ def handle_tools_list(request_id):
         },
         {
             "name": "capture_screenshot",
-            "description": "Capture a screenshot from the webcam pointed at the HDMI monitor. Returns the image as base64 PNG and optionally saves to file.",
+            "description": "Capture a screenshot from the webcam pointed at the HDMI monitor. Returns the image as base64 and optionally saves to file. Uses JPEG by default for faster capture and smaller files.",
             "inputSchema": {
                 "type": "object",
                 "properties": {
@@ -518,11 +568,31 @@ def handle_tools_list(request_id):
                     },
                     "filename": {
                         "type": "string",
-                        "description": "Optional filename for the screenshot (default: screenshot_<timestamp>.png)"
+                        "description": "Optional filename for the screenshot (default: screenshot_<timestamp>.jpg)"
+                    },
+                    "format": {
+                        "type": "string",
+                        "description": "Image format: 'jpeg' (smaller/faster, default) or 'png' (lossless)",
+                        "enum": ["jpeg", "png"],
+                        "default": "jpeg"
+                    },
+                    "quality": {
+                        "type": "integer",
+                        "description": "JPEG quality 1-100 (higher = better quality, larger file). Default 80.",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "default": 80
+                    },
+                    "warmup_frames": {
+                        "type": "integer",
+                        "description": "Number of warmup frames for camera exposure. 0 for fastest capture, 2-5 for better exposure. Default 5.",
+                        "minimum": 0,
+                        "maximum": 10,
+                        "default": 5
                     },
                     "inline_image": {
                         "type": "boolean",
-                        "description": "Include base64 image in response (may trigger 413).",
+                        "description": "Include base64 image in response.",
                         "default": True
                     },
                     "scale_percent": {
@@ -835,15 +905,20 @@ def handle_tools_call(request_id, params):
         elif tool_name == "capture_screenshot":
             save_to_file = arguments.get("save_to_file", True)
             filename = arguments.get("filename")
+            format = arguments.get("format", "jpeg")
+            quality = arguments.get("quality", 80)
+            warmup_frames = arguments.get("warmup_frames", 5)
             inline_image = arguments.get("inline_image", True)
             scale_percent = arguments.get("scale_percent", 100)
             max_inline_bytes = arguments.get("max_inline_bytes", 300000)
-            result = webcam.capture(save_to_file=save_to_file, filename=filename)
+            result = webcam.capture(save_to_file=save_to_file, filename=filename,
+                                    format=format, quality=quality, warmup_frames=warmup_frames)
             if result["success"]:
                 content = result["message"]
                 if "filepath" in result:
                     content += f"\nSaved to: {result['filepath']}"
                 image_b64 = result.get("image_base64")
+                mime_type = result.get("mime_type", "image/jpeg")
                 if scale_percent != 100 and OPENCV_AVAILABLE and image_b64:
                     try:
                         import numpy as np
@@ -853,11 +928,15 @@ def handle_tools_call(request_id, params):
                         new_w = max(1, int(frame.shape[1] * scale_percent / 100))
                         new_h = max(1, int(frame.shape[0] * scale_percent / 100))
                         resized = cv2.resize(frame, (new_w, new_h), interpolation=cv2.INTER_AREA)
-                        _, buf = cv2.imencode('.png', resized)
+                        if format == "jpeg" or format == "jpg":
+                            _, buf = cv2.imencode('.jpg', resized, [cv2.IMWRITE_JPEG_QUALITY, quality])
+                            mime_type = "image/jpeg"
+                        else:
+                            _, buf = cv2.imencode('.png', resized)
+                            mime_type = "image/png"
                         image_b64 = base64.b64encode(buf).decode('utf-8')
                     except Exception:
                         content += "\n[Warning: scaling failed]"
-                # if inline_image and image_b64 and len(image_b64) <= max_inline_bytes:
                 if inline_image and image_b64:
                     return {
                         "jsonrpc": "2.0",
@@ -865,13 +944,10 @@ def handle_tools_call(request_id, params):
                         "result": {
                             "content": [
                                 {"type": "text", "text": content},
-                                {"type": "image", "data": image_b64, "mimeType": "image/png"}
+                                {"type": "image", "data": image_b64, "mimeType": mime_type}
                             ]
                         }
                     }
-                # else:
-                #     if inline_image and image_b64 and len(image_b64) > max_inline_bytes:
-                #         content += f"\n[Image omitted: size {len(image_b64)} > max_inline_bytes {max_inline_bytes}]"
             else:
                 content = f"Screenshot failed: {result['message']}"
         
@@ -884,6 +960,9 @@ def handle_tools_call(request_id, params):
         
         elif tool_name == "set_camera":
             camera_index = arguments.get("camera_index", 0)
+            # Release old camera if changing index
+            if camera_index != webcam.camera_index:
+                webcam.release_camera()
             webcam.camera_index = camera_index
             content = f"Camera index set to {camera_index}"
         
