@@ -28,6 +28,7 @@ HDMIController* hdmi = nullptr;
 // State
 int currentPattern = 0;
 int currentColor = 0;
+int cycleCount = 0;  // Track cycles for breakpoint demo
 unsigned long lastUpdate = 0;
 
 // Pattern and color names for display
@@ -92,9 +93,12 @@ void loop() {
     return;
   }
   
-  // Manual advance on key press
+  // Manual advance on key press (Note: when MCP is enabled, serial input goes to MCP)
+  // To use breakpoints, add PapilioMCP.breakpoint("name") at strategic points in your code
   if (Serial.available()) {
     Serial.read();
+    // Example breakpoint - uncomment to pause here before update:
+    // PapilioMCP.breakpoint("manual_advance");
     currentPattern = (currentPattern + 1) % 4;
     currentColor = (currentColor + 1) % 8;
     updateDisplay();
@@ -103,6 +107,11 @@ void loop() {
   
   // Auto-cycle every 3 seconds
   if (millis() - lastUpdate >= 3000) {
+    cycleCount++;
+    
+    // Breakpoint demo: pause every 4th cycle to let MCP inspect state
+    // Uncomment to test: if (cycleCount % 4 == 0) PapilioMCP.breakpoint("cycle_4");
+    
     currentPattern = (currentPattern + 1) % 4;
     currentColor = (currentColor + 1) % 8;
     updateDisplay();
