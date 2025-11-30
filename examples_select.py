@@ -7,13 +7,15 @@ Import("env")
 ENV_MAP = {
     'text_mode_test': 'examples/text_mode_test/text_mode_test.ino',
     'spaceinvaders_hdmi': 'examples/spaceinvaders_hdmi/spaceinvaders_hdmi.ino',
-    'fpga_debug_monitor': 'examples/fpga_debug_monitor/fpga_debug_monitor.ino',
+    'mcp_debug_firmware': 'libs/papilio_mcp_server/examples/mcp_debug_firmware/mcp_debug_firmware.ino',
 }
 
 # __file__ may not be defined in PlatformIO pre scripts; fallback to CWD
 PROJECT_ROOT = Path(os.getcwd())
 SRC_DIR = PROJECT_ROOT / 'src'
 TARGET_FILE = SRC_DIR / '__active_example.ino'
+TEMPLATE_FILE = SRC_DIR / 'papliio_arcade_template.ino'
+TEMPLATE_BACKUP = SRC_DIR / 'papliio_arcade_template.ino.disabled'
 
 pioenv = env.get('PIOENV')
 if not pioenv:
@@ -33,6 +35,23 @@ if not source_path.exists():
 # Ensure src directory exists
 SRC_DIR.mkdir(exist_ok=True)
 
+# Temporarily rename template so Arduino builder doesn't see two .ino files
+if TEMPLATE_FILE.exists() and not TEMPLATE_BACKUP.exists():
+    TEMPLATE_FILE.rename(TEMPLATE_BACKUP)
+    print(f'[examples_select] Renamed template -> {TEMPLATE_BACKUP.name}')
+
 # Copy (overwrite) the example sketch into src
 shutil.copy2(source_path, TARGET_FILE)
 print(f'[examples_select] Copied {source_path} -> {TARGET_FILE}')
+
+# Register a post-build action to restore the template
+def restore_template(source, target, env):
+    if TEMPLATE_BACKUP.exists() and not TEMPLATE_FILE.exists():
+        TEMPLATE_BACKUP.rename(TEMPLATE_FILE)
+        print(f'[examples_select] Restored template from backup')
+    # Clean up active example copy
+    if TARGET_FILE.exists():
+        TARGET_FILE.unlink()
+        print(f'[examples_select] Removed {TARGET_FILE.name}')
+
+env.AddPostAction("$PROGPATH", restore_template)

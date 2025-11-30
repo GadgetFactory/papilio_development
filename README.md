@@ -30,6 +30,35 @@ make flash-fpga
 make upload
 ```
 
+### PlatformIO Example Builds
+Multiple examples can be built without modifying the top-level `src/papliio_arcade_template.ino` by selecting a dedicated environment:
+
+Available environments (see `platformio.ini`):
+- `esp32-s3-devkitc-1`: Main firmware in `src/`
+- `text_mode_test`: `examples/text_mode_test`
+- `spaceinvaders_hdmi`: `examples/spaceinvaders_hdmi`
+- `fpga_debug_monitor`: `examples/fpga_debug_monitor`
+
+Build an example:
+```bash
+pio run -e spaceinvaders_hdmi
+```
+
+Upload (if different from default upload settings, specify environment):
+```bash
+pio run -e spaceinvaders_hdmi -t upload
+```
+
+Monitor serial output:
+```bash
+pio device monitor -e spaceinvaders_hdmi
+```
+
+Add a new example:
+1. Create folder under `examples/your_example_name` with a `.ino` file.
+2. Duplicate an env block in `platformio.ini` and set `src_dir = examples/your_example_name`.
+3. Run `pio run -e your_example_name`.
+
 ## Development Workflow
 
 This repository includes all Wishbone libraries as submodules for active development. 

@@ -4,7 +4,7 @@
       "type": "stdio",
       "command": "python",
       "args": [
-        "${workspaceFolder}/mcp_server/papilio_mcp_server.py",
+        "${workspaceFolder}/libs/papilio_mcp_server/server/papilio_mcp_server.py",
         "--port",
         "COM4"
       ]
