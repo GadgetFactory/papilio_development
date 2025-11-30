@@ -6,12 +6,15 @@
     <Device name="GW2A-18C" pn="GW2A-LV18PG256C8/I7">gw2a18c-011</Device>
     <TopModule>top</TopModule>
     <FileList>
-        <!-- Core HDMI/DVI files -->
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/dvi_tx.v" type="file.verilog" enable="1"/>
+        <!-- HDMI PHY - Open Source (No Gowin DVI IP) -->
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/hdmi_phy_720p.v" type="file.verilog" enable="1"/>
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/tmds_encoder.v" type="file.verilog" enable="1"/>
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/TMDS_rPLL.v" type="file.verilog" enable="1"/>
         
-        <!-- Combined video module (framebuffer + text + test patterns) -->
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/video_top_combined.v" type="file.verilog" enable="1"/>
+        <!-- Modular Video Modes (enable/disable as needed) -->
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_video_testpattern.v" type="file.verilog" enable="1"/>
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_video_text.v" type="file.verilog" enable="1"/>
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_video_framebuffer.v" type="file.verilog" enable="1"/>
         
         <!-- Font ROM for text mode -->
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/char_ram_8x8.v" type="file.verilog" enable="1"/>
@@ -31,6 +34,9 @@
         <File path="timing.sdc" type="file.sdc" enable="1"/>
     </FileList>
 </Project>
+
+
+
 
 
 
