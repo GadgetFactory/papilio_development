@@ -48,6 +48,31 @@ Write a byte to a Wishbone bus address.
 - `address`: Address (0x0000-0xFFFF)
 - `data`: Data byte (0-255)
 
+### `send_raw_command`
+Send a raw textual command directly to the board and stream back output.
+Parameters:
+- `command`: The command string (e.g. `H`, `D`, `F E0`).
+- `timeout` (default 5): Seconds to keep reading before stopping.
+- `stop_on_marker` (default true): Stop early if a line starts with or contains one of `OK`, `ERR`, `DONE`, `END`.
+- `max_lines` (default 200): Maximum number of lines to return; adds a truncation notice when exceeded.
+- `max_chars` (default 16000): Total character budget; output is truncated with an ellipsis beyond this.
+
+Use smaller `timeout`, `max_lines`, and `max_chars` to prevent 413 (Request Entity Too Large) transport errors.
+
+### `capture_screenshot`
+Capture a webcam image of the HDMI monitor.
+Parameters:
+- `save_to_file` (default true): Persist PNG to `mcp_server/screenshots/`.
+- `filename`: Optional custom file name.
+- `inline_image` (default true): Include base64 image in tool response. Set to false to avoid large payloads.
+- `scale_percent` (default 100): Downscale the captured image (e.g. 50 = half width/height) before encoding.
+- `max_inline_bytes` (default 300000): Omit inline image if base64 length exceeds this threshold (text response only).
+
+Recommendations to avoid 413 errors:
+- Set `inline_image=false` for high‑resolution screens when image not strictly needed.
+- Use `scale_percent=50` (or lower) plus a conservative `max_inline_bytes` (e.g. 150000).
+- Combine `stop_on_marker=true` with modest `timeout` in `send_raw_command` for long operations.
+
 ### `get_fpga_status`
 Get debug status and register dump from the FPGA.
 
@@ -73,3 +98,6 @@ Once the MCP server is configured, you can ask Copilot:
 - "Turn the LED green"
 - "Read the current LED color"
 - "Write 0xFF to address 0x0000"
+- "Run raw command H with truncation" → `send_raw_command {"command":"H","timeout":2,"max_lines":40}`
+- "Capture a small screenshot" → `capture_screenshot {"scale_percent":50,"inline_image":true,"max_inline_bytes":150000}`
+- "Capture without embedding image" → `capture_screenshot {"inline_image":false}`

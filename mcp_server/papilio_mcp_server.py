@@ -174,6 +174,7 @@ class WebcamCapture:
         self.camera_index = 0
         self.crop_region = None  # (x, y, width, height) or None for full frame
         self.save_dir = os.path.join(os.path.dirname(__file__), "screenshots")
+        self.resolution = (1920, 1080)  # Default to 1080p
     
     def list_cameras(self) -> list:
         """List available camera indices."""
@@ -212,6 +213,10 @@ class WebcamCapture:
                 "success": False,
                 "message": f"Could not open camera {self.camera_index}"
             }
+        
+        # Set resolution
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.resolution[0])
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.resolution[1])
         
         # Let camera warm up and adjust exposure
         for _ in range(5):
@@ -480,6 +485,21 @@ def handle_tools_list(request_id):
                         "type": "number",
                         "description": "Timeout in seconds to wait for response (default 5)",
                         "default": 5
+                    },
+                    "max_lines": {
+                        "type": "integer",
+                        "description": "Maximum number of response lines (truncate beyond).",
+                        "default": 200
+                    },
+                    "max_chars": {
+                        "type": "integer",
+                        "description": "Maximum total characters (truncate with ellipsis).",
+                        "default": 16000
+                    },
+                    "stop_on_marker": {
+                        "type": "boolean",
+                        "description": "Stop when OK/ERR/DONE/END encountered (reduces wait).",
+                        "default": True
                     }
                 },
                 "required": ["command"]
@@ -499,6 +519,23 @@ def handle_tools_list(request_id):
                     "filename": {
                         "type": "string",
                         "description": "Optional filename for the screenshot (default: screenshot_<timestamp>.png)"
+                    },
+                    "inline_image": {
+                        "type": "boolean",
+                        "description": "Include base64 image in response (may trigger 413).",
+                        "default": True
+                    },
+                    "scale_percent": {
+                        "type": "integer",
+                        "description": "Downscale percentage (50=half size).",
+                        "default": 100,
+                        "minimum": 5,
+                        "maximum": 100
+                    },
+                    "max_inline_bytes": {
+                        "type": "integer",
+                        "description": "Max base64 length before omitting image.",
+                        "default": 300000
                     }
                 }
             }
@@ -628,6 +665,9 @@ def handle_tools_call(request_id, params):
         elif tool_name == "send_raw_command":
             command = arguments.get("command", "")
             timeout = arguments.get("timeout", 5)
+            max_lines = arguments.get("max_lines", 200)
+            max_chars = arguments.get("max_chars", 16000)
+            stop_on_marker = arguments.get("stop_on_marker", True)
             if not controller.connect():
                 content = "ERROR: Not connected to board"
             else:
@@ -635,33 +675,72 @@ def handle_tools_call(request_id, params):
                     controller.serial.reset_input_buffer()
                     controller.serial.write(f"{command}\n".encode())
                     controller.serial.flush()
-                    
-                    # Read all output for the specified timeout
                     import time
                     start_time = time.time()
                     response_lines = []
+                    termination_markers = ("OK", "ERR", "DONE", "END")
                     while (time.time() - start_time) < timeout:
                         if controller.serial.in_waiting:
                             line = controller.serial.readline().decode('utf-8', errors='ignore').strip()
                             if line:
                                 response_lines.append(line)
+                                if stop_on_marker and (line.startswith(termination_markers) or any(m in line for m in termination_markers)):
+                                    break
+                                if len(response_lines) >= max_lines:
+                                    response_lines.append("[Truncated: max_lines reached]")
+                                    break
                         else:
                             time.sleep(0.1)
-                    
-                    content = "\n".join(response_lines) if response_lines else "No response"
+                        if sum(len(l) for l in response_lines) > max_chars:
+                            response_lines.append("[Truncated: max_chars exceeded]")
+                            break
+                    joined = "\n".join(response_lines)
+                    if len(joined) > max_chars:
+                        joined = joined[:max_chars] + "... [truncated]"
+                    content = joined if joined else "No response"
                 except Exception as e:
                     content = f"Error: {str(e)}"
         
         elif tool_name == "capture_screenshot":
             save_to_file = arguments.get("save_to_file", True)
             filename = arguments.get("filename")
+            inline_image = arguments.get("inline_image", True)
+            scale_percent = arguments.get("scale_percent", 100)
+            max_inline_bytes = arguments.get("max_inline_bytes", 300000)
             result = webcam.capture(save_to_file=save_to_file, filename=filename)
             if result["success"]:
                 content = result["message"]
                 if "filepath" in result:
                     content += f"\nSaved to: {result['filepath']}"
-                # Note: The base64 image is available in result["image_base64"]
-                # but we don't include it in the text response as it's very large
+                image_b64 = result.get("image_base64")
+                if scale_percent != 100 and OPENCV_AVAILABLE and image_b64:
+                    try:
+                        import numpy as np
+                        img_bytes = base64.b64decode(image_b64)
+                        img_array = np.frombuffer(img_bytes, dtype=np.uint8)
+                        frame = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+                        new_w = max(1, int(frame.shape[1] * scale_percent / 100))
+                        new_h = max(1, int(frame.shape[0] * scale_percent / 100))
+                        resized = cv2.resize(frame, (new_w, new_h), interpolation=cv2.INTER_AREA)
+                        _, buf = cv2.imencode('.png', resized)
+                        image_b64 = base64.b64encode(buf).decode('utf-8')
+                    except Exception:
+                        content += "\n[Warning: scaling failed]"
+                # if inline_image and image_b64 and len(image_b64) <= max_inline_bytes:
+                if inline_image and image_b64:
+                    return {
+                        "jsonrpc": "2.0",
+                        "id": request_id,
+                        "result": {
+                            "content": [
+                                {"type": "text", "text": content},
+                                {"type": "image", "data": image_b64, "mimeType": "image/png"}
+                            ]
+                        }
+                    }
+                # else:
+                #     if inline_image and image_b64 and len(image_b64) > max_inline_bytes:
+                #         content += f"\n[Image omitted: size {len(image_b64)} > max_inline_bytes {max_inline_bytes}]"
             else:
                 content = f"Screenshot failed: {result['message']}"
         
