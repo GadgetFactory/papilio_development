@@ -22,6 +22,16 @@ import serial
 import serial.tools.list_ports
 from typing import Optional
 import argparse
+import base64
+import os
+import time
+
+# Try to import OpenCV for webcam support
+try:
+    import cv2
+    OPENCV_AVAILABLE = True
+except ImportError:
+    OPENCV_AVAILABLE = False
 
 # MCP Protocol version
 MCP_VERSION = "2024-11-05"
@@ -157,8 +167,170 @@ class PapilioController:
         return self.send_command(f"J {'1' if enabled else '0'}")
 
 
-# Global controller instance
+class WebcamCapture:
+    """Captures screenshots from a webcam pointed at the HDMI monitor."""
+    
+    def __init__(self):
+        self.camera_index = 0
+        self.crop_region = None  # (x, y, width, height) or None for full frame
+        self.save_dir = os.path.join(os.path.dirname(__file__), "screenshots")
+    
+    def list_cameras(self) -> list:
+        """List available camera indices."""
+        if not OPENCV_AVAILABLE:
+            return []
+        
+        available = []
+        for i in range(10):  # Check first 10 indices
+            cap = cv2.VideoCapture(i)
+            if cap.isOpened():
+                ret, _ = cap.read()
+                if ret:
+                    available.append(i)
+                cap.release()
+        return available
+    
+    def capture(self, save_to_file: bool = True, filename: str = None) -> dict:
+        """Capture a frame from the webcam.
+        
+        Returns:
+            dict with keys:
+            - success: bool
+            - message: str
+            - image_base64: str (PNG image as base64, if successful)
+            - filepath: str (if saved to file)
+        """
+        if not OPENCV_AVAILABLE:
+            return {
+                "success": False,
+                "message": "OpenCV not installed. Run: pip install opencv-python"
+            }
+        
+        cap = cv2.VideoCapture(self.camera_index)
+        if not cap.isOpened():
+            return {
+                "success": False,
+                "message": f"Could not open camera {self.camera_index}"
+            }
+        
+        # Let camera warm up and adjust exposure
+        for _ in range(5):
+            cap.read()
+        
+        ret, frame = cap.read()
+        cap.release()
+        
+        if not ret:
+            return {
+                "success": False,
+                "message": "Failed to capture frame from camera"
+            }
+        
+        # Apply crop if configured
+        if self.crop_region:
+            x, y, w, h = self.crop_region
+            frame = frame[y:y+h, x:x+w]
+        
+        # Encode to PNG
+        _, buffer = cv2.imencode('.png', frame)
+        image_base64 = base64.b64encode(buffer).decode('utf-8')
+        
+        result = {
+            "success": True,
+            "message": f"Captured {frame.shape[1]}x{frame.shape[0]} image",
+            "image_base64": image_base64,
+            "width": frame.shape[1],
+            "height": frame.shape[0]
+        }
+        
+        # Save to file if requested
+        if save_to_file:
+            os.makedirs(self.save_dir, exist_ok=True)
+            if filename is None:
+                filename = f"screenshot_{int(time.time())}.png"
+            filepath = os.path.join(self.save_dir, filename)
+            cv2.imwrite(filepath, frame)
+            result["filepath"] = filepath
+        
+        return result
+    
+    def set_crop_region(self, x: int, y: int, width: int, height: int):
+        """Set the crop region for screenshots."""
+        self.crop_region = (x, y, width, height)
+    
+    def clear_crop_region(self):
+        """Clear the crop region (capture full frame)."""
+        self.crop_region = None
+    
+    def calibrate_crop(self) -> dict:
+        """Interactive calibration - displays a preview window to set crop region.
+        
+        Note: This requires a display and won't work in headless mode.
+        """
+        if not OPENCV_AVAILABLE:
+            return {"success": False, "message": "OpenCV not installed"}
+        
+        cap = cv2.VideoCapture(self.camera_index)
+        if not cap.isOpened():
+            return {"success": False, "message": f"Could not open camera {self.camera_index}"}
+        
+        # Variables for mouse callback
+        crop_start = [None]
+        crop_end = [None]
+        drawing = [False]
+        
+        def mouse_callback(event, x, y, flags, param):
+            if event == cv2.EVENT_LBUTTONDOWN:
+                crop_start[0] = (x, y)
+                drawing[0] = True
+            elif event == cv2.EVENT_MOUSEMOVE and drawing[0]:
+                crop_end[0] = (x, y)
+            elif event == cv2.EVENT_LBUTTONUP:
+                crop_end[0] = (x, y)
+                drawing[0] = False
+        
+        cv2.namedWindow("Calibrate - Draw rectangle, press 'c' to confirm, 'q' to cancel")
+        cv2.setMouseCallback("Calibrate - Draw rectangle, press 'c' to confirm, 'q' to cancel", mouse_callback)
+        
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+            
+            display = frame.copy()
+            
+            # Draw current selection
+            if crop_start[0] and crop_end[0]:
+                cv2.rectangle(display, crop_start[0], crop_end[0], (0, 255, 0), 2)
+            
+            cv2.imshow("Calibrate - Draw rectangle, press 'c' to confirm, 'q' to cancel", display)
+            
+            key = cv2.waitKey(1) & 0xFF
+            if key == ord('c') and crop_start[0] and crop_end[0]:
+                # Confirm selection
+                x1, y1 = crop_start[0]
+                x2, y2 = crop_end[0]
+                x, y = min(x1, x2), min(y1, y2)
+                w, h = abs(x2 - x1), abs(y2 - y1)
+                self.crop_region = (x, y, w, h)
+                cap.release()
+                cv2.destroyAllWindows()
+                return {
+                    "success": True,
+                    "message": f"Crop region set to x={x}, y={y}, w={w}, h={h}",
+                    "crop_region": {"x": x, "y": y, "width": w, "height": h}
+                }
+            elif key == ord('q'):
+                break
+        
+        cap.release()
+        cv2.destroyAllWindows()
+        return {"success": False, "message": "Calibration cancelled"}
+
+
+# Global instances
 controller = PapilioController()
+webcam = WebcamCapture()
 
 
 def handle_initialize(request_id, params):
@@ -312,6 +484,85 @@ def handle_tools_list(request_id):
                 },
                 "required": ["command"]
             }
+        },
+        {
+            "name": "capture_screenshot",
+            "description": "Capture a screenshot from the webcam pointed at the HDMI monitor. Returns the image as base64 PNG and optionally saves to file.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "save_to_file": {
+                        "type": "boolean",
+                        "description": "Whether to save the screenshot to a file (default true)",
+                        "default": True
+                    },
+                    "filename": {
+                        "type": "string",
+                        "description": "Optional filename for the screenshot (default: screenshot_<timestamp>.png)"
+                    }
+                }
+            }
+        },
+        {
+            "name": "list_cameras",
+            "description": "List available webcam/camera indices for screenshot capture.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {}
+            }
+        },
+        {
+            "name": "set_camera",
+            "description": "Set which camera index to use for screenshots.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "camera_index": {
+                        "type": "integer",
+                        "description": "Camera index (0 is usually the default camera)",
+                        "minimum": 0
+                    }
+                },
+                "required": ["camera_index"]
+            }
+        },
+        {
+            "name": "set_screenshot_crop",
+            "description": "Set a crop region for screenshots to capture only the monitor area.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "x": {
+                        "type": "integer",
+                        "description": "X coordinate of top-left corner",
+                        "minimum": 0
+                    },
+                    "y": {
+                        "type": "integer",
+                        "description": "Y coordinate of top-left corner",
+                        "minimum": 0
+                    },
+                    "width": {
+                        "type": "integer",
+                        "description": "Width of crop region",
+                        "minimum": 1
+                    },
+                    "height": {
+                        "type": "integer",
+                        "description": "Height of crop region",
+                        "minimum": 1
+                    }
+                },
+                "required": ["x", "y", "width", "height"]
+            }
+        },
+        {
+            "name": "clear_screenshot_crop",
+            "description": "Clear the screenshot crop region to capture the full camera frame.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {}
+            }
         }
     ]
     
@@ -400,6 +651,44 @@ def handle_tools_call(request_id, params):
                     content = "\n".join(response_lines) if response_lines else "No response"
                 except Exception as e:
                     content = f"Error: {str(e)}"
+        
+        elif tool_name == "capture_screenshot":
+            save_to_file = arguments.get("save_to_file", True)
+            filename = arguments.get("filename")
+            result = webcam.capture(save_to_file=save_to_file, filename=filename)
+            if result["success"]:
+                content = result["message"]
+                if "filepath" in result:
+                    content += f"\nSaved to: {result['filepath']}"
+                # Note: The base64 image is available in result["image_base64"]
+                # but we don't include it in the text response as it's very large
+            else:
+                content = f"Screenshot failed: {result['message']}"
+        
+        elif tool_name == "list_cameras":
+            cameras = webcam.list_cameras()
+            if cameras:
+                content = f"Available cameras: {cameras}"
+            else:
+                content = "No cameras found (or OpenCV not installed)"
+        
+        elif tool_name == "set_camera":
+            camera_index = arguments.get("camera_index", 0)
+            webcam.camera_index = camera_index
+            content = f"Camera index set to {camera_index}"
+        
+        elif tool_name == "set_screenshot_crop":
+            x = arguments.get("x", 0)
+            y = arguments.get("y", 0)
+            width = arguments.get("width", 640)
+            height = arguments.get("height", 480)
+            webcam.set_crop_region(x, y, width, height)
+            content = f"Crop region set to x={x}, y={y}, width={width}, height={height}"
+        
+        elif tool_name == "clear_screenshot_crop":
+            webcam.clear_crop_region()
+            content = "Crop region cleared - will capture full frame"
+        
         else:
             content = f"Unknown tool: {tool_name}"
             
