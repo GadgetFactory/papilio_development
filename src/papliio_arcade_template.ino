@@ -79,12 +79,51 @@ void updateDisplay() {
     case 7: hdmi->setLEDColorRGB(0, 0, 0);    break;  // Off
   }
   
-  // If text mode, show some text
+  // If text mode, show demo text
   if (currentPattern == 3) {
     hdmi->clearScreen();
-    hdmi->setTextColor(HDMI_COLOR_LIGHT_CYAN, HDMI_COLOR_BLUE);
-    hdmi->setCursor(25, 12);
+    
+    // Header with colored background
+    hdmi->setTextColor(HDMI_COLOR_YELLOW, HDMI_COLOR_BLUE);
+    hdmi->setCursor(33, 2);
     hdmi->writeString("PAPILIO ARCADE");
+    
+    // Subtitle
+    hdmi->setTextColor(HDMI_COLOR_WHITE, HDMI_COLOR_BLACK);
+    hdmi->setCursor(28, 4);
+    hdmi->writeString("ESP32-S3 + Gowin FPGA");
+    
+    // Feature list with colors
+    hdmi->setTextColor(HDMI_COLOR_LIGHT_GREEN, HDMI_COLOR_BLACK);
+    hdmi->setCursor(20, 7);
+    hdmi->writeString("Video Modes:");
+    
+    hdmi->setTextColor(HDMI_COLOR_LIGHT_CYAN, HDMI_COLOR_BLACK);
+    hdmi->setCursor(22, 9);
+    hdmi->writeString("- 720p HDMI Output");
+    hdmi->setCursor(22, 10);
+    hdmi->writeString("- Test Patterns");
+    hdmi->setCursor(22, 11);
+    hdmi->writeString("- 80x30 Text Mode (this!)");
+    hdmi->setCursor(22, 12);
+    hdmi->writeString("- 160x120 Framebuffer");
+    
+    // Color palette demo
+    hdmi->setTextColor(HDMI_COLOR_LIGHT_MAGENTA, HDMI_COLOR_BLACK);
+    hdmi->setCursor(20, 15);
+    hdmi->writeString("CGA 16-Color Palette:");
+    
+    // Show all 16 colors
+    for (int i = 0; i < 16; i++) {
+      hdmi->setTextColor(i, HDMI_COLOR_BLACK);
+      hdmi->setCursor(22 + (i % 8) * 4, 17 + (i / 8));
+      hdmi->writeString("##");
+    }
+    
+    // Footer
+    hdmi->setTextColor(HDMI_COLOR_DARK_GRAY, HDMI_COLOR_BLACK);
+    hdmi->setCursor(25, 22);
+    hdmi->writeString("gadgetfactory.net");
   }
   
   Serial.printf("Pattern: %s | LED: %s\n", 

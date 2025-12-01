@@ -54,7 +54,7 @@ Smooth horizontal gradient from black (left edge) to white (right edge).
 - Display area: 1280×720 pixels
 - Foreground/background colors per character
 
-![Text Mode](images/mode1_text.jpg)
+![Text Mode Demo](images/mode1_text_demo.jpg)
 
 ---
 
