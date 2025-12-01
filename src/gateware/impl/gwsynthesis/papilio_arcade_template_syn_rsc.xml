@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Module name="top" Register="32" Alu="6" Lut="78" T_Register="529(32)" T_Alu="145(6)" T_Lut="2079(78)" T_Bsram="20(0)" T_Ssram="260(0)">
- <SubModule name="u_spi_bridge" Register="113" Lut="58" T_Register="113(113)" T_Lut="58(58)"/>
- <SubModule name="u_wb_rgb_led" Register="51" Lut="55" T_Register="77(51)" T_Lut="126(55)">
-  <SubModule name="ws2812b_inst" Register="26" Lut="71" T_Register="26(26)" T_Lut="71(71)"/>
+<Module name="top" Register="32" Lut="86" T_Register="522(32)" T_Alu="139(0)" T_Lut="2134(86)" T_Bsram="20(0)" T_Ssram="260(0)">
+ <SubModule name="u_spi_bridge" Register="113" Lut="57" T_Register="113(113)" T_Lut="57(57)"/>
+ <SubModule name="u_wb_rgb_led" Register="51" Lut="56" T_Register="77(51)" T_Lut="128(56)">
+  <SubModule name="ws2812b_inst" Register="26" Lut="72" T_Register="26(26)" T_Lut="72(72)"/>
  </SubModule>
- <SubModule name="u_hdmi_phy" Register="24" Lut="64" T_Register="69(24)" T_Alu="96(0)" T_Lut="315(64)">
+ <SubModule name="u_hdmi_phy" Register="24" Lut="65" T_Register="69(24)" T_Alu="96(0)" T_Lut="317(65)">
   <SubModule name="u_tmds_rpll"/>
-  <SubModule name="enc_r" Register="15" Alu="32" Lut="80" T_Register="15(15)" T_Alu="32(32)" T_Lut="80(80)"/>
-  <SubModule name="enc_g" Register="15" Alu="32" Lut="78" T_Register="15(15)" T_Alu="32(32)" T_Lut="78(78)"/>
-  <SubModule name="enc_b" Register="15" Alu="32" Lut="93" T_Register="15(15)" T_Alu="32(32)" T_Lut="93(93)"/>
+  <SubModule name="enc_r" Register="15" Alu="32" Lut="91" T_Register="15(15)" T_Alu="32(32)" T_Lut="91(91)"/>
+  <SubModule name="enc_g" Register="15" Alu="32" Lut="77" T_Register="15(15)" T_Alu="32(32)" T_Lut="77(77)"/>
+  <SubModule name="enc_b" Register="15" Alu="32" Lut="84" T_Register="15(15)" T_Alu="32(32)" T_Lut="84(84)"/>
  </SubModule>
- <SubModule name="u_testpattern" Register="67" Lut="47" T_Register="67(67)" T_Lut="47(47)"/>
- <SubModule name="u_text_mode" Register="112" Alu="26" Lut="1039" Bsram="4" Ssram="260" T_Register="120(112)" T_Alu="26(26)" T_Lut="1386(1039)" T_Bsram="4(4)" T_Ssram="260(260)">
-  <SubModule name="u_font_rom" Register="8" Lut="347" T_Register="8(8)" T_Lut="347(347)"/>
+ <SubModule name="u_testpattern" Register="67" Lut="59" T_Register="67(67)" T_Lut="59(59)"/>
+ <SubModule name="u_text_mode" Register="112" Alu="26" Lut="1054" Bsram="4" Ssram="260" T_Register="120(112)" T_Alu="26(26)" T_Lut="1416(1054)" T_Bsram="4(4)" T_Ssram="260(260)">
+  <SubModule name="u_font_rom" Register="8" Lut="362" T_Register="8(8)" T_Lut="362(362)"/>
  </SubModule>
- <SubModule name="u_framebuffer" Register="51" Alu="17" Lut="69" Bsram="16" T_Register="51(51)" T_Alu="17(17)" T_Lut="69(69)" T_Bsram="16(16)"/>
+ <SubModule name="u_framebuffer" Register="43" Alu="17" Lut="55" T_Register="44(43)" T_Alu="17(17)" T_Lut="71(55)" T_Bsram="16(0)">
+  <SubModule name="u_framebuffer_ram" Register="1" Lut="16" Bsram="16" T_Register="1(1)" T_Lut="16(16)" T_Bsram="16(16)"/>
+ </SubModule>
 </Module>

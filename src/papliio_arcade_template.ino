@@ -32,7 +32,7 @@ int cycleCount = 0;  // Track cycles for breakpoint demo
 unsigned long lastUpdate = 0;
 
 // Pattern and color names for display
-const char* patternNames[] = {"Color Bars", "Grid", "Grayscale", "Text Mode"};
+const char* patternNames[] = {"Color Bars", "Grid", "Grayscale", "Text Mode", "Framebuffer Bars"};
 const char* colorNames[] = {"Red", "Green", "Blue", "Yellow", "Cyan", "Magenta", "White", "Off"};
 
 void setup() {
@@ -55,8 +55,17 @@ void setup() {
 }
 
 void updateDisplay() {
-  // Set video pattern (0-3)
-  hdmi->setVideoPattern(currentPattern);
+  // Set video pattern (0-4)
+  if (currentPattern < 4) {
+    hdmi->setVideoMode(VIDEO_MODE_TEST_PATTERN);
+    hdmi->setVideoPattern(currentPattern);
+  } else if (currentPattern == 4) {
+    // Framebuffer color bars
+    Serial.println("Drawing framebuffer color bars...");
+    hdmi->enableFramebuffer();
+    hdmi->drawColorBars();
+    Serial.println("Done!");
+  }
   
   // Set LED color based on currentColor
   switch (currentColor) {
@@ -99,7 +108,7 @@ void loop() {
     Serial.read();
     // Example breakpoint - uncomment to pause here before update:
     // PapilioMCP.breakpoint("manual_advance");
-    currentPattern = (currentPattern + 1) % 4;
+    currentPattern = (currentPattern + 1) % 5;  // Now 5 patterns (0-4)
     currentColor = (currentColor + 1) % 8;
     updateDisplay();
     lastUpdate = millis();
@@ -112,7 +121,7 @@ void loop() {
     // Breakpoint demo: pause every 4th cycle to let MCP inspect state
     // Uncomment to test: if (cycleCount % 4 == 0) PapilioMCP.breakpoint("cycle_4");
     
-    currentPattern = (currentPattern + 1) % 4;
+    currentPattern = (currentPattern + 1) % 5;  // Now 5 patterns (0-4)
     currentColor = (currentColor + 1) % 8;
     updateDisplay();
     lastUpdate = millis();

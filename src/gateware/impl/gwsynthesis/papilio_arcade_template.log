@@ -6,6 +6,7 @@ Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papili
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_testpattern.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_text.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_framebuffer.v'
+Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\framebuffer_ram.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\char_ram_8x8.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v'
@@ -44,8 +45,9 @@ WARN  (EX3791) : Expression size 11 truncated to fit in target size 3("C:\Users\
 WARN  (EX3791) : Expression size 13 truncated to fit in target size 12("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_text.v":195)
 Compiling module 'font_rom_8x8'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\char_ram_8x8.v":66)
 Extracting RAM for identifier 'custom_font_ram'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\char_ram_8x8.v":79)
-Compiling module 'wb_video_framebuffer'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_framebuffer.v":23)
-Extracting RAM for identifier 'framebuffer'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_framebuffer.v":86)
+Compiling module 'wb_video_framebuffer'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_framebuffer.v":22)
+Compiling module 'framebuffer_ram'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\framebuffer_ram.v":12)
+Extracting RAM for identifier 'mem'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\framebuffer_ram.v":33)
 NOTE  (EX0101) : Current top module is "top"
 [5%] Running netlist conversion ...
 Running device independent optimization ...

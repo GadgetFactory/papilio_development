@@ -15,6 +15,7 @@
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_video_testpattern.v" type="file.verilog" enable="1"/>
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_video_text.v" type="file.verilog" enable="1"/>
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_video_framebuffer.v" type="file.verilog" enable="1"/>
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/framebuffer_ram.v" type="file.verilog" enable="1"/>
         
         <!-- Font ROM for text mode -->
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/char_ram_8x8.v" type="file.verilog" enable="1"/>
@@ -34,6 +35,15 @@
         <File path="timing.sdc" type="file.sdc" enable="1"/>
     </FileList>
 </Project>
+
+
+
+
+
+
+
+
+
 
 
 

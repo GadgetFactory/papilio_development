@@ -29,10 +29,10 @@ FPGA_BIN := $(GATEWARE_DIR)/impl/pnr/papilio_arcade_template.bin
 all: firmware gateware
 
 firmware:
-	"$(PIO)" run
+	"$(PIO)" run -e papilio_arcade
 
 upload: firmware
-	"$(PIO)" run --target upload
+	"$(PIO)" run -e papilio_arcade --target upload
 
 monitor:
 	"$(PIO)" device monitor --port COM4 --baud 115200
