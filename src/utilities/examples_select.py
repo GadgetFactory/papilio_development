@@ -7,6 +7,7 @@ Import("env")
 ENV_MAP = {
     'text_mode_test': 'examples/text_mode_test/text_mode_test.ino',
     'spaceinvaders_hdmi': 'examples/spaceinvaders_hdmi/spaceinvaders_hdmi.ino',
+    'spaceinvaders_hqvga': 'examples/spaceinvaders_hqvga/spaceinvaders_hqvga.ino',
     'mcp_debug_firmware': 'libs/papilio_mcp_server/examples/mcp_debug_simple/mcp_debug_simple.ino',
 }
 

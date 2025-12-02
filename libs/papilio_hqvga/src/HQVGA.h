@@ -45,6 +45,9 @@ public:
 	          uint8_t spiClk = 12, uint8_t spiMosi = 11, uint8_t spiMiso = 9,
 	          uint8_t wishboneBase = HQVGA_WISHBONE_BASE);
 
+	// Video mode control (0=TestPattern, 1=Text, 2=Framebuffer)
+	void setVideoMode(uint8_t mode);
+
 	// Color management
 	void setColor(pixel_t color) { fg = color; }
 	void setBackgroundColor(pixel_t color) { bg = color; }

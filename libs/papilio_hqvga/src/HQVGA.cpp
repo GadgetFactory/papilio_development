@@ -243,15 +243,34 @@ void VGA_class::begin(SPIClass* spi, uint8_t csPin, uint8_t spiClk,
 	
 	// Small delay for FPGA to be ready
 	delay(100);
+	
+	// Set video mode to framebuffer (mode 2)
+	// Video mode register is at address 0x0000
+	setVideoMode(2);
+}
+
+void VGA_class::setVideoMode(uint8_t mode) {
+	// Write to video mode control register at address 0x0000
+	// Mode values: 0=TestPattern, 1=Text, 2=Framebuffer
+	digitalWrite(_cs, LOW);
+	delayMicroseconds(1);
+	
+	_spi->transfer(0x01);  // CMD: Write command
+	_spi->transfer(0x00);  // ADDR_HIGH: 0x00
+	_spi->transfer(0x00);  // ADDR_LOW: 0x00
+	_spi->transfer(mode & 0x03);  // DATA: video mode (0-2)
+	
+	delayMicroseconds(1);
+	digitalWrite(_cs, HIGH);
+	delayMicroseconds(5);
 }
 
 void VGA_class::writeWishbone(uint16_t addr, uint8_t data) {
 	// HQVGA frame buffer: pixel address 0-19199 (160x120)
-	// ZPUino-style word-aligned addressing: pixel N → byte address N*4
-	// HQVGA extracts wb_adr_i[16:2] for RAM address, so addr*4 >> 2 = addr
+	// Framebuffer starts at address 0x0100 in the Wishbone address map
 	// 4-byte SPI protocol: CMD | ADDR_HIGH | ADDR_LOW | DATA
 	
-	uint16_t wb_addr = (addr << 2) & 0x7FFF;  // Word-aligned: pixel addr * 4, keep bit 15 = 0
+	uint16_t wb_addr = 0x0100 + addr;  // Framebuffer base + pixel offset
 	
 	digitalWrite(_cs, LOW);
 	delayMicroseconds(1);
@@ -269,17 +288,16 @@ void VGA_class::writeWishbone(uint16_t addr, uint8_t data) {
 
 uint8_t VGA_class::readWishbone(uint16_t addr) {
 	// HQVGA frame buffer: pixel address 0-19199 (160x120)
-	// ZPUino-style word-aligned addressing: pixel N → byte address N*4
-	// HQVGA extracts wb_adr_i[16:2] for RAM address
+	// Framebuffer starts at address 0x0100 in the Wishbone address map
 	// 4-byte SPI protocol: CMD | ADDR_HIGH | ADDR_LOW | DATA
 	
-	uint16_t wb_addr = (addr << 2) & 0x7FFF;  // Word-aligned: pixel addr * 4, keep bit 15 = 0
+	uint16_t wb_addr = 0x0100 + addr;  // Framebuffer base + pixel offset
 	
 	digitalWrite(_cs, LOW);
 	delayMicroseconds(1);
 	
 	// Send 4-byte read transaction
-	_spi->transfer(0x02);                     // CMD: Read command
+	_spi->transfer(0x00);                     // CMD: Read command (0x00, not 0x02!)
 	_spi->transfer((wb_addr >> 8) & 0xFF);    // ADDR_HIGH: bits [15:8]
 	_spi->transfer(wb_addr & 0xFF);           // ADDR_LOW: bits [7:0]
 	uint8_t result = _spi->transfer(0x00);    // DATA: read result
