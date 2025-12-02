@@ -9,6 +9,9 @@
   
   MCP Debug: Uncomment the line below to enable MCP debug interface.
   This allows AI assistants (via MCP server) to read/write FPGA registers.
+  
+  Note: The MCP debug interface uses the same Serial port with protocol framing.
+  A future enhancement could add dual USB CDC support for separate channels.
 */
 
 #define PAPILIO_MCP_ENABLED  // Uncomment to enable MCP debug interface
@@ -37,6 +40,7 @@ const char* colorNames[] = {"Red", "Green", "Blue", "Yellow", "Cyan", "Magenta",
 
 void setup() {
   Serial.begin(115200);
+  
   delay(2000);
   
   Serial.println("\n=== Papilio Arcade Demo ===\n");

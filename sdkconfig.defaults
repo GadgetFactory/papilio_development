@@ -1,0 +1,31 @@
+# Custom sdkconfig for dual USB CDC support
+# Used with ESP-IDF + Arduino component framework
+
+# FreeRTOS - Arduino requires 1000Hz tick rate
+CONFIG_FREERTOS_HZ=1000
+
+# Flash configuration - match the board's 4MB flash
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+
+# Enable TinyUSB
+CONFIG_TINYUSB=y
+CONFIG_TINYUSB_CDC_ENABLED=y
+
+# Enable 2 CDC interfaces (default is 1)
+CONFIG_TINYUSB_CDC_COUNT=2
+
+# USB configuration
+CONFIG_TINYUSB_DESC_MANUFACTURER_STRING="Gadget Factory"
+CONFIG_TINYUSB_DESC_PRODUCT_STRING="Papilio Arcade"
+CONFIG_TINYUSB_DESC_CDC_STRING="Papilio CDC"
+
+# USB device stack
+CONFIG_USB_OTG_SUPPORTED=y
+CONFIG_USB_HOST_CONTROL_TRANSFER_MAX_SIZE=256
+
+# Arduino compatibility
+CONFIG_AUTOSTART_ARDUINO=y
+CONFIG_ARDUINO_RUNNING_CORE=1
+CONFIG_ARDUINO_EVENT_RUNNING_CORE=1

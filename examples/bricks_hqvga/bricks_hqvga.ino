@@ -71,7 +71,7 @@ void setup() {
   fpgaSPI = new SPIClass(HSPI);
   fpgaSPI->begin(SPI_CLK, SPI_MISO, SPI_MOSI, SPI_CS);
   
-  // Initialize VGA - this waits for FPGA and sets framebuffer mode
+  // Initialize VGA - this waits for FPGA bootloader and sets framebuffer mode
   VGA.begin(fpgaSPI, SPI_CS, SPI_CLK, SPI_MOSI, SPI_MISO);
   
   // Show title screen

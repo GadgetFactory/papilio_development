@@ -148,9 +148,6 @@ byte invader2_part3[8] = {
 void setup() {
   Serial.begin(115200);
   
-  // Wait for FPGA to configure
-  delay(3000);
-  
   Serial.println("Papilio HDMI Space Invaders Demo");
   
   // Initialize SPI

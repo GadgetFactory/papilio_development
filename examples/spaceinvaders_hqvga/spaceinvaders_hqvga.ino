@@ -75,9 +75,6 @@ SPIClass *fpgaSPI = NULL;
 void setup() {
   Serial.begin(115200);
   
-  // Wait for FPGA to configure
-  delay(3000);
-  
   Serial.println("HQVGA Space Invaders Demo");
   Serial.println("Resolution: 160x120 pixels");
   
