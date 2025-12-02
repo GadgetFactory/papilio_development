@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Module name="hqvga_test_top" Lut="1" T_Register="26(0)" T_Lut="51(1)">
- <SubModule name="hqvga_inst" Register="26" Lut="50" T_Register="26(26)" T_Lut="50(50)"/>
-</Module>
