@@ -241,12 +241,40 @@ void VGA_class::begin(SPIClass* spi, uint8_t csPin, uint8_t spiClk,
 	pinMode(_cs, OUTPUT);
 	digitalWrite(_cs, HIGH);
 	
-	// Small delay for FPGA to be ready
-	delay(100);
+	// Wait for FPGA to configure and verify framebuffer mode is set
+	// Keep trying until we successfully read back mode 2
+	const unsigned long timeout = 5000;  // 5 second timeout
+	unsigned long startTime = millis();
 	
-	// Set video mode to framebuffer (mode 2)
-	// Video mode register is at address 0x0000
-	setVideoMode(2);
+	while (millis() - startTime < timeout) {
+		delay(100);  // Small delay between attempts
+		setVideoMode(2);
+		delay(10);   // Let the write complete
+		
+		uint8_t mode = getVideoMode();
+		if (mode == 2) {
+			// Successfully set framebuffer mode
+			return;
+		}
+	}
+	// Timeout - FPGA may not be ready or communication issue
+}
+
+uint8_t VGA_class::getVideoMode() {
+	// Read from video mode control register at address 0x0000
+	digitalWrite(_cs, LOW);
+	delayMicroseconds(1);
+	
+	_spi->transfer(0x00);  // CMD: Read command
+	_spi->transfer(0x00);  // ADDR_HIGH: 0x00
+	_spi->transfer(0x00);  // ADDR_LOW: 0x00
+	uint8_t mode = _spi->transfer(0x00);  // DATA: read result
+	
+	delayMicroseconds(1);
+	digitalWrite(_cs, HIGH);
+	delayMicroseconds(5);
+	
+	return mode & 0x03;
 }
 
 void VGA_class::setVideoMode(uint8_t mode) {

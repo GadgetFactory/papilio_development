@@ -47,6 +47,7 @@ public:
 
 	// Video mode control (0=TestPattern, 1=Text, 2=Framebuffer)
 	void setVideoMode(uint8_t mode);
+	uint8_t getVideoMode();
 
 	// Color management
 	void setColor(pixel_t color) { fg = color; }
