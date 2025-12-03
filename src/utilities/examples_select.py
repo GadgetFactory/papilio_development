@@ -13,6 +13,8 @@ ENV_MAP = {
     'gfx_demo': 'examples/gfx_demo/gfx_demo.ino',
     'lvgl_demo': 'examples/lvgl_demo/lvgl_demo.ino',
     'u8g2_demo': 'examples/u8g2_demo/u8g2_demo.ino',
+    'tft_espi_demo': 'examples/tft_espi_demo/tft_espi_demo.ino',
+    'imagedec_demo': 'examples/imagedec_demo/imagedec_demo.ino',
     'mcp_debug_firmware': 'libs/papilio_mcp_server/examples/mcp_debug_simple/mcp_debug_simple.ino',
 }
 
