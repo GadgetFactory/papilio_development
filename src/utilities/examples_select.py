@@ -15,6 +15,7 @@ ENV_MAP = {
     'u8g2_demo': 'examples/u8g2_demo/u8g2_demo.ino',
     'tft_espi_demo': 'examples/tft_espi_demo/tft_espi_demo.ino',
     'imagedec_demo': 'examples/imagedec_demo/imagedec_demo.ino',
+    'butterfly_fullscreen': 'examples/butterfly_fullscreen/butterfly_fullscreen.ino',
     'mcp_debug_firmware': 'libs/papilio_mcp_server/examples/mcp_debug_simple/mcp_debug_simple.ino',
 }
 
