@@ -12,6 +12,7 @@ ENV_MAP = {
     'vga_lcd_demo': 'examples/vga_lcd_demo/vga_lcd_demo.ino',
     'gfx_demo': 'examples/gfx_demo/gfx_demo.ino',
     'lvgl_demo': 'examples/lvgl_demo/lvgl_demo.ino',
+    'u8g2_demo': 'examples/u8g2_demo/u8g2_demo.ino',
     'mcp_debug_firmware': 'libs/papilio_mcp_server/examples/mcp_debug_simple/mcp_debug_simple.ino',
 }
 
