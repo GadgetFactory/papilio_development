@@ -10,6 +10,7 @@ ENV_MAP = {
     'spaceinvaders_hqvga': 'examples/spaceinvaders_hqvga/spaceinvaders_hqvga.ino',
     'bricks_hqvga': 'examples/bricks_hqvga/bricks_hqvga.ino',
     'vga_lcd_demo': 'examples/vga_lcd_demo/vga_lcd_demo.ino',
+    'gfx_demo': 'examples/gfx_demo/gfx_demo.ino',
     'mcp_debug_firmware': 'libs/papilio_mcp_server/examples/mcp_debug_simple/mcp_debug_simple.ino',
 }
 
