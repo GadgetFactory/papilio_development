@@ -19,6 +19,7 @@ ENV_MAP = {
     'video_modes_demo': 'libs/papilio_hdmi/examples/video_modes_demo/video_modes_demo.ino',
     'test_pattern_demo': 'libs/papilio_hdmi/examples/test_pattern_demo/test_pattern_demo.ino',
     'mcp_debug_firmware': 'libs/papilio_mcp_server/examples/mcp_debug_simple/mcp_debug_simple.ino',
+    'mcp_breakpoint_demo': 'libs/papilio_mcp_server/examples/mcp_breakpoint_demo/mcp_breakpoint_demo.ino',
 }
 
 # __file__ may not be defined in PlatformIO pre scripts; fallback to CWD
