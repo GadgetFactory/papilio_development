@@ -5,17 +5,19 @@ Import("env")
 
 # Mapping from environment name to example sketch relative path
 ENV_MAP = {
-    'text_mode_test': 'examples/text_mode_test/text_mode_test.ino',
-    'spaceinvaders_hdmi': 'examples/spaceinvaders_hdmi/spaceinvaders_hdmi.ino',
-    'spaceinvaders_hqvga': 'examples/spaceinvaders_hqvga/spaceinvaders_hqvga.ino',
-    'bricks_hqvga': 'examples/bricks_hqvga/bricks_hqvga.ino',
-    'vga_lcd_demo': 'examples/vga_lcd_demo/vga_lcd_demo.ino',
-    'gfx_demo': 'examples/gfx_demo/gfx_demo.ino',
-    'lvgl_demo': 'examples/lvgl_demo/lvgl_demo.ino',
-    'u8g2_demo': 'examples/u8g2_demo/u8g2_demo.ino',
-    'tft_espi_demo': 'examples/tft_espi_demo/tft_espi_demo.ino',
-    'imagedec_demo': 'examples/imagedec_demo/imagedec_demo.ino',
-    'butterfly_fullscreen': 'examples/butterfly_fullscreen/butterfly_fullscreen.ino',
+    'text_mode_test': 'libs/papilio_hdmi/examples/text_mode_test/text_mode_test.ino',
+    'spaceinvaders_hdmi': 'libs/papilio_hdmi/examples/spaceinvaders_hdmi/spaceinvaders_hdmi.ino',
+    'spaceinvaders_hqvga': 'libs/papilio_hdmi/examples/spaceinvaders_hqvga/spaceinvaders_hqvga.ino',
+    'bricks_hqvga': 'libs/papilio_hdmi/examples/bricks_hqvga/bricks_hqvga.ino',
+    'vga_lcd_demo': 'libs/papilio_hdmi/examples/vga_lcd_demo/vga_lcd_demo.ino',
+    'gfx_demo': 'libs/papilio_hdmi/examples/gfx_demo/gfx_demo.ino',
+    'lvgl_demo': 'libs/papilio_hdmi/examples/lvgl_demo/lvgl_demo.ino',
+    'u8g2_demo': 'libs/papilio_hdmi/examples/u8g2_demo/u8g2_demo.ino',
+    'tft_espi_demo': 'libs/papilio_hdmi/examples/tft_espi_demo/tft_espi_demo.ino',
+    'imagedec_demo': 'libs/papilio_hdmi/examples/imagedec_demo/imagedec_demo.ino',
+    'butterfly_fullscreen': 'libs/papilio_hdmi/examples/butterfly_fullscreen/butterfly_fullscreen.ino',
+    'video_modes_demo': 'libs/papilio_hdmi/examples/video_modes_demo/video_modes_demo.ino',
+    'test_pattern_demo': 'libs/papilio_hdmi/examples/test_pattern_demo/test_pattern_demo.ino',
     'mcp_debug_firmware': 'libs/papilio_mcp_server/examples/mcp_debug_simple/mcp_debug_simple.ino',
 }
 
