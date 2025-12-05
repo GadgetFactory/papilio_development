@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Hierarchy Module Resource</title>
+<style type="text/css">
+body { font-family: Verdana, Arial, sans-serif; font-size: 14px; }
+div#main_wrapper{ width: 100%; }
+h1 {text-align: center; }
+h1 {margin-top: 36px; }
+table, th, td { border: 1px solid #aaa; }
+table { border-collapse:collapse; margin-top: 10px; margin-bottom: 20px; width: 100%; }
+th, td { align = "center"; padding: 5px 2px 5px 5px; }
+th { color: #fff; font-weight: bold; background-color: #0084ff; }
+table td.label { width: 20%; white-space: nowrap; min-width: 20px; background-color: #dee8f4; }
+</style>
+</head>
+<body>
+<div id="main_wrapper">
+<div id="content">
+<h1>Hierarchy Module Resource</h1>
+<table>
+<tr>
+<th class="label">MODULE NAME</th>
+<th class="label">REG NUMBER</th>
+<th class="label">ALU NUMBER</th>
+<th class="label">LUT NUMBER</th>
+<th class="label">DSP NUMBER</th>
+<th class="label">BSRAM NUMBER</th>
+<th class="label">SSRAM NUMBER</th>
+<th class="label">ROM16 NUMBER</th>
+</tr>
+<tr>
+<td class="label">top (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v)</td>
+<td align = "center">74</td>
+<td align = "center">-</td>
+<td align = "center">98</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp|--u_spi_bridge
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v)</td>
+<td align = "center">113</td>
+<td align = "center">-</td>
+<td align = "center">59</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp|--u_wb_rgb_led
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v)</td>
+<td align = "center">51</td>
+<td align = "center">-</td>
+<td align = "center">56</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp|--ws2812b_inst
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_rgb_led/gateware/wb_simple_rgb_led.v)</td>
+<td align = "center">26</td>
+<td align = "center">-</td>
+<td align = "center">74</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp|--u_sid
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v)</td>
+<td align = "center">1</td>
+<td align = "center">-</td>
+<td align = "center">1</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp|--sid
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/wb_sid6581_simple.vhd)</td>
+<td align = "center">193</td>
+<td align = "center">-</td>
+<td align = "center">59</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp|--sid_voice_1
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_6581.vhd)</td>
+<td align = "center">166</td>
+<td align = "center">58</td>
+<td align = "center">242</td>
+<td align = "center">1</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp|--sid_voice_2
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_6581.vhd)</td>
+<td align = "center">165</td>
+<td align = "center">58</td>
+<td align = "center">243</td>
+<td align = "center">1</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp|--sid_voice_3
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_6581.vhd)</td>
+<td align = "center">172</td>
+<td align = "center">58</td>
+<td align = "center">242</td>
+<td align = "center">1</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp|--fblk.filters
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_6581.vhd)</td>
+<td align = "center">173</td>
+<td align = "center">226</td>
+<td align = "center">295</td>
+<td align = "center">1</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp|--c
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_filters.vhd)</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">2</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp|--u_audio_dac
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v)</td>
+<td align = "center">21</td>
+<td align = "center">19</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp|--u_hdmi_phy
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v)</td>
+<td align = "center">24</td>
+<td align = "center">-</td>
+<td align = "center">65</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp|--u_tmds_rpll
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/hdmi_phy_720p.v)</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp|--enc_r
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/hdmi_phy_720p.v)</td>
+<td align = "center">15</td>
+<td align = "center">34</td>
+<td align = "center">77</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp|--enc_g
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/hdmi_phy_720p.v)</td>
+<td align = "center">15</td>
+<td align = "center">32</td>
+<td align = "center">81</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp|--enc_b
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/hdmi_phy_720p.v)</td>
+<td align = "center">15</td>
+<td align = "center">32</td>
+<td align = "center">81</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp|--u_testpattern
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v)</td>
+<td align = "center">67</td>
+<td align = "center">-</td>
+<td align = "center">60</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp|--u_text_mode
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v)</td>
+<td align = "center">112</td>
+<td align = "center">26</td>
+<td align = "center">1040</td>
+<td align = "center">-</td>
+<td align = "center">4</td>
+<td align = "center">260</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp|--u_font_rom
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_video_text.v)</td>
+<td align = "center">8</td>
+<td align = "center">-</td>
+<td align = "center">347</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp|--u_framebuffer
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/top.v)</td>
+<td align = "center">43</td>
+<td align = "center">17</td>
+<td align = "center">57</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+<td class="label">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp|--u_framebuffer_ram
+ (C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_video_framebuffer.v)</td>
+<td align = "center">1</td>
+<td align = "center">-</td>
+<td align = "center">16</td>
+<td align = "center">-</td>
+<td align = "center">16</td>
+<td align = "center">-</td>
+<td align = "center">-</td>
+</tr>
+</table>
+</div><!-- content -->
+</div><!-- main_wrapper -->
+</body>
+</html>

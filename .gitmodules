@@ -10,3 +10,6 @@
 [submodule "libs/papilio_mcp_server"]
 	path = libs/papilio_mcp_server
 	url = https://github.com/GadgetFactory/papilio_mcp_server.git
+[submodule "libs/papilio_audio"]
+	path = libs/papilio_audio
+	url = https://github.com/GadgetFactory/papilio_audio.git

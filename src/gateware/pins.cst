@@ -16,6 +16,13 @@ IO_PORT "esp_mosi" PULL_MODE=NONE;
 IO_LOC "esp_cs_n" A12;
 IO_PORT "esp_cs_n" PULL_MODE=UP;
 
+// Audio output pins (PWM sigma-delta DAC - use RC low-pass filter)
+// Note: These pins are in a 1.8V bank (same as HDMI)
+IO_LOC "audio_left" T14;
+IO_PORT "audio_left" IO_TYPE=LVCMOS18 PULL_MODE=NONE DRIVE=8;
+IO_LOC "audio_right" R13;
+IO_PORT "audio_right" IO_TYPE=LVCMOS18 PULL_MODE=NONE DRIVE=8;
+
 // HDMI differential pairs - Using LVCMOS18D (1.8V differential) for GW2A-LV18 device
 IO_LOC "O_tmds_clk_p" P6,T6;
 IO_PORT "O_tmds_clk_p" IO_TYPE=LVCMOS18D PULL_MODE=NONE;

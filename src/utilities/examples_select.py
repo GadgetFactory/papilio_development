@@ -22,6 +22,8 @@ ENV_MAP = {
     'mcp_breakpoint_demo': 'libs/papilio_mcp_server/examples/mcp_breakpoint_demo/mcp_breakpoint_demo.ino',
     # Audio examples
     'sid_demo': 'libs/papilio_audio/examples/sid_demo/sid_demo.ino',
+    'sid_player': 'libs/papilio_audio/examples/sid_player/sid_player.ino',
+    'sid_player_fs': 'libs/papilio_audio/examples/sid_player_fs/sid_player_fs.ino',
     'ym2149_demo': 'libs/papilio_audio/examples/ym2149_demo/ym2149_demo.ino',
     'pokey_demo': 'libs/papilio_audio/examples/pokey_demo/pokey_demo.ino',
 }

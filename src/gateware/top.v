@@ -9,6 +9,7 @@
 `define ENABLE_VIDEO_TESTPATTERN
 `define ENABLE_VIDEO_TEXT
 `define ENABLE_VIDEO_FRAMEBUFFER
+`define ENABLE_AUDIO_SID
 
 (* top = "true" *)
 module top (
@@ -23,6 +24,10 @@ module top (
     
     // RGB LED output
     output wire rgb_led,
+    
+    // Audio outputs (PWM sigma-delta)
+    output wire audio_left,
+    output wire audio_right,
 
     // HDMI outputs (TMDS differential pairs)
     output wire O_tmds_clk_p,
@@ -72,15 +77,18 @@ module top (
     //   0x0020-0x00FF: Text mode registers + char RAM
     //   0x0100-0x7FFF: Framebuffer (word-aligned)
     //   0x8100-0x81FF: RGB LED controller
+    //   0x8200-0x821F: SID 6581 audio chip
     
     localparam ADDR_MODE_CTRL  = 16'h0000;
     localparam ADDR_TP_BASE    = 16'h0010;
     localparam ADDR_TEXT_BASE  = 16'h0020;
     localparam ADDR_FB_BASE    = 16'h0100;
     localparam ADDR_RGB_LED    = 16'h8100;
+    localparam ADDR_SID_BASE   = 16'h8200;
     
     wire rgb_led_selected = (wb_adr_o[15:8] == 8'h81);
-    wire mode_ctrl_sel    = (wb_adr_o < ADDR_TP_BASE) && !rgb_led_selected;
+    wire sid_selected     = (wb_adr_o[15:8] == 8'h82);
+    wire mode_ctrl_sel    = (wb_adr_o < ADDR_TP_BASE) && !rgb_led_selected && !sid_selected;
     wire tp_sel           = (wb_adr_o >= ADDR_TP_BASE) && (wb_adr_o < ADDR_TEXT_BASE);
     wire text_sel         = (wb_adr_o >= ADDR_TEXT_BASE) && (wb_adr_o < ADDR_FB_BASE);
     wire fb_sel           = (wb_adr_o >= ADDR_FB_BASE) && (wb_adr_o < ADDR_RGB_LED);
@@ -103,6 +111,81 @@ module top (
         .wb_ack_o(s0_wb_ack),
         .led_out(rgb_led)
     );
+    
+    // =========================================================================
+    // SID 6581 Audio Chip (at 0x8200-0x821F) - Conditional
+    // =========================================================================
+`ifdef ENABLE_AUDIO_SID
+    // Generate 1MHz clock for SID from 27MHz
+    // 27MHz / 27 = 1MHz
+    reg [4:0] clk_1mhz_div;
+    reg clk_1mhz;
+    
+    always @(posedge clk_27mhz or posedge rst) begin
+        if (rst) begin
+            clk_1mhz_div <= 5'd0;
+            clk_1mhz <= 1'b0;
+        end else begin
+            if (clk_1mhz_div == 5'd13) begin
+                clk_1mhz_div <= 5'd0;
+                clk_1mhz <= ~clk_1mhz;
+            end else begin
+                clk_1mhz_div <= clk_1mhz_div + 1'b1;
+            end
+        end
+    end
+    
+    wire [7:0] sid_wb_dat_o;
+    wire sid_wb_ack;
+    wire [17:0] sid_audio_data;
+    wire sid_audio_pdm;
+    
+    // Use the VHDL wrapper (known working with ZPUino)
+    wb_sid6581_simple u_sid (
+        .wb_clk_i(clk_27mhz),
+        .wb_rst_i(rst),
+        .clk_1mhz(clk_1mhz),
+        .wb_adr_i(wb_adr_o[4:0]),
+        .wb_dat_i(wb_dat_o),
+        .wb_dat_o(sid_wb_dat_o),
+        .wb_cyc_i(wb_cyc_o && sid_selected),
+        .wb_stb_i(wb_stb_o && sid_selected),
+        .wb_we_i(wb_we_o),
+        .wb_ack_o(sid_wb_ack),
+        .audio_data(sid_audio_data)
+    );
+    
+    // Synchronize SID audio data from 27MHz domain to pix_clk (74.25MHz) domain
+    // Simple double-flop synchronizer for the 18-bit audio data
+    reg [17:0] sid_audio_sync1, sid_audio_sync2;
+    always @(posedge pix_clk or negedge hdmi_rst_n) begin
+        if (!hdmi_rst_n) begin
+            sid_audio_sync1 <= 18'd0;
+            sid_audio_sync2 <= 18'd0;
+        end else begin
+            sid_audio_sync1 <= sid_audio_data;
+            sid_audio_sync2 <= sid_audio_sync1;
+        end
+    end
+    
+    // Sigma-delta DAC converts 18-bit audio to 1-bit PDM
+    // Use 74.25MHz pix_clk for better audio quality (original ZPUino used 96MHz)
+    sigma_delta_dac #(.BITS(18)) u_audio_dac (
+        .clk(pix_clk),
+        .rst_n(hdmi_rst_n),
+        .data_in(sid_audio_sync2),  // Use synchronized SID audio
+        .audio_out(sid_audio_pdm)
+    );
+    
+    // Route SID audio output to both channels
+    assign audio_left = sid_audio_pdm;
+    assign audio_right = sid_audio_pdm;
+`else
+    wire [7:0] sid_wb_dat_o = 8'h00;
+    wire sid_wb_ack = 1'b0;
+    assign audio_left = 1'b0;
+    assign audio_right = 1'b0;
+`endif
     
     // =========================================================================
     // Video Mode Control Register (at 0x0000)
@@ -359,6 +442,7 @@ module top (
     // Wishbone Bus Multiplexer
     // =========================================================================
     assign wb_dat_i = rgb_led_selected ? s0_wb_dat_i :
+                      sid_selected     ? sid_wb_dat_o :
                       mode_ctrl_sel    ? mode_ctrl_dat :
                       tp_sel           ? tp_dat :
                       text_sel         ? text_dat :
@@ -366,6 +450,7 @@ module top (
                       8'hFF;
     
     assign wb_ack_i = (rgb_led_selected && s0_wb_ack) ||
+                      (sid_selected && sid_wb_ack) ||
                       (mode_ctrl_sel && mode_ctrl_ack) ||
                       (tp_sel && tp_ack) ||
                       (text_sel && text_ack) ||
