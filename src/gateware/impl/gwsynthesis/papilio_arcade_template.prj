@@ -23,6 +23,8 @@
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_filters.vhd" type="vhdl"/>
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_coeffs.vhd" type="vhdl"/>
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_components.vhd" type="vhdl"/>
+        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\wb_ym2149_simple.vhd" type="vhdl"/>
+        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\AUDIO_zpuino_wb_YM2149.vhd" type="vhdl"/>
     </FileList>
     <OptionList>
         <Option type="disable_insert_pad" value="0"/>

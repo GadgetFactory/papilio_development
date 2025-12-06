@@ -56,7 +56,7 @@ upload-fpga:
 # PlatformIO example support
 # ------------------------------------------------------------------------------
 # Define known example environments. Keep in sync with platformio.ini.
-EXAMPLE_ENVS := text_mode_test spaceinvaders_hdmi mcp_debug_firmware
+EXAMPLE_ENVS := text_mode_test spaceinvaders_hdmi mcp_debug_firmware sid_demo ym2149_demo pokey_demo
 
 # Install / update PlatformIO (if 'pio' not in PATH, use explicit python -m pip)
 install-platformio:
