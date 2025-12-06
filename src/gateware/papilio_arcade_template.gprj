@@ -36,6 +36,10 @@
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_coeffs.vhd" type="file.vhdl" enable="1"/>
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_components.vhd" type="file.vhdl" enable="1"/>
         
+        <!-- YM2149 PSG Audio -->
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/wb_ym2149_simple.vhd" type="file.vhdl" enable="1"/>
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/AUDIO_zpuino_wb_YM2149.vhd" type="file.vhdl" enable="1"/>
+        
         <!-- Top level -->
         <File path="top.v" type="file.verilog" enable="1"/>
         
@@ -44,6 +48,9 @@
         <File path="timing.sdc" type="file.sdc" enable="1"/>
     </FileList>
 </Project>
+
+
+
 
 
 

@@ -85,9 +85,11 @@ module top (
     localparam ADDR_FB_BASE    = 16'h0100;
     localparam ADDR_RGB_LED    = 16'h8100;
     localparam ADDR_SID_BASE   = 16'h8200;
+    localparam ADDR_YM2149_BASE = 16'h8220;
     
     wire rgb_led_selected = (wb_adr_o[15:8] == 8'h81);
-    wire sid_selected     = (wb_adr_o[15:8] == 8'h82);
+    wire sid_selected     = (wb_adr_o[15:8] == 8'h82) && (wb_adr_o[7:5] == 3'b000);  // 0x8200-0x821F
+    wire ym2149_selected  = (wb_adr_o[15:8] == 8'h82) && (wb_adr_o[7:5] == 3'b001);  // 0x8220-0x823F
     wire mode_ctrl_sel    = (wb_adr_o < ADDR_TP_BASE) && !rgb_led_selected && !sid_selected;
     wire tp_sel           = (wb_adr_o >= ADDR_TP_BASE) && (wb_adr_o < ADDR_TEXT_BASE);
     wire text_sel         = (wb_adr_o >= ADDR_TEXT_BASE) && (wb_adr_o < ADDR_FB_BASE);
@@ -186,6 +188,28 @@ module top (
     assign audio_left = 1'b0;
     assign audio_right = 1'b0;
 `endif
+    
+    // =========================================================================
+    // YM2149 PSG Audio Chip (at 0x8220-0x823F)
+    // =========================================================================
+    wire [7:0] ym2149_wb_dat_o;
+    wire ym2149_wb_ack;
+    wire [17:0] ym2149_audio_data;
+    
+    wb_ym2149_simple #(
+        .CLK_FREQ_MHZ(27)
+    ) u_ym2149 (
+        .wb_clk_i(clk_27mhz),
+        .wb_rst_i(rst),
+        .wb_adr_i(wb_adr_o[4:0]),
+        .wb_dat_i(wb_dat_o),
+        .wb_dat_o(ym2149_wb_dat_o),
+        .wb_cyc_i(wb_cyc_o && ym2149_selected),
+        .wb_stb_i(wb_stb_o && ym2149_selected),
+        .wb_we_i(wb_we_o),
+        .wb_ack_o(ym2149_wb_ack),
+        .audio_data(ym2149_audio_data)
+    );
     
     // =========================================================================
     // Video Mode Control Register (at 0x0000)
@@ -443,17 +467,14 @@ module top (
     // =========================================================================
     assign wb_dat_i = rgb_led_selected ? s0_wb_dat_i :
                       sid_selected     ? sid_wb_dat_o :
+                      ym2149_selected  ? ym2149_wb_dat_o :
                       mode_ctrl_sel    ? mode_ctrl_dat :
                       tp_sel           ? tp_dat :
                       text_sel         ? text_dat :
                       fb_sel           ? fb_dat :
                       8'hFF;
     
-    assign wb_ack_i = (rgb_led_selected && s0_wb_ack) ||
-                      (sid_selected && sid_wb_ack) ||
-                      (mode_ctrl_sel && mode_ctrl_ack) ||
-                      (tp_sel && tp_ack) ||
-                      (text_sel && text_ack) ||
-                      (fb_sel && fb_ack);
+    // OR the acks directly - slaves only assert when selected
+    assign wb_ack_i = s0_wb_ack | sid_wb_ack | ym2149_wb_ack | mode_ctrl_ack | tp_ack | text_ack | fb_ack;
 
 endmodule
