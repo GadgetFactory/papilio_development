@@ -179,14 +179,15 @@ module top (
         .audio_out(sid_audio_pdm)
     );
     
-    // Route SID audio output to both channels
-    assign audio_left = sid_audio_pdm;
-    assign audio_right = sid_audio_pdm;
+    // Simple audio mixer - OR both SID and YM2149 outputs
+    // (1-bit PDM signals can be mixed with OR for testing)
+    assign audio_left = sid_audio_pdm | ym2149_audio_pdm;
+    assign audio_right = sid_audio_pdm | ym2149_audio_pdm;
 `else
     wire [7:0] sid_wb_dat_o = 8'h00;
     wire sid_wb_ack = 1'b0;
-    assign audio_left = 1'b0;
-    assign audio_right = 1'b0;
+    assign audio_left = ym2149_audio_pdm;
+    assign audio_right = ym2149_audio_pdm;
 `endif
     
     // =========================================================================
@@ -209,6 +210,27 @@ module top (
         .wb_we_i(wb_we_o),
         .wb_ack_o(ym2149_wb_ack),
         .audio_data(ym2149_audio_data)
+    );
+    
+    // Synchronize YM2149 audio from 27MHz to pix_clk domain
+    reg [17:0] ym2149_audio_sync1, ym2149_audio_sync2;
+    always @(posedge pix_clk or negedge hdmi_rst_n) begin
+        if (!hdmi_rst_n) begin
+            ym2149_audio_sync1 <= 18'd0;
+            ym2149_audio_sync2 <= 18'd0;
+        end else begin
+            ym2149_audio_sync1 <= ym2149_audio_data;
+            ym2149_audio_sync2 <= ym2149_audio_sync1;
+        end
+    end
+    
+    // YM2149 sigma-delta DAC
+    wire ym2149_audio_pdm;
+    sigma_delta_dac #(.BITS(18)) u_ym2149_dac (
+        .clk(pix_clk),
+        .rst_n(hdmi_rst_n),
+        .data_in(ym2149_audio_sync2),
+        .audio_out(ym2149_audio_pdm)
     );
     
     // =========================================================================
