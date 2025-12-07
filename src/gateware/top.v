@@ -86,10 +86,12 @@ module top (
     localparam ADDR_RGB_LED    = 16'h8100;
     localparam ADDR_SID_BASE   = 16'h8200;
     localparam ADDR_YM2149_BASE = 16'h8220;
+    localparam ADDR_AUDIO_PASS  = 16'h8240;  // Audio passthrough for MOD player
     
     wire rgb_led_selected = (wb_adr_o[15:8] == 8'h81);
     wire sid_selected     = (wb_adr_o[15:8] == 8'h82) && (wb_adr_o[7:5] == 3'b000);  // 0x8200-0x821F
     wire ym2149_selected  = (wb_adr_o[15:8] == 8'h82) && (wb_adr_o[7:5] == 3'b001);  // 0x8220-0x823F
+    wire audio_pass_selected = (wb_adr_o[15:8] == 8'h82) && (wb_adr_o[7:5] == 3'b010);  // 0x8240-0x825F
     wire mode_ctrl_sel    = (wb_adr_o < ADDR_TP_BASE) && !rgb_led_selected && !sid_selected;
     wire tp_sel           = (wb_adr_o >= ADDR_TP_BASE) && (wb_adr_o < ADDR_TEXT_BASE);
     wire text_sel         = (wb_adr_o >= ADDR_TEXT_BASE) && (wb_adr_o < ADDR_FB_BASE);
@@ -179,15 +181,13 @@ module top (
         .audio_out(sid_audio_pdm)
     );
     
-    // Simple audio mixer - OR both SID and YM2149 outputs
+    // Simple audio mixer - OR all audio sources (SID, YM2149, passthrough)
     // (1-bit PDM signals can be mixed with OR for testing)
-    assign audio_left = sid_audio_pdm | ym2149_audio_pdm;
-    assign audio_right = sid_audio_pdm | ym2149_audio_pdm;
+    // Note: audio_left/audio_right are assigned after AUDIO_TEST_MODE is defined
 `else
     wire [7:0] sid_wb_dat_o = 8'h00;
     wire sid_wb_ack = 1'b0;
-    assign audio_left = ym2149_audio_pdm;
-    assign audio_right = ym2149_audio_pdm;
+    wire sid_audio_pdm = 1'b0;  // Dummy for mixing
 `endif
     
     // =========================================================================
@@ -232,6 +232,155 @@ module top (
         .data_in(ym2149_audio_sync2),
         .audio_out(ym2149_audio_pdm)
     );
+    
+    // =========================================================================
+    // Audio Passthrough (at 0x8240-0x825F)
+    // For MOD/WAV playback - streams PCM samples directly to audio output
+    // =========================================================================
+    wire [7:0] audio_pass_wb_dat_o;
+    wire audio_pass_wb_ack;
+    // FIFO-based audio passthrough signals
+    wire [31:0] audio_fifo_head;
+    wire [4:0]  audio_fifo_level;
+    wire        audio_fifo_empty;
+    wire        audio_fifo_full;
+    reg         audio_fifo_pop_req_pix;
+    reg         audio_fifo_pop_req_sync1, audio_fifo_pop_req_sync2;
+    wire        audio_fifo_pop_req_wb = audio_fifo_pop_req_sync2;
+    wire        audio_fifo_pop_ack;
+    
+    wb_audio_passthrough u_audio_pass (
+        .wb_clk_i(clk_27mhz),
+        .wb_rst_i(rst),
+        .wb_adr_i(wb_adr_o[15:0]),
+        .wb_dat_i(wb_dat_o),
+        .wb_dat_o(audio_pass_wb_dat_o),
+        .wb_we_i(wb_we_o),
+        .wb_cyc_i(wb_cyc_o && audio_pass_selected),
+        .wb_stb_i(wb_stb_o && audio_pass_selected),
+        .wb_ack_o(audio_pass_wb_ack),
+        .pop_req(audio_fifo_pop_req_wb),
+        .pop_ack(audio_fifo_pop_ack),
+        .fifo_level(audio_fifo_level),
+        .fifo_empty(audio_fifo_empty),
+        .fifo_full(audio_fifo_full),
+        .fifo_head(audio_fifo_head)
+    );
+    
+    // =========================================================================
+    // FPGA Internal Sine Wave Generator (for audio testing)
+    // Bypasses SPI/Wishbone - generates sine directly in FPGA
+    // =========================================================================
+    // Set AUDIO_TEST_MODE = 1 to use internal sine, 0 for normal passthrough
+    localparam AUDIO_TEST_MODE = 0;  // CHANGE TO 0 FOR NORMAL OPERATION
+    
+    wire [17:0] test_sine_out;
+    wire test_sample_tick;
+    
+    sine_generator #(
+        .SAMPLE_CLK_DIV(614)  // 27MHz / 614 ≈ 44kHz sample rate
+    ) u_test_sine (
+        .clk(clk_27mhz),
+        .rst_n(rst_n),
+        .enable(1'b1),
+        .audio_out(test_sine_out),
+        .sample_tick(test_sample_tick)
+    );
+    
+    // =========================================================================
+    // Audio Passthrough DAC - Direct connection in test mode
+    // =========================================================================
+    // In test mode, run DAC directly from 27MHz clock with test sine
+    // In normal mode, use clock domain crossing to pix_clk
+    
+    wire audio_pass_toggle;
+    wire audio_pass_left_pdm, audio_pass_right_pdm;
+    
+    generate
+        if (AUDIO_TEST_MODE) begin : gen_test_dac
+            // TEST MODE: Run DAC directly on clk_27mhz with test sine
+            sigma_delta_dac #(.BITS(18)) u_audio_pass_left_dac (
+                .clk(clk_27mhz),
+                .rst_n(rst_n),
+                .data_in(test_sine_out),
+                .audio_out(audio_pass_left_pdm)
+            );
+            
+            sigma_delta_dac #(.BITS(18)) u_audio_pass_right_dac (
+                .clk(clk_27mhz),
+                .rst_n(rst_n),
+                .data_in(test_sine_out),
+                .audio_out(audio_pass_right_pdm)
+            );
+        end else begin : gen_passthrough_dac
+            // Synchronize pop request into wb domain
+            always @(posedge clk_27mhz or posedge rst) begin
+                if (rst) begin
+                    audio_fifo_pop_req_sync1 <= 1'b0;
+                    audio_fifo_pop_req_sync2 <= 1'b0;
+                end else begin
+                    audio_fifo_pop_req_sync1 <= audio_fifo_pop_req_pix;
+                    audio_fifo_pop_req_sync2 <= audio_fifo_pop_req_sync1;
+                end
+            end
+            
+            // Sample-and-hold at ~22.05 kHz to stabilize DAC cadence
+            // pix_clk ~74.25MHz; 74_250_000 / 22_050 ≈ 3369
+            reg [12:0] audio_sample_div;
+            reg signed [17:0] audio_left_held;
+            reg signed [17:0] audio_right_held;
+            always @(posedge pix_clk or negedge hdmi_rst_n) begin
+                if (!hdmi_rst_n) begin
+                    audio_sample_div <= 13'd0;
+                    audio_left_held <= 18'sd0;
+                    audio_right_held <= 18'sd0;
+                    audio_fifo_pop_req_pix <= 1'b0;
+                end else begin
+                    if (audio_sample_div == 13'd3368) begin
+                        audio_sample_div <= 13'd0;
+                        // Capture current FIFO head
+                        audio_left_held  <= {{2{audio_fifo_head[15]}},  audio_fifo_head[15:0]};
+                        audio_right_held <= {{2{audio_fifo_head[31]}}, audio_fifo_head[31:16]};
+                        // Request FIFO pop (toggle)
+                        audio_fifo_pop_req_pix <= ~audio_fifo_pop_req_pix;
+                    end else begin
+                        audio_sample_div <= audio_sample_div + 1'b1;
+                    end
+                end
+            end
+
+            sigma_delta_dac #(.BITS(18)) u_audio_pass_left_dac (
+                .clk(pix_clk),
+                .rst_n(hdmi_rst_n),
+                .data_in(audio_left_held),
+                .audio_out(audio_pass_left_pdm)
+            );
+            
+            sigma_delta_dac #(.BITS(18)) u_audio_pass_right_dac (
+                .clk(pix_clk),
+                .rst_n(hdmi_rst_n),
+                .data_in(audio_right_held),
+                .audio_out(audio_pass_right_pdm)
+            );
+        end
+    endgenerate
+    
+    // =========================================================================
+    // Audio Output Multiplexer
+    // In test mode: Direct sine generator PDM output (no mixing)
+    // In normal mode: Mix all audio sources with OR
+    // =========================================================================
+    generate
+        if (AUDIO_TEST_MODE) begin : gen_test_audio_out
+            // TEST MODE: Direct output from test DAC (no mixing with other sources)
+            assign audio_left = audio_pass_left_pdm;
+            assign audio_right = audio_pass_right_pdm;
+        end else begin : gen_normal_audio_out
+            // NORMAL MODE: Only passthrough (removed SID/YM2149 mixing to isolate issue)
+            assign audio_left = audio_pass_left_pdm;
+            assign audio_right = audio_pass_right_pdm;
+        end
+    endgenerate
     
     // =========================================================================
     // Video Mode Control Register (at 0x0000)
@@ -487,16 +636,17 @@ module top (
     // =========================================================================
     // Wishbone Bus Multiplexer
     // =========================================================================
-    assign wb_dat_i = rgb_led_selected ? s0_wb_dat_i :
-                      sid_selected     ? sid_wb_dat_o :
-                      ym2149_selected  ? ym2149_wb_dat_o :
-                      mode_ctrl_sel    ? mode_ctrl_dat :
-                      tp_sel           ? tp_dat :
-                      text_sel         ? text_dat :
-                      fb_sel           ? fb_dat :
+    assign wb_dat_i = rgb_led_selected   ? s0_wb_dat_i :
+                      sid_selected       ? sid_wb_dat_o :
+                      ym2149_selected    ? ym2149_wb_dat_o :
+                      audio_pass_selected ? audio_pass_wb_dat_o :
+                      mode_ctrl_sel      ? mode_ctrl_dat :
+                      tp_sel             ? tp_dat :
+                      text_sel           ? text_dat :
+                      fb_sel             ? fb_dat :
                       8'hFF;
     
     // OR the acks directly - slaves only assert when selected
-    assign wb_ack_i = s0_wb_ack | sid_wb_ack | ym2149_wb_ack | mode_ctrl_ack | tp_ack | text_ack | fb_ack;
+    assign wb_ack_i = s0_wb_ack | sid_wb_ack | ym2149_wb_ack | audio_pass_wb_ack | mode_ctrl_ack | tp_ack | text_ack | fb_ack;
 
 endmodule
