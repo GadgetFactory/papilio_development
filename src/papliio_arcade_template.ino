@@ -43,7 +43,7 @@ void setup() {
   
   delay(2000);
   
-  Serial.println("\n=== Papilio Arcade Demo ===\n");
+  // Serial.println("\n=== Papilio Arcade Demo ===\n");
   
   // Initialize HDMI controller
   hdmi = new HDMIController(nullptr, SPI_CS, SPI_CLK, SPI_MOSI, SPI_MISO);
@@ -52,8 +52,8 @@ void setup() {
   // Initialize MCP debug (does nothing if PAPILIO_MCP_ENABLED not defined)
   PapilioMCP.begin();
   
-  Serial.println("Ready! Auto-cycling every 3 seconds.");
-  Serial.println("Press any key to advance manually.\n");
+  // Serial.println("Ready! Auto-cycling every 3 seconds.");
+  // Serial.println("Press any key to advance manually.\n");
   
   updateDisplay();
 }
@@ -65,10 +65,10 @@ void updateDisplay() {
     hdmi->setVideoPattern(currentPattern);
   } else if (currentPattern == 4) {
     // Framebuffer color bars
-    Serial.println("Drawing framebuffer color bars...");
+    // Serial.println("Drawing framebuffer color bars...");
     hdmi->enableFramebuffer();
     hdmi->drawColorBars();
-    Serial.println("Done!");
+    // Serial.println("Done!");
   }
   
   // Set LED color based on currentColor
@@ -130,9 +130,9 @@ void updateDisplay() {
     hdmi->writeString("gadgetfactory.net");
   }
   
-  Serial.printf("Pattern: %s | LED: %s\n", 
-                patternNames[currentPattern], 
-                colorNames[currentColor]);
+  // Serial.printf("Pattern: %s | LED: %s\n", 
+  //               patternNames[currentPattern], 
+  //               colorNames[currentColor]);
 }
 
 void loop() {

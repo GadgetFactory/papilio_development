@@ -27,6 +27,9 @@ ENV_MAP = {
     'ym2149_demo': 'libs/papilio_audio/examples/ym2149_demo/ym2149_demo.ino',
     'ym_player_demo': 'libs/papilio_audio/examples/ym_player_demo/ym_player_demo.ino',
     'pokey_demo': 'libs/papilio_audio/examples/pokey_demo/pokey_demo.ino',
+    'audio_mod_player_dma': 'libs/papilio_audio/examples/audio_mod_player_dma/audio_mod_player_dma.ino',
+    'audio_test_tone_dma': 'libs/papilio_audio/examples/audio_test_tone_dma/audio_test_tone_dma.ino',
+    'video_dma_test': 'libs/papilio_audio/examples/video_dma_test/video_dma_test.ino',
 }
 
 # __file__ may not be defined in PlatformIO pre scripts; fallback to CWD

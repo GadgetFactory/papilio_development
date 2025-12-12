@@ -7,15 +7,16 @@ Running placement......
 [10%] Placement Phase 0 completed
 [20%] Placement Phase 1 completed
 [30%] Placement Phase 2 completed
-WARN  (TA1132) :  'clk_1mhz' was determined to be a clock but was not created.
+WARN  (TA1132) :  'esp_clk' was determined to be a clock but was not created.
 WARN  (TA1132) :  'u_hdmi_phy/u_clkdiv/CLKOUT.default_gen_clk' was determined to be a clock but was not created.
-WARN  (TA1117) : Can't calculate clocks' relationship between: "clk_1mhz" and "clk_27mhz"
-WARN  (TA1117) : Can't calculate clocks' relationship between: "clk_27mhz" and "clk_1mhz"
+WARN  (TA1117) : Can't calculate clocks' relationship between: "clk_27mhz" and "esp_clk"
+WARN  (TA1117) : Can't calculate clocks' relationship between: "esp_clk" and "clk_27mhz"
 [50%] Placement Phase 3 completed
 Running routing......
 [60%] Routing Phase 0 completed
 [70%] Routing Phase 1 completed
 [80%] Routing Phase 2 completed
+WARN  (PR1014) : Generic routing resource will be used to clock signal 'esp_clk_d' by the specified constraint. And then it may lead to the excessive delay or skew
 [90%] Routing Phase 3 completed
 Running timing analysis......
 [95%] Timing analysis completed
@@ -29,5 +30,5 @@ Generate file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_develop
 Generate file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\pnr\papilio_arcade_template.rpt.html" completed
 Generate file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\pnr\papilio_arcade_template.rpt.txt" completed
 Generate file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\pnr\papilio_arcade_template.tr.html" completed
-Fri Dec  5 18:01:01 2025
+Thu Dec 11 21:13:50 2025
 

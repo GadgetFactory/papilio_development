@@ -32,3 +32,9 @@ IO_LOC "O_tmds_data_p[1]" T11,P11;
 IO_PORT "O_tmds_data_p[1]" IO_TYPE=LVCMOS18D PULL_MODE=NONE;
 IO_LOC "O_tmds_data_p[2]" T12,R11;
 IO_PORT "O_tmds_data_p[2]" IO_TYPE=LVCMOS18D PULL_MODE=NONE;
+
+// SUMP Logic Analyzer UART (working: J11=GPIO3, F10=GPIO4)
+IO_LOC "sump_rx" J11;
+IO_PORT "sump_rx" PULL_MODE=UP;
+IO_LOC "sump_tx" F10;
+IO_PORT "sump_tx" PULL_MODE=NONE DRIVE=8;

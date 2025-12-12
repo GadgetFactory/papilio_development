@@ -24,12 +24,20 @@
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_rgb_led/gateware/wb_rgb_led_ctrl.v" type="file.verilog" enable="1"/>
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_rgb_led/gateware/wb_simple_rgb_led.v" type="file.verilog" enable="1"/>
         
-        <!-- SPI to Wishbone bridge -->
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_wishbone_spi_master/gateware/simple_spi_wb_bridge.v" type="file.verilog" enable="1"/>
+        <!-- SPI to Wishbone bridge - USING DMA VERSION -->
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_wishbone_spi_master/gateware/async_fifo.v" type="file.verilog" enable="1"/>
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_wishbone_spi_master/gateware/spi_wb_dma_bridge.v" type="file.verilog" enable="0"/>
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_wishbone_spi_master/gateware/simple_spi_wb_bridge.v" type="file.verilog" enable="0"/>
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_wishbone_spi_master/gateware/simple_spi_wb_bridge_with_dma.v" type="file.verilog" enable="1"/>
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_wishbone_spi_master/gateware/dma_debug_analyzer.v" type="file.verilog" enable="1"/>
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_wishbone_spi_master/gateware/wb_test_registers.v" type="file.verilog" enable="0"/>
+        
+        <!-- Audio -->
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/wb_audio_passthrough.v" type="file.verilog" enable="1"/>
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sigma_delta_dac.v" type="file.verilog" enable="1"/>
         
         <!-- SID 6581 Audio -->
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/wb_sid6581_simple.vhd" type="file.vhdl" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sigma_delta_dac.v" type="file.verilog" enable="1"/>
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_6581.vhd" type="file.vhdl" enable="1"/>
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_voice.vhd" type="file.vhdl" enable="1"/>
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_filters.vhd" type="file.vhdl" enable="1"/>
@@ -40,6 +48,37 @@
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/wb_ym2149_simple.vhd" type="file.vhdl" enable="1"/>
         <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/AUDIO_zpuino_wb_YM2149.vhd" type="file.vhdl" enable="1"/>
         
+        <!-- SUMP2 Logic Analyzer (Simple Verilog version for Gowin) -->
+        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/sump2_logic_analyzer/gateware/sump2_simple.v" type="file.verilog" enable="1"/>
+        
+        <!-- Old SUMP Logic Analyzer - DISABLED (Xilinx primitives not compatible) -->
+        <File path="BENCHY_sa_SumpBlaze_LogicAnalyzer8.vhd" type="file.vhdl" enable="0"/>
+        <File path="eia232.vhd" type="file.vhdl" enable="0"/>
+        <File path="clockman_papilio.vhd" type="file.vhdl" enable="0"/>
+        <File path="core.vhd" type="file.vhdl" enable="0"/>
+        <File path="sram_bram.vhd" type="file.vhdl" enable="0"/>
+        <File path="prescaler.vhd" type="file.vhdl" enable="0"/>
+        <File path="receiver.vhd" type="file.vhdl" enable="0"/>
+        <File path="transmitter.vhd" type="file.vhdl" enable="0"/>
+        <File path="controller.vhd" type="file.vhdl" enable="0"/>
+        <File path="decoder.vhd" type="file.vhdl" enable="0"/>
+        <File path="demux.vhd" type="file.vhdl" enable="0"/>
+        <File path="filter.vhd" type="file.vhdl" enable="0"/>
+        <File path="flags.vhd" type="file.vhdl" enable="0"/>
+        <File path="group_selector.vhd" type="file.vhdl" enable="0"/>
+        <File path="muldex.vhd" type="file.vhdl" enable="0"/>
+        <File path="rle.vhd" type="file.vhdl" enable="0"/>
+        <File path="rle_enc.vhd" type="file.vhdl" enable="0"/>
+        <File path="rle_fmt.vhd" type="file.vhdl" enable="0"/>
+        <File path="sampler.vhd" type="file.vhdl" enable="0"/>
+        <File path="stage.vhd" type="file.vhdl" enable="0"/>
+        <File path="sync.vhd" type="file.vhdl" enable="0"/>
+        <File path="testmode.vhd" type="file.vhdl" enable="0"/>
+        <File path="trigger.vhd" type="file.vhdl" enable="0"/>
+        <File path="muldex_16.vhd" type="file.vhdl" enable="0"/>
+        <File path="muldex_8.vhd" type="file.vhdl" enable="0"/>
+        <File path="Mem_Gen_36bit.vhd" type="file.vhdl" enable="0"/>
+        
         <!-- Top level -->
         <File path="top.v" type="file.verilog" enable="1"/>
         
@@ -48,6 +87,76 @@
         <File path="timing.sdc" type="file.sdc" enable="1"/>
     </FileList>
 </Project>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

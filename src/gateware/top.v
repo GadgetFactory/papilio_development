@@ -9,7 +9,7 @@
 `define ENABLE_VIDEO_TESTPATTERN
 `define ENABLE_VIDEO_TEXT
 `define ENABLE_VIDEO_FRAMEBUFFER
-`define ENABLE_AUDIO_SID
+//`define ENABLE_AUDIO_SID  // Temporarily disabled to free resources for logic analyzer
 
 (* top = "true" *)
 module top (
@@ -33,14 +33,18 @@ module top (
     output wire O_tmds_clk_p,
     output wire O_tmds_clk_n,
     output wire [2:0] O_tmds_data_p,
-    output wire [2:0] O_tmds_data_n
+    output wire [2:0] O_tmds_data_n,
+    
+    // UART for SUMP logic analyzer
+    input wire sump_rx,
+    output wire sump_tx
 );
 
     // Reset signal (active high)
     wire rst = ~rst_n;
     
     // =========================================================================
-    // SPI to Wishbone Bridge
+    // SPI to Wishbone Bridge with DMA
     // =========================================================================
     wire [15:0] wb_adr_o;
     wire [7:0] wb_dat_o;
@@ -49,8 +53,73 @@ module top (
     wire wb_we_o;
     wire [7:0] wb_dat_i;
     wire wb_ack_i;
+    
+    // Debug signals from SPI bridge
+    wire [2:0] debug_byte_count;
+    wire debug_is_dma_write;
+    wire debug_start_dma;
+    wire [2:0] debug_wb_state;
+    wire [7:0] debug_cmd;
+    
+    // Async FIFO for DMA transfers (ESP32 to FPGA)
+    wire fifo_wr_clk = esp_clk;
+    wire fifo_rd_clk = clk_27mhz;
+    wire fifo_wr_rst;
+    wire fifo_rd_rst;
+    wire fifo_wr_en;
+    wire [7:0] fifo_wr_data;
+    wire fifo_full;
+    wire [9:0] fifo_wr_count;
+    wire fifo_rd_en;
+    wire [7:0] fifo_rd_data;
+    wire fifo_empty;
+    wire [9:0] fifo_rd_count;
+    
+    // Debug analyzer control
+    reg debug_trigger;
+    reg [7:0] debug_trigger_value;
+    
+    // Reset synchronizers for async FIFO
+    reg [2:0] fifo_wr_rst_sync;
+    reg [2:0] fifo_rd_rst_sync;
+    
+    always @(posedge fifo_wr_clk or posedge rst) begin
+        if (rst)
+            fifo_wr_rst_sync <= 3'b111;
+        else
+            fifo_wr_rst_sync <= {fifo_wr_rst_sync[1:0], 1'b0};
+    end
+    assign fifo_wr_rst = fifo_wr_rst_sync[2];
+    
+    always @(posedge fifo_rd_clk or posedge rst) begin
+        if (rst)
+            fifo_rd_rst_sync <= 3'b111;
+        else
+            fifo_rd_rst_sync <= {fifo_rd_rst_sync[1:0], 1'b0};
+    end
+    assign fifo_rd_rst = fifo_rd_rst_sync[2];
+    
+    // Instantiate async FIFO (512 bytes)
+    async_fifo #(
+        .DATA_WIDTH(8),
+        .ADDR_WIDTH(9)  // 512 entries
+    ) u_dma_fifo (
+        .wr_clk(fifo_wr_clk),
+        .wr_rst(fifo_wr_rst),
+        .wr_en(fifo_wr_en),
+        .wr_data(fifo_wr_data),
+        .full(fifo_full),
+        .wr_count(fifo_wr_count),
+        
+        .rd_clk(fifo_rd_clk),
+        .rd_rst(fifo_rd_rst),
+        .rd_en(fifo_rd_en),
+        .rd_data(fifo_rd_data),
+        .empty(fifo_empty),
+        .rd_count(fifo_rd_count)
+    );
 
-    simple_spi_wb_bridge u_spi_bridge (
+    simple_spi_wb_bridge_with_dma u_spi_bridge (
         .clk(clk_27mhz),
         .rst(rst),
         // SPI interface
@@ -65,7 +134,23 @@ module top (
         .wb_cyc_o(wb_cyc_o),
         .wb_stb_o(wb_stb_o),
         .wb_we_o(wb_we_o),
-        .wb_ack_i(wb_ack_i)
+        .wb_ack_i(wb_ack_i),
+        // FIFO write interface (SPI clock domain)
+        .fifo_wr_clk(fifo_wr_clk),
+        .fifo_wr_data(fifo_wr_data),
+        .fifo_wr_en(fifo_wr_en),
+        .fifo_full(fifo_full),
+        // FIFO read interface (system clock domain)
+        .fifo_rd_en(fifo_rd_en),
+        .fifo_rd_data(fifo_rd_data),
+        .fifo_empty(fifo_empty),
+        .fifo_rd_count(fifo_rd_count),
+        // Debug outputs
+        .debug_byte_count(debug_byte_count),
+        .debug_is_dma_write(debug_is_dma_write),
+        .debug_start_dma(debug_start_dma),
+        .debug_wb_state(debug_wb_state),
+        .debug_cmd(debug_cmd)
     );
     
     // =========================================================================
@@ -78,6 +163,8 @@ module top (
     //   0x0100-0x7FFF: Framebuffer (word-aligned)
     //   0x8100-0x81FF: RGB LED controller
     //   0x8200-0x821F: SID 6581 audio chip
+    //   0x8220-0x823F: YM2149 PSG chip
+    //   0x8240-0x824F: Audio PCM passthrough (for DMA streaming)
     
     localparam ADDR_MODE_CTRL  = 16'h0000;
     localparam ADDR_TP_BASE    = 16'h0010;
@@ -86,22 +173,26 @@ module top (
     localparam ADDR_RGB_LED    = 16'h8100;
     localparam ADDR_SID_BASE   = 16'h8200;
     localparam ADDR_YM2149_BASE = 16'h8220;
+    localparam ADDR_PCM_BASE   = 16'h8240;
+    localparam ADDR_DEBUG_ANALYZER = 16'h8300;
     
     wire rgb_led_selected = (wb_adr_o[15:8] == 8'h81);
     wire sid_selected     = (wb_adr_o[15:8] == 8'h82) && (wb_adr_o[7:5] == 3'b000);  // 0x8200-0x821F
     wire ym2149_selected  = (wb_adr_o[15:8] == 8'h82) && (wb_adr_o[7:5] == 3'b001);  // 0x8220-0x823F
+    wire pcm_selected     = (wb_adr_o[15:8] == 8'h82) && (wb_adr_o[7:4] == 4'b0100); // 0x8240-0x824F
+    wire debug_analyzer_sel = (wb_adr_o[15:8] == 8'h83);  // 0x8300-0x83FF
     wire mode_ctrl_sel    = (wb_adr_o < ADDR_TP_BASE) && !rgb_led_selected && !sid_selected;
     wire tp_sel           = (wb_adr_o >= ADDR_TP_BASE) && (wb_adr_o < ADDR_TEXT_BASE);
     wire text_sel         = (wb_adr_o >= ADDR_TEXT_BASE) && (wb_adr_o < ADDR_FB_BASE);
     wire fb_sel           = (wb_adr_o >= ADDR_FB_BASE) && (wb_adr_o < ADDR_RGB_LED);
     
     // =========================================================================
-    // RGB LED Slave (at 0x8100-0x81FF)
+    // RGB LED Controller (at 0x8100-0x81FF)
     // =========================================================================
     wire [7:0] s0_wb_dat_i;
     wire s0_wb_ack;
     
-    wb_simple_rgb_led u_wb_rgb_led (
+    wb_simple_rgb_led u_rgb_led (
         .clk(clk_27mhz),
         .rst(rst),
         .wb_adr_i(wb_adr_o[7:0]),
@@ -113,6 +204,98 @@ module top (
         .wb_ack_o(s0_wb_ack),
         .led_out(rgb_led)
     );
+    
+    // =========================================================================
+    // SUMP2 Logic Analyzer - Simple version for Gowin FPGA
+    // =========================================================================
+    // Capture important debug signals for analysis
+    wire [31:0] sump_events;
+    assign sump_events = {
+        // [31:24] - SPI/DMA debug (8 bits)
+        debug_cmd[7:0],
+        // [23:16] - Wishbone bus (8 bits) 
+        wb_adr_o[7:0],
+        // [15:8] - Wishbone data and control (8 bits)
+        wb_dat_o[7:0],
+        // [7:0] - Status flags (8 bits)
+        fifo_full,
+        fifo_empty,
+        debug_start_dma,
+        debug_is_dma_write,
+        debug_wb_state[2:0],
+        wb_cyc_o
+    };
+    
+    sump2_simple #(
+        .DEPTH_LEN(2048),    // 2K samples
+        .DEPTH_BITS(11),     // 2^11 = 2048
+        .EVENT_BYTES(4),     // 32-bit capture
+        .FREQ_MHZ(16'd27)    // 27MHz clock
+    ) u_sump_analyzer (
+        .clk(clk_27mhz),
+        .rst(rst),
+        .uart_rx(sump_rx),
+        .uart_tx(sump_tx),
+        .events_din(sump_events)
+    );
+    
+    // =========================================================================
+    // DMA Debug Logic Analyzer (at 0x8300-0x83FF) - Wishbone backup
+    // =========================================================================
+    wire [7:0] debug_wb_dat_o;
+    wire debug_wb_ack;
+    
+    dma_debug_analyzer #(
+        .ADDR_WIDTH(7)  // 128 samples = 512 bytes of data
+    ) u_debug_analyzer (
+        .clk(clk_27mhz),
+        .rst(rst),
+        // Trigger control
+        .trigger(debug_trigger),
+        .trigger_value(debug_trigger_value),
+        // Signals to capture
+        .spi_cs_active(!esp_cs_n),
+        .spi_sclk_posedge(1'b0),  // Not exposed, will capture state instead
+        .spi_mosi_byte(debug_cmd),
+        .byte_count(debug_byte_count),
+        .is_dma_write(debug_is_dma_write),
+        .start_dma(debug_start_dma),
+        .fifo_wr_en(fifo_wr_en),
+        .fifo_wr_data(fifo_wr_data),
+        .fifo_full(fifo_full),
+        .fifo_empty(fifo_empty),
+        .wb_state(debug_wb_state),
+        .wb_cyc(wb_cyc_o),
+        .wb_stb(wb_stb_o),
+        .wb_ack(wb_ack_i),
+        .wb_adr(wb_adr_o),
+        .wb_dat(wb_dat_o),
+        // Wishbone slave interface for reading/writing
+        .wb_cyc_i(wb_cyc_o && debug_analyzer_sel),
+        .wb_stb_i(wb_stb_o && debug_analyzer_sel),
+        .wb_we_i(wb_we_o),
+        .wb_adr_i(wb_adr_o),
+        .wb_dat_i(wb_dat_o),
+        .wb_dat_o(debug_wb_dat_o),
+        .wb_ack_o(debug_wb_ack)
+    );
+    
+    // Debug trigger control registers (write-only at 0x8400-0x8401)
+    wire debug_ctrl_sel = (wb_adr_o[15:8] == 8'h84);
+    always @(posedge clk_27mhz or posedge rst) begin
+        if (rst) begin
+            debug_trigger <= 0;
+            debug_trigger_value <= 8'h02;  // Default: trigger on DMA write command
+        end else begin
+            debug_trigger <= 0;  // Auto-clear after 1 cycle
+            if (wb_cyc_o && wb_stb_o && wb_we_o && debug_ctrl_sel) begin
+                if (wb_adr_o[0] == 1'b0)
+                    debug_trigger <= wb_dat_o[0];
+                else
+                    debug_trigger_value <= wb_dat_o;
+            end
+        end
+    end
     
     // =========================================================================
     // SID 6581 Audio Chip (at 0x8200-0x821F) - Conditional
@@ -179,10 +362,10 @@ module top (
         .audio_out(sid_audio_pdm)
     );
     
-    // Simple audio mixer - OR both SID and YM2149 outputs
+    // Simple audio mixer - OR SID, YM2149, and PCM outputs
     // (1-bit PDM signals can be mixed with OR for testing)
-    assign audio_left = sid_audio_pdm | ym2149_audio_pdm;
-    assign audio_right = sid_audio_pdm | ym2149_audio_pdm;
+    assign audio_left = sid_audio_pdm | ym2149_audio_pdm | pcm_audio_pdm_left;
+    assign audio_right = sid_audio_pdm | ym2149_audio_pdm | pcm_audio_pdm_right;
 `else
     wire [7:0] sid_wb_dat_o = 8'h00;
     wire sid_wb_ack = 1'b0;
@@ -234,6 +417,63 @@ module top (
     );
     
     // =========================================================================
+    // Audio PCM Passthrough (at 0x8240-0x824F) - For DMA streaming
+    // =========================================================================
+    wire [7:0] pcm_wb_dat_o;
+    wire pcm_wb_ack;
+    wire signed [17:0] pcm_audio_left_data;
+    wire signed [17:0] pcm_audio_right_data;
+    wire pcm_sample_toggle;
+    
+    wb_audio_passthrough u_pcm_passthrough (
+        .wb_clk_i(clk_27mhz),
+        .wb_rst_i(rst),
+        .wb_adr_i(wb_adr_o),
+        .wb_dat_i(wb_dat_o),
+        .wb_dat_o(pcm_wb_dat_o),
+        .wb_we_i(wb_we_o),
+        .wb_cyc_i(wb_cyc_o && pcm_selected),
+        .wb_stb_i(wb_stb_o && pcm_selected),
+        .wb_ack_o(pcm_wb_ack),
+        .audio_left(pcm_audio_left_data),
+        .audio_right(pcm_audio_right_data),
+        .sample_toggle(pcm_sample_toggle)
+    );
+    
+    // Synchronize PCM audio from 27MHz to pix_clk (74.25MHz) domain
+    reg signed [17:0] pcm_audio_left_sync1, pcm_audio_left_sync2;
+    reg signed [17:0] pcm_audio_right_sync1, pcm_audio_right_sync2;
+    always @(posedge pix_clk or negedge hdmi_rst_n) begin
+        if (!hdmi_rst_n) begin
+            pcm_audio_left_sync1 <= 18'sd0;
+            pcm_audio_left_sync2 <= 18'sd0;
+            pcm_audio_right_sync1 <= 18'sd0;
+            pcm_audio_right_sync2 <= 18'sd0;
+        end else begin
+            pcm_audio_left_sync1 <= pcm_audio_left_data;
+            pcm_audio_left_sync2 <= pcm_audio_left_sync1;
+            pcm_audio_right_sync1 <= pcm_audio_right_data;
+            pcm_audio_right_sync2 <= pcm_audio_right_sync1;
+        end
+    end
+    
+    // PCM sigma-delta DACs (stereo)
+    wire pcm_audio_pdm_left;
+    wire pcm_audio_pdm_right;
+    sigma_delta_dac #(.BITS(18)) u_pcm_dac_left (
+        .clk(pix_clk),
+        .rst_n(hdmi_rst_n),
+        .data_in(pcm_audio_left_sync2),
+        .audio_out(pcm_audio_pdm_left)
+    );
+    sigma_delta_dac #(.BITS(18)) u_pcm_dac_right (
+        .clk(pix_clk),
+        .rst_n(hdmi_rst_n),
+        .data_in(pcm_audio_right_sync2),
+        .audio_out(pcm_audio_pdm_right)
+    );
+    
+    // =========================================================================
     // Video Mode Control Register (at 0x0000)
     // =========================================================================
     // Mode register:
@@ -255,7 +495,8 @@ module top (
         end
     end
     
-    wire [7:0] mode_ctrl_dat = {6'b0, video_mode};
+    // Gate the output based on selection for proper OR-ing in multiplexer
+    wire [7:0] mode_ctrl_dat = mode_ctrl_sel ? {6'b0, video_mode} : 8'h00;
     
     // =========================================================================
     // HDMI PHY - Shared Physical Layer (Open Source - No Gowin IP)
@@ -487,16 +728,19 @@ module top (
     // =========================================================================
     // Wishbone Bus Multiplexer
     // =========================================================================
-    assign wb_dat_i = rgb_led_selected ? s0_wb_dat_i :
-                      sid_selected     ? sid_wb_dat_o :
-                      ym2149_selected  ? ym2149_wb_dat_o :
-                      mode_ctrl_sel    ? mode_ctrl_dat :
-                      tp_sel           ? tp_dat :
-                      text_sel         ? text_dat :
-                      fb_sel           ? fb_dat :
-                      8'hFF;
+    // Use conditional multiplexing for data (avoids bus contention)
+    assign wb_dat_i = rgb_led_selected  ? s0_wb_dat_i :
+                      sid_selected      ? sid_wb_dat_o :
+                      ym2149_selected   ? ym2149_wb_dat_o :
+                      pcm_selected      ? pcm_wb_dat_o :
+                      debug_analyzer_sel ? debug_wb_dat_o :
+                      mode_ctrl_sel     ? mode_ctrl_dat :
+                      tp_sel            ? tp_dat :
+                      text_sel          ? text_dat :
+                      fb_sel            ? fb_dat :
+                      8'hFF;  // Default for unmapped addresses
     
     // OR the acks directly - slaves only assert when selected
-    assign wb_ack_i = s0_wb_ack | sid_wb_ack | ym2149_wb_ack | mode_ctrl_ack | tp_ack | text_ack | fb_ack;
+    assign wb_ack_i = s0_wb_ack | sid_wb_ack | ym2149_wb_ack | pcm_wb_ack | debug_wb_ack | mode_ctrl_ack | tp_ack | text_ack | fb_ack;
 
 endmodule
