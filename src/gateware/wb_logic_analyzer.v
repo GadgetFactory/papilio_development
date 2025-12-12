@@ -68,6 +68,10 @@ module wb_logic_analyzer #(
     reg [7:0]  div_count;
     reg        trigger_fired;
     
+    // Command signals from Wishbone to Capture SM
+    reg        cmd_reset;
+    reg        cmd_arm;
+    
     // Memory
     reg [NUM_CHANNELS-1:0] sample_memory [0:MEM_DEPTH-1];
     reg [ADDR_BITS-1:0] write_addr;
@@ -94,8 +98,12 @@ module wb_logic_analyzer #(
             divider <= 8'd0;                   // Default: no division (full speed)
             flags <= 8'h00;
             read_addr <= {ADDR_BITS{1'b0}};
+            cmd_reset <= 1'b0;
+            cmd_arm <= 1'b0;
         end else begin
             wb_ack_o <= 1'b0;
+            cmd_reset <= 1'b0;
+            cmd_arm <= 1'b0;
             
             if (wb_req && !wb_ack_o) begin
                 wb_ack_o <= 1'b1;
@@ -106,20 +114,11 @@ module wb_logic_analyzer #(
                         8'h00: begin  // Command byte
                             case (wb_dat_i)
                                 CMD_RESET: begin
-                                    state <= STATE_IDLE;
-                                    trigger_fired <= 1'b0;
-                                    write_addr <= {ADDR_BITS{1'b0}};
+                                    cmd_reset <= 1'b1;
                                     read_addr <= {ADDR_BITS{1'b0}};
                                 end
                                 CMD_ARM: begin
-                                    if (state == STATE_IDLE) begin
-                                        state <= STATE_ARMED;
-                                        trigger_fired <= 1'b0;
-                                        sample_count <= 16'd0;
-                                        post_trig_count <= 16'd0;
-                                        write_addr <= {ADDR_BITS{1'b0}};
-                                        div_count <= 8'd0;
-                                    end
+                                    cmd_arm <= 1'b1;
                                 end
                             endcase
                         end
@@ -195,14 +194,27 @@ module wb_logic_analyzer #(
             write_addr <= {ADDR_BITS{1'b0}};
             div_count <= 8'd0;
         end else begin
-            // Clock divider for sampling
-            if (div_count == divider) begin
+            // Handle commands from Wishbone
+            if (cmd_reset) begin
+                state <= STATE_IDLE;
+                trigger_fired <= 1'b0;
+                write_addr <= {ADDR_BITS{1'b0}};
+            end else if (cmd_arm && state == STATE_IDLE) begin
+                state <= STATE_ARMED;
+                trigger_fired <= 1'b0;
+                sample_count <= 16'd0;
+                post_trig_count <= 16'd0;
+                write_addr <= {ADDR_BITS{1'b0}};
                 div_count <= 8'd0;
-                
-                case (state)
-                    STATE_IDLE: begin
-                        // Wait for ARM command
-                    end
+            end else begin
+                // Clock divider for sampling
+                if (div_count == divider) begin
+                    div_count <= 8'd0;
+                    
+                    case (state)
+                        STATE_IDLE: begin
+                            // Wait for ARM command
+                        end
                     
                     STATE_ARMED: begin
                         // Wait for trigger condition
@@ -244,10 +256,11 @@ module wb_logic_analyzer #(
                         // Stay in DONE until reset
                     end
                     
-                    default: state <= STATE_IDLE;
-                endcase
-            end else begin
-                div_count <= div_count + 1'b1;
+                        default: state <= STATE_IDLE;
+                    endcase
+                end else begin
+                    div_count <= div_count + 1'b1;
+                end
             end
         end
     end
