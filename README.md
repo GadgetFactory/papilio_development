@@ -9,14 +9,26 @@ Full-featured development repository for Papilio Arcade board with FPGA and ESP3
   - **gateware/**: FPGA HDL source files
 - **libs/**: Wishbone peripheral libraries (as git submodules)
   - **papilio_hdmi/**: HDMI controller with text mode support
+  - **papilio_mcp_server/**: Logic analyzer and MCP integration
 - **docs/**: Documentation and integration guides
+  - **[LOGIC_ANALYZER.md](docs/LOGIC_ANALYZER.md)**: Logic analyzer documentation
 
 ## Features
 
+### Video & Audio
 - 720p@60Hz HDMI output
 - Text mode: 80x26 characters (16x16 pixel characters)
+- SID 6581 and YM2149 audio chip emulation
+
+### Debug & Development
+- **Logic Analyzer**: 32-channel, 1024-sample SUMP-compatible analyzer
 - Wishbone bus interface for peripheral integration
+- MCP server for AI-assisted debugging
+- VCD export for GTKWave analysis
+
+### Professional Features
 - Professional demo display with system information
+- RGB LED control via Wishbone
 
 ## Building
 

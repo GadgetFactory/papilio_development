@@ -86,11 +86,13 @@ module top (
     localparam ADDR_RGB_LED    = 16'h8100;
     localparam ADDR_SID_BASE   = 16'h8200;
     localparam ADDR_YM2149_BASE = 16'h8220;
+    localparam ADDR_LOGIC_ANALYZER = 16'h8300;  // Logic Analyzer at 0x8300-0x83FF
     
     wire rgb_led_selected = (wb_adr_o[15:8] == 8'h81);
     wire sid_selected     = (wb_adr_o[15:8] == 8'h82) && (wb_adr_o[7:5] == 3'b000);  // 0x8200-0x821F
     wire ym2149_selected  = (wb_adr_o[15:8] == 8'h82) && (wb_adr_o[7:5] == 3'b001);  // 0x8220-0x823F
-    wire mode_ctrl_sel    = (wb_adr_o < ADDR_TP_BASE) && !rgb_led_selected && !sid_selected;
+    wire la_selected      = (wb_adr_o[15:8] == 8'h83);  // Logic Analyzer 0x8300-0x83FF
+    wire mode_ctrl_sel    = (wb_adr_o < ADDR_TP_BASE) && !rgb_led_selected && !sid_selected && !la_selected;
     wire tp_sel           = (wb_adr_o >= ADDR_TP_BASE) && (wb_adr_o < ADDR_TEXT_BASE);
     wire text_sel         = (wb_adr_o >= ADDR_TEXT_BASE) && (wb_adr_o < ADDR_FB_BASE);
     wire fb_sel           = (wb_adr_o >= ADDR_FB_BASE) && (wb_adr_o < ADDR_RGB_LED);
@@ -231,6 +233,42 @@ module top (
         .rst_n(hdmi_rst_n),
         .data_in(ym2149_audio_sync2),
         .audio_out(ym2149_audio_pdm)
+    );
+    
+    // =========================================================================
+    // Logic Analyzer (at 0x8300-0x83FF)
+    // =========================================================================
+    // Define signals to probe (32 channels)
+    wire [31:0] la_probe_signals = {
+        // Wishbone bus signals [31:24]
+        wb_cyc_o, wb_stb_o, wb_we_o, wb_ack_i, wb_adr_o[15:12],
+        // SPI signals [23:20]
+        esp_cs_n, esp_clk, esp_mosi, esp_miso,
+        // Video mode and state [19:16]
+        video_mode[1:0], hdmi_rst_n, pix_clk,
+        // Misc system signals [15:0]
+        clk_27mhz, rst, rgb_led, audio_left,
+        sid_selected, ym2149_selected, la_selected, rgb_led_selected,
+        mode_ctrl_sel, tp_sel, text_sel, fb_sel
+    };
+    
+    wire [7:0] la_wb_dat_o;
+    wire la_wb_ack;
+    
+    wb_logic_analyzer #(
+        .NUM_CHANNELS(32),
+        .MEM_DEPTH(1024)
+    ) u_logic_analyzer (
+        .clk(clk_27mhz),
+        .rst(rst),
+        .wb_adr_i(wb_adr_o[7:0]),
+        .wb_dat_i(wb_dat_o),
+        .wb_dat_o(la_wb_dat_o),
+        .wb_cyc_i(wb_cyc_o && la_selected),
+        .wb_stb_i(wb_stb_o && la_selected),
+        .wb_we_i(wb_we_o),
+        .wb_ack_o(la_wb_ack),
+        .probe_in(la_probe_signals)
     );
     
     // =========================================================================
@@ -490,6 +528,7 @@ module top (
     assign wb_dat_i = rgb_led_selected ? s0_wb_dat_i :
                       sid_selected     ? sid_wb_dat_o :
                       ym2149_selected  ? ym2149_wb_dat_o :
+                      la_selected      ? la_wb_dat_o :
                       mode_ctrl_sel    ? mode_ctrl_dat :
                       tp_sel           ? tp_dat :
                       text_sel         ? text_dat :
@@ -497,6 +536,6 @@ module top (
                       8'hFF;
     
     // OR the acks directly - slaves only assert when selected
-    assign wb_ack_i = s0_wb_ack | sid_wb_ack | ym2149_wb_ack | mode_ctrl_ack | tp_ack | text_ack | fb_ack;
+    assign wb_ack_i = s0_wb_ack | sid_wb_ack | ym2149_wb_ack | la_wb_ack | mode_ctrl_ack | tp_ack | text_ack | fb_ack;
 
 endmodule
