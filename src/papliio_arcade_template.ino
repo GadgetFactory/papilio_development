@@ -1,150 +1,94 @@
 /*
-  Papilio Arcade - Simple Demo
-  ============================
-  
-  Cycles through HDMI video patterns and RGB LED colors.
-  Press any key in Serial Monitor to manually advance.
-  
-  Hardware: Papilio Arcade board with ESP32-S3 and FPGA
-  
-  MCP Debug: Uncomment the line below to enable MCP debug interface.
-  This allows AI assistants (via MCP server) to read/write FPGA registers.
-  
-  Note: The MCP debug interface uses the same Serial port with protocol framing.
-  A future enhancement could add dual USB CDC support for separate channels.
+  Papilio Arcade - UART passthrough
+
+  Minimal sketch: forward bytes bidirectionally between USB Serial
+  (host) and Serial1 (FPGA UART pins). No other functionality.
 */
 
-#define PAPILIO_MCP_ENABLED  // Uncomment to enable MCP debug interface
-#include <PapilioMCP.h>
-
-#include <HDMIController.h>
-
-// Pin Configuration
-#define SPI_CLK   12
-#define SPI_MOSI  11
-#define SPI_MISO  9
-#define SPI_CS    10
-
-// HDMI Controller
-HDMIController* hdmi = nullptr;
-
-// State
-int currentPattern = 0;
-int currentColor = 0;
-int cycleCount = 0;  // Track cycles for breakpoint demo
-unsigned long lastUpdate = 0;
-
-// Pattern and color names for display
-const char* patternNames[] = {"Color Bars", "Grid", "Grayscale", "Text Mode", "Framebuffer Bars"};
-const char* colorNames[] = {"Red", "Green", "Blue", "Yellow", "Cyan", "Magenta", "White", "Off"};
+// SUMP UART pins - Original working configuration
+#define SUMP_RX_GPIO 4 // Connects to J11
+#define SUMP_TX_GPIO 3 // Connects to F10
 
 void setup() {
+  // USB serial to host
   Serial.begin(115200);
-  
-  delay(100);  // Short delay for serial init
-  
-  Serial.println("\n=== Papilio Arcade - Logic Analyzer Test Mode ===");
-  Serial.println("Video and LED functions disabled for clean Wishbone access\n");
-  
-  // Initialize MCP debug (does nothing if PAPILIO_MCP_ENABLED not defined)
-  PapilioMCP.begin();
-  
-  // Initialize HDMI controller but don't use it
-  hdmi = new HDMIController(nullptr, SPI_CS, SPI_CLK, SPI_MOSI, SPI_MISO);
-  hdmi->begin();
-  
-  Serial.println("Ready! Wishbone bus available for logic analyzer testing.");
-  Serial.println("Use MCP tools or direct Wishbone access.\n");
+  // delay(5000);
+  // Serial.println("UART passthrough: USB <-> FPGA (Serial1)");
+
+  // // Hardware UART to FPGA - explicitly map pins
+  Serial1.begin(115200, SERIAL_8N1, SUMP_RX_GPIO, SUMP_TX_GPIO);
+  // Serial.println("Serial1 ready at 115200 (RX=3, TX=4)");
+
+  // // Send SUMP ID query (0x02) and print response
+  // Serial.println("Sending SUMP ID query (0x02) to FPGA...");
+  // Serial1.write(0x02);
+
+  // unsigned long start = millis();
+  // while (millis() - start < 200) {
+  //   while (Serial1.available()) {
+  //     uint8_t b = Serial1.read();
+  //     Serial.printf("0x%02X ", b);
+  //     Serial.write(b);
+  //   }
+  // }
+  // Serial.println();
 }
 
-void updateDisplay() {
-  // Set video pattern (0-4)
-  if (currentPattern < 4) {
-    hdmi->setVideoMode(VIDEO_MODE_TEST_PATTERN);
-    hdmi->setVideoPattern(currentPattern);
-  } else if (currentPattern == 4) {
-    // Framebuffer color bars
-    Serial.println("Drawing framebuffer color bars...");
-    hdmi->enableFramebuffer();
-    hdmi->drawColorBars();
-    Serial.println("Done!");
-  }
-  
-  // Set LED color based on currentColor
-  switch (currentColor) {
-    case 0: hdmi->setLEDColorRGB(30, 0, 0);   break;  // Red
-    case 1: hdmi->setLEDColorRGB(0, 30, 0);   break;  // Green
-    case 2: hdmi->setLEDColorRGB(0, 0, 30);   break;  // Blue
-    case 3: hdmi->setLEDColorRGB(30, 30, 0);  break;  // Yellow
-    case 4: hdmi->setLEDColorRGB(0, 30, 30);  break;  // Cyan
-    case 5: hdmi->setLEDColorRGB(30, 0, 30);  break;  // Magenta
-    case 6: hdmi->setLEDColorRGB(20, 20, 20); break;  // White
-    case 7: hdmi->setLEDColorRGB(0, 0, 0);    break;  // Off
-  }
-  
-  // If text mode, show demo text
-  if (currentPattern == 3) {
-    hdmi->clearScreen();
-    
-    // Header with colored background
-    hdmi->setTextColor(HDMI_COLOR_YELLOW, HDMI_COLOR_BLUE);
-    hdmi->setCursor(33, 2);
-    hdmi->writeString("PAPILIO ARCADE");
-    
-    // Subtitle
-    hdmi->setTextColor(HDMI_COLOR_WHITE, HDMI_COLOR_BLACK);
-    hdmi->setCursor(28, 4);
-    hdmi->writeString("ESP32-S3 + Gowin FPGA");
-    
-    // Feature list with colors
-    hdmi->setTextColor(HDMI_COLOR_LIGHT_GREEN, HDMI_COLOR_BLACK);
-    hdmi->setCursor(20, 7);
-    hdmi->writeString("Video Modes:");
-    
-    hdmi->setTextColor(HDMI_COLOR_LIGHT_CYAN, HDMI_COLOR_BLACK);
-    hdmi->setCursor(22, 9);
-    hdmi->writeString("- 720p HDMI Output");
-    hdmi->setCursor(22, 10);
-    hdmi->writeString("- Test Patterns");
-    hdmi->setCursor(22, 11);
-    hdmi->writeString("- 80x30 Text Mode (this!)");
-    hdmi->setCursor(22, 12);
-    hdmi->writeString("- 160x120 Framebuffer");
-    
-    // Color palette demo
-    hdmi->setTextColor(HDMI_COLOR_LIGHT_MAGENTA, HDMI_COLOR_BLACK);
-    hdmi->setCursor(20, 15);
-    hdmi->writeString("CGA 16-Color Palette:");
-    
-    // Show all 16 colors
-    for (int i = 0; i < 16; i++) {
-      hdmi->setTextColor(i, HDMI_COLOR_BLACK);
-      hdmi->setCursor(22 + (i % 8) * 4, 17 + (i / 8));
-      hdmi->writeString("##");
-    }
-    
-    // Footer
-    hdmi->setTextColor(HDMI_COLOR_DARK_GRAY, HDMI_COLOR_BLACK);
-    hdmi->setCursor(25, 22);
-    hdmi->writeString("gadgetfactory.net");
-  }
-  
-  Serial.printf("Pattern: %s | LED: %s\n", 
-                patternNames[currentPattern], 
-                colorNames[currentColor]);
-}
+// unsigned long last_test_send = 0;
 
 void loop() {
-  // Process MCP debug commands (does nothing if not enabled)
-  PapilioMCP.update();
-  
-  // Skip sketch logic when MCP is paused (allows MCP full control)
-  if (PapilioMCP.isPaused()) {
-    delay(10);
-    return;
+  // // USB -> FPGA (and local host commands)
+  // while (Serial.available()) {
+  //   uint8_t c = Serial.read();
+  //   if (c == 'i' || c == 'I') {
+  //     // Host requested ID query
+  //     Serial.println("\nQuerying FPGA ID...");
+  //     Serial1.write(0x02);
+  //     unsigned long start = millis();
+  //     while (millis() - start < 200) {
+  //       while (Serial1.available()) {
+  //         uint8_t b = Serial1.read();
+  //         Serial.printf("0x%02X ", b);
+  //         Serial.write(b);
+  //       }
+  //     }
+  //     Serial.println();
+  //   } else {
+  //     Serial1.write(c);
+  //   }
+  // }
+
+  // // Periodic self-test: send 0x55 every 1s and look for response
+  // if (millis() - last_test_send > 1000) {
+  //   last_test_send = millis();
+  //   Serial.println("Sending test frame 0x55 to Serial1...");
+  //   Serial1.write(0x55);
+  //   unsigned long start = millis();
+  //   bool got = false;
+  //   while (millis() - start < 200) {
+  //     while (Serial1.available()) {
+  //       uint8_t b = Serial1.read();
+  //       Serial.printf("Response: 0x%02X\n", b);
+  //       got = true;
+  //     }
+  //   }
+  //   if (!got) Serial.println("No response to test frame");
+  // }
+
+  // FPGA -> USB
+  // while (Serial1.available()) {
+  //   uint8_t c = Serial1.read();
+  //   Serial.write(c);
+  // }
+
+  if (Serial1.available()) {
+   Serial.write(Serial1.read()); 
   }
-  
-  // Minimal loop - just keep MCP alive, no video/LED updates
-  delay(100);
+  if (Serial.available()) {
+   Serial1.write(Serial.read()); 
+  }  
+
+
+  // delay(1);
 }
 

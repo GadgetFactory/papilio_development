@@ -11,6 +11,22 @@
 `define ENABLE_VIDEO_FRAMEBUFFER
 `define ENABLE_AUDIO_SID
 
+// Uncomment to enable SUMP Logic Analyzer on UART (disables Wishbone LA)
+`define ENABLE_SUMP_UART_LA
+
+// Uncomment to enable simple loopback test on SUMP UART (tx <= rx)
+// Useful for verifying physical connection without analyzer logic
+//`define ENABLE_SUMP_LOOPBACK
+
+// Uncomment to enable TX test mode - sends pattern periodically
+//`define ENABLE_SUMP_TX_TEST
+
+// Uncomment to enable RX echo test - echoes received bytes back
+//`define ENABLE_SUMP_RX_ECHO_TEST
+
+// Uncomment to enable simple SUMP logic analyzer with working UART
+`define ENABLE_SIMPLE_SUMP_LA
+
 (* top = "true" *)
 module top (
     input wire clk_27mhz,
@@ -33,7 +49,11 @@ module top (
     output wire O_tmds_clk_p,
     output wire O_tmds_clk_n,
     output wire [2:0] O_tmds_data_p,
-    output wire [2:0] O_tmds_data_n
+    output wire [2:0] O_tmds_data_n,
+    
+    // SUMP Logic Analyzer UART (optional - enable with ENABLE_SUMP_UART_LA)
+    input wire sump_rx,
+    output wire sump_tx
 );
 
     // Reset signal (active high)
@@ -245,6 +265,13 @@ module top (
     // =========================================================================
     // Define signals to probe (32 channels)
     // Focus on capturing Wishbone bus for RGB LED writes
+    // Add an 8-bit counter bank to the lower 8 probe bits for debugging
+    reg [7:0] la_counter;
+    always @(posedge clk_27mhz or posedge rst) begin
+        if (rst) la_counter <= 8'b0;
+        else la_counter <= la_counter + 1'b1;
+    end
+
     wire [31:0] la_probe_signals = {
         // Wishbone data bus [31:24]
         wb_dat_o[7:0],
@@ -252,8 +279,8 @@ module top (
         wb_cyc_o, wb_stb_o, wb_we_o, wb_ack_i, rgb_led_selected, sid_selected, ym2149_selected, la_selected,
         // Wishbone address bus [15:8]
         wb_adr_o[7:0],
-        // LED and debug signals [7:0]
-        rgb_led, esp_cs_n, esp_clk, esp_mosi, esp_miso, clk_27mhz, rst, audio_left
+        // 8-bit counter for debug and LA capture [7:0]
+        la_counter
     };
     
     wire [7:0] la_wb_dat_o;
@@ -538,5 +565,241 @@ module top (
     
     // OR the acks directly - slaves only assert when selected
     assign wb_ack_i = s0_wb_ack | sid_wb_ack | ym2149_wb_ack | la_wb_ack | mode_ctrl_ack | tp_ack | text_ack | fb_ack;
+
+    // =========================================================================
+    // SUMP Logic Analyzer on UART (Optional - Independent of Wishbone LA)
+    // =========================================================================
+    // Uncomment `define ENABLE_SUMP_UART_LA at top of file to enable
+    // This provides standalone SUMP protocol logic analyzer over UART
+    // Compatible with PulseView/Sigrok - 8 channels, up to 6K samples
+    
+`ifdef ENABLE_SUMP_TX_TEST
+    // Test mode: Send bytes periodically to test TX path
+    reg [31:0] tx_counter;
+    reg [3:0] tx_bit_counter;
+    reg [7:0] tx_shift_reg;
+    reg tx_active;
+    reg sump_tx_reg;
+    
+    // Baud rate generator for 115200 at 27MHz: 27000000/115200 = 234 clocks per bit
+    localparam BAUD_DIVIDE = 234;
+    reg [7:0] baud_counter;
+    
+    always @(posedge clk_27mhz or posedge rst) begin
+        if (rst) begin
+            tx_counter <= 0;
+            tx_bit_counter <= 0;
+            tx_shift_reg <= 8'h00;
+            tx_active <= 0;
+            sump_tx_reg <= 1'b1;  // UART idle high
+            baud_counter <= 0;
+        end else begin
+            // Send a byte every ~27M cycles (once per second)
+            tx_counter <= tx_counter + 1;
+            
+            if (!tx_active && tx_counter == 27000000) begin
+                // Start new transmission - send 0x55 (alternating pattern)
+                tx_counter <= 0;
+                tx_shift_reg <= 8'h55;
+                tx_active <= 1'b1;
+                tx_bit_counter <= 0;
+                baud_counter <= 0;
+                sump_tx_reg <= 1'b0;  // Start bit
+            end else if (tx_active) begin
+                if (baud_counter == BAUD_DIVIDE - 1) begin
+                    baud_counter <= 0;
+                    if (tx_bit_counter < 8) begin
+                        // Send data bits (LSB first)
+                        sump_tx_reg <= tx_shift_reg[0];
+                        tx_shift_reg <= {1'b0, tx_shift_reg[7:1]};
+                        tx_bit_counter <= tx_bit_counter + 1;
+                    end else if (tx_bit_counter == 8) begin
+                        // Send stop bit
+                        sump_tx_reg <= 1'b1;
+                        tx_bit_counter <= tx_bit_counter + 1;
+                    end else begin
+                        // Done
+                        tx_active <= 0;
+                        sump_tx_reg <= 1'b1;
+                    end
+                end else begin
+                    baud_counter <= baud_counter + 1;
+                end
+            end
+        end
+    end
+    
+    assign sump_tx = sump_tx_reg;
+    
+`elsif ENABLE_SUMP_RX_ECHO_TEST
+    // Test mode: Echo back whatever our simple UART receiver gets
+    // Replace SUMP receiver with our own working UART
+    
+    reg [7:0] rx_data;
+    reg rx_valid;
+    reg [7:0] last_rx_byte;
+    reg [31:0] tx_counter;
+    reg [3:0] tx_bit_counter;
+    reg [7:0] tx_shift_reg;
+    reg tx_active;
+    reg sump_tx_reg;
+    
+    // Baud rate generator for 115200 at 27MHz
+    localparam BAUD_DIVIDE = 234;
+    reg [7:0] baud_counter;
+    
+    // Simple UART Receiver
+    reg [2:0] rx_state;
+    reg [7:0] rx_baud_counter;
+    reg [3:0] rx_bit_index;
+    reg [7:0] rx_shift_reg;
+    reg [1:0] sump_rx_sync;
+    
+    localparam RX_IDLE = 3'd0;
+    localparam RX_START = 3'd1;
+    localparam RX_DATA = 3'd2;
+    localparam RX_STOP = 3'd3;
+    
+    // RX state machine
+    always @(posedge clk_27mhz or posedge rst) begin
+        if (rst) begin
+            rx_state <= RX_IDLE;
+            rx_data <= 8'h00;
+            rx_valid <= 0;
+            rx_baud_counter <= 0;
+            rx_bit_index <= 0;
+            rx_shift_reg <= 8'h00;
+            sump_rx_sync <= 2'b11;
+        end else begin
+            // Synchronize input
+            sump_rx_sync <= {sump_rx_sync[0], sump_rx};
+            rx_valid <= 0;  // Pulse for one cycle
+            
+            case (rx_state)
+                RX_IDLE: begin
+                    rx_baud_counter <= 0;
+                    if (sump_rx_sync[1] == 0) begin  // Start bit detected
+                        rx_state <= RX_START;
+                    end
+                end
+                
+                RX_START: begin
+                    if (rx_baud_counter == (BAUD_DIVIDE / 2)) begin
+                        // Sample in middle of start bit
+                        if (sump_rx_sync[1] == 0) begin
+                            rx_state <= RX_DATA;
+                            rx_baud_counter <= 0;
+                            rx_bit_index <= 0;
+                        end else begin
+                            rx_state <= RX_IDLE;  // False start
+                        end
+                    end else begin
+                        rx_baud_counter <= rx_baud_counter + 1;
+                    end
+                end
+                
+                RX_DATA: begin
+                    if (rx_baud_counter == BAUD_DIVIDE - 1) begin
+                        rx_baud_counter <= 0;
+                        rx_shift_reg <= {sump_rx_sync[1], rx_shift_reg[7:1]};  // LSB first
+                        if (rx_bit_index == 7) begin
+                            rx_state <= RX_STOP;
+                        end else begin
+                            rx_bit_index <= rx_bit_index + 1;
+                        end
+                    end else begin
+                        rx_baud_counter <= rx_baud_counter + 1;
+                    end
+                end
+                
+                RX_STOP: begin
+                    if (rx_baud_counter == BAUD_DIVIDE - 1) begin
+                        if (sump_rx_sync[1] == 1) begin  // Valid stop bit
+                            rx_data <= rx_shift_reg;
+                            rx_valid <= 1;
+                        end
+                        rx_state <= RX_IDLE;
+                    end else begin
+                        rx_baud_counter <= rx_baud_counter + 1;
+                    end
+                end
+                
+                default: rx_state <= RX_IDLE;
+            endcase
+        end
+    end
+    
+    // TX echo logic
+    always @(posedge clk_27mhz or posedge rst) begin
+        if (rst) begin
+            last_rx_byte <= 8'h00;
+            tx_counter <= 0;
+            tx_bit_counter <= 0;
+            tx_shift_reg <= 8'h00;
+            tx_active <= 0;
+            sump_tx_reg <= 1'b1;
+            baud_counter <= 0;
+        end else begin
+            // Capture byte when received
+            if (rx_valid && !tx_active) begin
+                last_rx_byte <= rx_data;
+                tx_active <= 1'b1;
+                tx_shift_reg <= rx_data;
+                tx_bit_counter <= 0;
+                baud_counter <= 0;
+                sump_tx_reg <= 1'b0;  // Start bit
+            end else if (tx_active) begin
+                if (baud_counter == BAUD_DIVIDE - 1) begin
+                    baud_counter <= 0;
+                    if (tx_bit_counter < 8) begin
+                        sump_tx_reg <= tx_shift_reg[0];
+                        tx_shift_reg <= {1'b0, tx_shift_reg[7:1]};
+                        tx_bit_counter <= tx_bit_counter + 1;
+                    end else if (tx_bit_counter == 8) begin
+                        sump_tx_reg <= 1'b1;  // Stop bit
+                        tx_bit_counter <= tx_bit_counter + 1;
+                    end else begin
+                        tx_active <= 0;
+                        sump_tx_reg <= 1'b1;
+                    end
+                end else begin
+                    baud_counter <= baud_counter + 1;
+                end
+            end
+        end
+    end
+    
+    assign sump_tx = sump_tx_reg;
+    
+`elsif ENABLE_SUMP_LOOPBACK
+    // Simple loopback for SUMP UART: drive tx with rx for physical loopback testing
+    assign sump_tx = sump_rx;
+`else
+    `ifdef ENABLE_SUMP_UART_LA
+    // Define probe signals for SUMP analyzer (8 channels)
+    // Connected to 8-bit counter - all channels should show counting pattern
+    wire [7:0] sump_probe_signals = la_counter;
+    
+    // Instantiate SUMP Logic Analyzer (VHDL module)
+    BENCHY_sa_SumpBlaze_LogicAnalyzer8 #(
+        .brams(12)  // 12 BRAMs = 6K samples
+    ) u_sump_analyzer (
+        .clk_27Mhz(clk_27mhz),
+        .la0(sump_probe_signals[0]),
+        .la1(sump_probe_signals[1]),
+        .la2(sump_probe_signals[2]),
+        .la3(sump_probe_signals[3]),
+        .la4(sump_probe_signals[4]),
+        .la5(sump_probe_signals[5]),
+        .la6(sump_probe_signals[6]),
+        .la7(sump_probe_signals[7]),
+        .rx(sump_rx),
+        .tx(sump_tx)
+    );
+    `else
+    // When SUMP UART LA is disabled, tie tx high (idle state)
+    assign sump_tx = 1'b1;
+    `endif
+`endif
 
 endmodule
