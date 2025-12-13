@@ -7,41 +7,41 @@
     <TopModule>top</TopModule>
     <FileList>
         <!-- HDMI PHY - Open Source (No Gowin DVI IP) -->
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/hdmi_phy_720p.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/tmds_encoder.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/TMDS_rPLL.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/hdmi_phy_720p.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/tmds_encoder.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/TMDS_rPLL.v" type="file.verilog" enable="1"/>
         
         <!-- Modular Video Modes (enable/disable as needed) -->
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_video_testpattern.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_video_text.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/wb_video_framebuffer.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/framebuffer_ram.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/wb_video_testpattern.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/wb_video_text.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/wb_video_framebuffer.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/framebuffer_ram.v" type="file.verilog" enable="1"/>
         
         <!-- Font ROM for text mode -->
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_hdmi/gateware/src/char_ram_8x8.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_hdmi/gateware/src/char_ram_8x8.v" type="file.verilog" enable="1"/>
         
         <!-- RGB LED controller -->
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_rgb_led/gateware/wb_rgb_led_ctrl.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_rgb_led/gateware/wb_simple_rgb_led.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_rgb_led/gateware/wb_rgb_led_ctrl.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_rgb_led/gateware/wb_simple_rgb_led.v" type="file.verilog" enable="1"/>
         
         <!-- SPI to Wishbone bridge -->
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_wishbone_spi_master/gateware/simple_spi_wb_bridge.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_wishbone_spi_master/gateware/simple_spi_wb_bridge.v" type="file.verilog" enable="1"/>
         
         <!-- Logic Analyzer -->
         <File path="wb_logic_analyzer.v" type="file.verilog" enable="1"/>
         
         <!-- SID 6581 Audio -->
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/wb_sid6581_simple.vhd" type="file.vhdl" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sigma_delta_dac.v" type="file.verilog" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_6581.vhd" type="file.vhdl" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_voice.vhd" type="file.vhdl" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_filters.vhd" type="file.vhdl" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_coeffs.vhd" type="file.vhdl" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/sid_components.vhd" type="file.vhdl" enable="1"/>
+        <File path="../../libs/papilio_audio/gateware/wb_sid6581_simple.vhd" type="file.vhdl" enable="1"/>
+        <File path="../../libs/papilio_audio/gateware/sigma_delta_dac.v" type="file.verilog" enable="1"/>
+        <File path="../../libs/papilio_audio/gateware/sid_6581.vhd" type="file.vhdl" enable="1"/>
+        <File path="../../libs/papilio_audio/gateware/sid_voice.vhd" type="file.vhdl" enable="1"/>
+        <File path="../../libs/papilio_audio/gateware/sid_filters.vhd" type="file.vhdl" enable="1"/>
+        <File path="../../libs/papilio_audio/gateware/sid_coeffs.vhd" type="file.vhdl" enable="1"/>
+        <File path="../../libs/papilio_audio/gateware/sid_components.vhd" type="file.vhdl" enable="1"/>
         
         <!-- YM2149 PSG Audio -->
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/wb_ym2149_simple.vhd" type="file.vhdl" enable="1"/>
-        <File path="C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/libs/papilio_audio/gateware/AUDIO_zpuino_wb_YM2149.vhd" type="file.vhdl" enable="1"/>
+        <File path="../../libs/papilio_audio/gateware/wb_ym2149_simple.vhd" type="file.vhdl" enable="1"/>
+        <File path="../../libs/papilio_audio/gateware/AUDIO_zpuino_wb_YM2149.vhd" type="file.vhdl" enable="1"/>
         
         <!-- Top level -->
         <File path="top.v" type="file.verilog" enable="1"/>
@@ -51,6 +51,10 @@
         <File path="timing.sdc" type="file.sdc" enable="1"/>
     </FileList>
 </Project>
+
+
+
+
 
 
 

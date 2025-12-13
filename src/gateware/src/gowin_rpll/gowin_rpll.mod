@@ -7,7 +7,7 @@
 
 -mod_name Gowin_rPLL
 -file_name gowin_rpll
--path C:/Users/jackg/OneDrive/GadgetFactory_Engineering/papilio_development/src/gateware/src/gowin_rpll/
+-path ./
 -type PLL
 -rPll true
 -file_type vlg

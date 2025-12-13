@@ -38,6 +38,11 @@ module top (
 
     // Reset signal (active high)
     wire rst = ~rst_n;
+    // Pixel clock and HDMI reset signals (declared early so they're
+    // available to modules that synchronize into the pix_clk domain)
+    wire pix_clk;
+    wire pix_clk_5x;
+    wire hdmi_rst_n;
     
     // =========================================================================
     // SPI to Wishbone Bridge
@@ -297,9 +302,6 @@ module top (
     // =========================================================================
     // HDMI PHY - Shared Physical Layer (Open Source - No Gowin IP)
     // =========================================================================
-    wire pix_clk;
-    wire pix_clk_5x;
-    wire hdmi_rst_n;
     wire [11:0] h_cnt, v_cnt;
     wire [11:0] active_x, active_y;
     wire phy_de, phy_hs, phy_vs;
