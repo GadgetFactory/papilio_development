@@ -41,21 +41,20 @@ const char* colorNames[] = {"Red", "Green", "Blue", "Yellow", "Cyan", "Magenta",
 void setup() {
   Serial.begin(115200);
   
-  delay(2000);
+  delay(100);  // Short delay for serial init
   
-  Serial.println("\n=== Papilio Arcade Demo ===\n");
-  
-  // Initialize HDMI controller
-  hdmi = new HDMIController(nullptr, SPI_CS, SPI_CLK, SPI_MOSI, SPI_MISO);
-  hdmi->begin();
+  Serial.println("\n=== Papilio Arcade - Logic Analyzer Test Mode ===");
+  Serial.println("Video and LED functions disabled for clean Wishbone access\n");
   
   // Initialize MCP debug (does nothing if PAPILIO_MCP_ENABLED not defined)
   PapilioMCP.begin();
   
-  Serial.println("Ready! Auto-cycling every 3 seconds.");
-  Serial.println("Press any key to advance manually.\n");
+  // Initialize HDMI controller but don't use it
+  hdmi = new HDMIController(nullptr, SPI_CS, SPI_CLK, SPI_MOSI, SPI_MISO);
+  hdmi->begin();
   
-  updateDisplay();
+  Serial.println("Ready! Wishbone bus available for logic analyzer testing.");
+  Serial.println("Use MCP tools or direct Wishbone access.\n");
 }
 
 void updateDisplay() {
@@ -145,30 +144,7 @@ void loop() {
     return;
   }
   
-  // Manual advance on key press (Note: when MCP is enabled, serial input goes to MCP)
-  // To use breakpoints, add PapilioMCP.breakpoint("name") at strategic points in your code
-  if (Serial.available()) {
-    Serial.read();
-    // Example breakpoint - uncomment to pause here before update:
-    // PapilioMCP.breakpoint("manual_advance");
-    currentPattern = (currentPattern + 1) % 5;  // Now 5 patterns (0-4)
-    currentColor = (currentColor + 1) % 8;
-    updateDisplay();
-    lastUpdate = millis();
-  }
-  
-  // Auto-cycle every 3 seconds
-  if (millis() - lastUpdate >= 3000) {
-    cycleCount++;
-    
-    // Breakpoint demo: pause every 4th cycle to let MCP inspect state
-    // Uncomment to test: if (cycleCount % 4 == 0) PapilioMCP.breakpoint("cycle_4");
-    
-    currentPattern = (currentPattern + 1) % 5;  // Now 5 patterns (0-4)
-    currentColor = (currentColor + 1) % 8;
-    updateDisplay();
-    lastUpdate = millis();
-  }
-  
-  delay(10);
+  // Minimal loop - just keep MCP alive, no video/LED updates
+  delay(100);
 }
+
