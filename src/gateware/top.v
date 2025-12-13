@@ -238,19 +238,23 @@ module top (
     // =========================================================================
     // Logic Analyzer (at 0x8300-0x83FF)
     // =========================================================================
-    // Define signals to probe (32 channels)
-    wire [31:0] la_probe_signals = {
-        // Wishbone bus signals [31:24]
-        wb_cyc_o, wb_stb_o, wb_we_o, wb_ack_i, wb_adr_o[15:12],
-        // SPI signals [23:20]
-        esp_cs_n, esp_clk, esp_mosi, esp_miso,
-        // Video mode and state [19:16]
-        video_mode[1:0], hdmi_rst_n, pix_clk,
-        // Misc system signals [15:0]
-        clk_27mhz, rst, rgb_led, audio_left,
-        sid_selected, ym2149_selected, la_selected, rgb_led_selected,
-        mode_ctrl_sel, tp_sel, text_sel, fb_sel
-    };
+    // Test counter running at half the LA clock speed (27MHz / 2 = 13.5MHz)
+    reg la_test_counter_clk;
+    reg [31:0] la_test_counter;
+    
+    always @(posedge clk_27mhz or posedge rst) begin
+        if (rst) begin
+            la_test_counter_clk <= 1'b0;
+            la_test_counter <= 32'd0;
+        end else begin
+            la_test_counter_clk <= ~la_test_counter_clk;
+            if (la_test_counter_clk)
+                la_test_counter <= la_test_counter + 1'b1;
+        end
+    end
+    
+    // Define signals to probe (32 channels) - using test counter
+    wire [31:0] la_probe_signals = la_test_counter;
     
     wire [7:0] la_wb_dat_o;
     wire la_wb_ack;

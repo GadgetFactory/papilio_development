@@ -98,18 +98,38 @@ def main():
         else:
             print("   ⚠ Not triggered yet")
     
-    print("\n5. Reading captured samples (first 16 bytes)...")
-    print("   Address  | Value (hex) | Binary")
-    print("   " + "-" * 45)
+    print("\n5. Reading captured samples (full 128 byte window)...")
+    print("   Capturing all samples from 0x8380-0x83FF...")
     
-    for i in range(16):
+    samples = []
+    for i in range(128):
         addr = REG_SAMPLE_BASE + i
         value = mcp_read(ser, addr)
         if value is not None:
-            print(f"   0x{addr:04X}  | 0x{value:02X}       | {value:08b}")
+            samples.append(value)
         else:
-            print(f"   0x{addr:04X}  | ??         | ????????")
-        time.sleep(0.05)
+            samples.append(0)
+        
+        # Print progress every 16 samples
+        if (i + 1) % 16 == 0:
+            print(f"   Read {i + 1}/128 samples...")
+        time.sleep(0.02)
+    
+    print("\n   All 128 samples:")
+    print("   Addr     | Value | Addr     | Value | Addr     | Value | Addr     | Value")
+    print("   " + "-" * 76)
+    for row in range(32):  # 128 samples / 4 columns = 32 rows
+        line = "   "
+        for col in range(4):
+            idx = row * 4 + col
+            if idx < len(samples):
+                addr = REG_SAMPLE_BASE + idx
+                value = samples[idx]
+                line += f"0x{addr:04X} | 0x{value:02X}  | "
+        print(line.rstrip(" | "))
+    
+    print(f"\n   Total samples captured: {len(samples)}")
+    print(f"   Value range: 0x{min(samples):02X} to 0x{max(samples):02X}")
     
     print("\n6. Re-arming and reading a few more samples...")
     mcp_write(ser, REG_CONTROL, 0x01)
