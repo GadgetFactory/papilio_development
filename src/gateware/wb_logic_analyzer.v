@@ -72,8 +72,8 @@ module wb_logic_analyzer #(
     reg        cmd_reset;
     reg        cmd_arm;
     
-    // Memory
-    reg [NUM_CHANNELS-1:0] sample_memory [0:MEM_DEPTH-1];
+    // Memory - force to Block RAM instead of distributed RAM
+    (* ram_style = "block" *) reg [NUM_CHANNELS-1:0] sample_memory [0:MEM_DEPTH-1];
     reg [ADDR_BITS-1:0] write_addr;
     reg [ADDR_BITS-1:0] read_addr;
     

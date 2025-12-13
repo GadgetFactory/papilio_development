@@ -78,7 +78,7 @@ Processing 'wb_ym2149_simple(rtl)'("C:\Users\jackg\OneDrive\GadgetFactory_Engine
 'others' clause is never selected("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\wb_ym2149_simple.vhd":350)
 'others' clause is never selected("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\wb_ym2149_simple.vhd":411)
 Returning to Verilog mode to proceed with elaboration("C:\development\papilio_development\src\gateware\top.v":215)
-Compiling module 'wb_logic_analyzer'("C:\development\papilio_development\src\gateware\wb_logic_analyzer.v":8)
+Compiling module 'wb_logic_analyzer(MEM_DEPTH=2048)'("C:\development\papilio_development\src\gateware\wb_logic_analyzer.v":8)
 Extracting RAM for identifier 'sample_memory'("C:\development\papilio_development\src\gateware\wb_logic_analyzer.v":76)
 Compiling module 'hdmi_phy_720p'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\hdmi_phy_720p.v":23)
 Compiling module 'TMDS_rPLL'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\TMDS_rPLL.v":2)

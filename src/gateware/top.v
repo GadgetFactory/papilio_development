@@ -256,7 +256,7 @@ module top (
     
     wb_logic_analyzer #(
         .NUM_CHANNELS(32),
-        .MEM_DEPTH(1024)
+        .MEM_DEPTH(2048)
     ) u_logic_analyzer (
         .clk(clk_27mhz),
         .rst(rst),
