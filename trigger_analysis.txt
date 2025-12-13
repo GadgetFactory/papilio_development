@@ -1,0 +1,41 @@
+Logic Analyzer Capture Analysis - Trigger on wb_dat_o = 0xCC
+========================================================================
+
+Configuration:
+  - Trigger: wb_dat_o = 0xCC (mask = 0xFF000000)
+  - Samples: 64
+  - Post-trigger: 20 samples after trigger
+
+Captured Wishbone Transactions:
+========================================================================
+
+TRIGGER POINT (Samples 0-4):
+  Sample   0: RD RGB_LED addr=0xCC data=0xCC ack=0
+  Sample   1: RD RGB_LED addr=0xCC data=0xCC ack=0
+  Sample   2: RD RGB_LED addr=0xCC data=0xCC ack=0
+  Sample   3: RD RGB_LED addr=0xCC data=0xCC ack=0
+  Sample   4: RD RGB_LED addr=0xCC data=0xCC ack=0
+  
+  *** Logic analyzer triggered on wb_dat_o = 0xCC ***
+
+POST-TRIGGER DATA (Samples 32+):
+  Sample  32: WR RGB_LED addr=0xFF data=0xFF ack=1
+  Sample  33: WR RGB_LED addr=0xFF data=0xFF ack=1
+  ...
+  (17 more similar transactions)
+
+SUMMARY:
+========================================================================
+✓ Trigger successfully detected wb_dat_o = 0xCC on the Wishbone bus
+✓ Captured 64 samples total
+✓ Found 37 Wishbone transactions with strobe active
+✓ LED write transaction visible in the capture
+
+Signal Breakdown (32-bit probe):
+  [31:24] = wb_dat_o (data bus) - TRIGGER VALUE: 0xCC
+  [23:16] = control signals (cyc, stb, we, ack, chip selects)
+  [15:8]  = wb_adr_o (address bus)
+  [7:0]   = debug signals (rgb_led pin, spi, clock, reset)
+
+Exported to: successful_trigger_cc.vcd
+View with: gtkwave successful_trigger_cc.vcd

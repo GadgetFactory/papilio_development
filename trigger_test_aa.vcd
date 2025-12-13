@@ -1,0 +1,140 @@
+$date
+  2025-12-12 20:00:53
+$end
+$version
+  Papilio Logic Analyzer
+$end
+$timescale 1ns $end
+$scope module logic $end
+$var wire 1 ! audio_left $end
+$var wire 1 " rst $end
+$var wire 1 # clk_27mhz $end
+$var wire 1 $ esp_miso $end
+$var wire 1 % esp_mosi $end
+$var wire 1 & esp_clk $end
+$var wire 1 ' esp_cs_n $end
+$var wire 1 ( rgb_led $end
+$var wire 1 ) wb_adr[0] $end
+$var wire 1 * wb_adr[1] $end
+$var wire 1 + wb_adr[2] $end
+$var wire 1 , wb_adr[3] $end
+$var wire 1 - wb_adr[4] $end
+$var wire 1 . wb_adr[5] $end
+$var wire 1 / wb_adr[6] $end
+$var wire 1 0 wb_adr[7] $end
+$var wire 1 1 la_selected $end
+$var wire 1 2 ym2149_selected $end
+$var wire 1 3 sid_selected $end
+$var wire 1 4 rgb_led_selected $end
+$var wire 1 5 wb_ack_i $end
+$var wire 1 6 wb_we_o $end
+$var wire 1 7 wb_stb_o $end
+$var wire 1 8 wb_cyc_o $end
+$var wire 1 9 wb_dat[0] $end
+$var wire 1 : wb_dat[1] $end
+$var wire 1 ; wb_dat[2] $end
+$var wire 1 < wb_dat[3] $end
+$var wire 1 = wb_dat[4] $end
+$var wire 1 > wb_dat[5] $end
+$var wire 1 ? wb_dat[6] $end
+$var wire 1 @ wb_dat[7] $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+1!
+1"
+1#
+1$
+1%
+1&
+1'
+1(
+1)
+1*
+1+
+1,
+1-
+1.
+1/
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+1:
+1;
+1<
+1=
+1>
+1?
+1@
+$end
+#1
+#2
+#3
+#4
+#5
+#6
+#7
+#8
+#9
+#10
+#11
+#12
+#13
+#14
+#15
+#16
+#17
+#18
+#19
+#20
+#21
+#22
+#23
+#24
+#25
+#26
+#27
+#28
+#29
+#30
+#31
+#32
+#33
+#34
+#35
+#36
+#37
+#38
+#39
+#40
+#41
+#42
+#43
+#44
+#45
+#46
+#47
+#48
+#49
+#50
+#51
+#52
+#53
+#54
+#55
+#56
+#57
+#58
+#59
+#60
+#61
+#62
+#63
