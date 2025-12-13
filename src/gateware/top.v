@@ -264,12 +264,20 @@ module top (
     // Logic Analyzer (at 0x8300-0x83FF)
     // =========================================================================
     // Define signals to probe (32 channels)
-    // Focus on capturing Wishbone bus for RGB LED writes
-    // Add an 8-bit counter bank to the lower 8 probe bits for debugging
-    reg [7:0] la_counter;
+    // 32-bit counter for testing all channels
+    // Prescale counter to make transitions visible in logic analyzer
+    reg [15:0] la_prescaler;
+    reg [31:0] la_counter;
     always @(posedge clk_27mhz or posedge rst) begin
-        if (rst) la_counter <= 8'b0;
-        else la_counter <= la_counter + 1'b1;
+        if (rst) begin
+            la_prescaler <= 16'b0;
+            la_counter <= 32'b0;
+        end else begin
+            la_prescaler <= la_prescaler + 1'b1;
+            // Increment counter every 65536 clocks (~410 Hz at 27MHz)
+            if (la_prescaler == 16'hFFFF)
+                la_counter <= la_counter + 1'b1;
+        end
     end
 
     wire [31:0] la_probe_signals = {
@@ -776,23 +784,16 @@ module top (
     assign sump_tx = sump_rx;
 `else
     `ifdef ENABLE_SUMP_UART_LA
-    // Define probe signals for SUMP analyzer (8 channels)
-    // Connected to 8-bit counter - all channels should show counting pattern
-    wire [7:0] sump_probe_signals = la_counter;
+    // Define probe signals for SUMP analyzer (32 channels)
+    // Connected to 32-bit counter - all channels should show counting pattern
+    wire [31:0] sump_probe_signals = la_counter;
     
     // Instantiate SUMP Logic Analyzer (VHDL module)
-    BENCHY_sa_SumpBlaze_LogicAnalyzer8 #(
+    BENCHY_sa_SumpBlaze_LogicAnalyzer32 #(
         .brams(12)  // 12 BRAMs = 6K samples
     ) u_sump_analyzer (
-        .clk_27Mhz(clk_27mhz),
-        .la0(sump_probe_signals[0]),
-        .la1(sump_probe_signals[1]),
-        .la2(sump_probe_signals[2]),
-        .la3(sump_probe_signals[3]),
-        .la4(sump_probe_signals[4]),
-        .la5(sump_probe_signals[5]),
-        .la6(sump_probe_signals[6]),
-        .la7(sump_probe_signals[7]),
+        .clk_32Mhz(clk_27mhz),  // Using 27MHz clock (name is historical)
+        .la(sump_probe_signals),
         .rx(sump_rx),
         .tx(sump_tx)
     );

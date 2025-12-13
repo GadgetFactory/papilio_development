@@ -31,7 +31,8 @@
         <File path="C:/development/papilio_development/libs/papilio_audio/gateware/sid_voice.vhd" type="file.vhdl" enable="1"/>
         <File path="C:/development/papilio_development/libs/papilio_audio/gateware/wb_sid6581_simple.vhd" type="file.vhdl" enable="1"/>
         <File path="C:/development/papilio_development/libs/papilio_audio/gateware/wb_ym2149_simple.vhd" type="file.vhdl" enable="1"/>
-        <File path="BENCHY_sa_SumpBlaze_LogicAnalyzer8.vhd" type="file.vhdl" enable="1"/>
+        <File path="BENCHY_sa_SumpBlaze_LogicAnalyzer8.vhd" type="file.vhdl" enable="0"/>
+        <File path="BENCHY_sa_SumpBlaze_LogicAnalyzer32.vhd" type="file.vhdl" enable="1"/>
         <File path="Mem_Gen_36bit.vhd" type="file.vhdl" enable="1"/>
         <File path="clockman_gowin.vhd" type="file.vhdl" enable="1"/>
         <File path="controller.vhd" type="file.vhdl" enable="1"/>
@@ -60,6 +61,12 @@
         <File path="timing.sdc" type="file.sdc" enable="1"/>
     </FileList>
 </Project>
+
+
+
+
+
+
 
 
 
