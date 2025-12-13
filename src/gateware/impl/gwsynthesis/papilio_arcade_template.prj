@@ -15,8 +15,9 @@
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v" type="verilog"/>
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v" type="verilog"/>
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge.v" type="verilog"/>
+        <File path="C:\development\papilio_development\src\gateware\wb_logic_analyzer.v" type="verilog"/>
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sigma_delta_dac.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v" type="verilog"/>
+        <File path="C:\development\papilio_development\src\gateware\top.v" type="verilog"/>
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\wb_sid6581_simple.vhd" type="vhdl"/>
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_6581.vhd" type="vhdl"/>
         <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_voice.vhd" type="vhdl"/>
@@ -30,7 +31,7 @@
         <Option type="disable_insert_pad" value="0"/>
         <Option type="global_freq" value="100.000"/>
         <Option type="looplimit" value="2000"/>
-        <Option type="output_file" value="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\gwsynthesis\papilio_arcade_template.vg"/>
+        <Option type="output_file" value="C:\development\papilio_development\src\gateware\impl\gwsynthesis\papilio_arcade_template.vg"/>
         <Option type="print_all_synthesis_warning" value="0"/>
         <Option type="ram_rw_check" value="0"/>
         <Option type="top_module" value="top"/>

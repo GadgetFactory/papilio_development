@@ -11,12 +11,13 @@ Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papili
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge.v'
+Analyzing Verilog file 'C:\development\papilio_development\src\gateware\wb_logic_analyzer.v'
 Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sigma_delta_dac.v'
-Analyzing Verilog file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v'
-Undeclared symbol 'pix_clk', assumed default net type 'wire'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":176)
-Undeclared symbol 'hdmi_rst_n', assumed default net type 'wire'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":177)
-WARN  (EX3638) : 'pix_clk' is already implicitly declared on line 176("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":263)
-WARN  (EX3638) : 'hdmi_rst_n' is already implicitly declared on line 177("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":265)
+Analyzing Verilog file 'C:\development\papilio_development\src\gateware\top.v'
+Undeclared symbol 'pix_clk', assumed default net type 'wire'("C:\development\papilio_development\src\gateware\top.v":178)
+Undeclared symbol 'hdmi_rst_n', assumed default net type 'wire'("C:\development\papilio_development\src\gateware\top.v":179)
+WARN  (EX3638) : 'pix_clk' is already implicitly declared on line 178("C:\development\papilio_development\src\gateware\top.v":300)
+WARN  (EX3638) : 'hdmi_rst_n' is already implicitly declared on line 179("C:\development\papilio_development\src\gateware\top.v":302)
 Analyzing VHDL file 'C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\wb_sid6581_simple.vhd'
 Analyzing entity 'wb_sid6581_simple'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\wb_sid6581_simple.vhd":14)
 Analyzing architecture 'rtl'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\wb_sid6581_simple.vhd":35)
@@ -46,18 +47,18 @@ WARN  (EX4760) : 'zpu_config' is not compiled in library 'board'("C:\Users\jackg
 WARN  (EX4760) : 'zpupkg' is not compiled in library 'board'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\AUDIO_zpuino_wb_YM2149.vhd":65)
 Analyzing entity 'audio_zpuino_wb_ym2149'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\AUDIO_zpuino_wb_YM2149.vhd":67)
 Analyzing architecture 'rtl'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\AUDIO_zpuino_wb_YM2149.vhd":79)
-Compiling module 'top'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":15)
+Compiling module 'top'("C:\development\papilio_development\src\gateware\top.v":15)
 Compiling module 'simple_spi_wb_bridge'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge.v":9)
 WARN  (EX3791) : Expression size 4 truncated to fit in target size 3("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge.v":116)
 WARN  (EX3791) : Expression size 4 truncated to fit in target size 3("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge.v":146)
 WARN  (EX3791) : Expression size 4 truncated to fit in target size 3("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge.v":190)
 Compiling module 'wb_simple_rgb_led'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v":4)
-WARN  (EX3791) : Expression size 32 truncated to fit in target size 16("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v":83)
+WARN  (EX3791) : Expression size 32 truncated to fit in target size 16("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v":84)
 Compiling module 'ws2812b_controller'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v":85)
 WARN  (EX3791) : Expression size 32 truncated to fit in target size 5("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v":147)
 WARN  (EX3791) : Expression size 17 truncated to fit in target size 16("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v":150)
 WARN  (EX3791) : Expression size 17 truncated to fit in target size 16("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v":161)
-Switching to VHDL mode to elaborate design unit 'wb_sid6581_simple'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":158)
+Switching to VHDL mode to elaborate design unit 'wb_sid6581_simple'("C:\development\papilio_development\src\gateware\top.v":160)
 Processing 'wb_sid6581_simple(rtl)'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\wb_sid6581_simple.vhd":14)
 Processing 'sid6581(Behavioral)'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_6581.vhd":41)
 WARN  (EX4206) : Using initial value for 'voice_volume' since it is never assigned("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_6581.vhd":177)
@@ -70,13 +71,15 @@ Processing 'sid_voice(Behavioral)'("C:\Users\jackg\OneDrive\GadgetFactory_Engine
 WARN  (EX1998) : Net 'signal_mux[17]' does not have a driver("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_voice.vhd":97)
 Processing 'sid_filters(beh)'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_filters.vhd":8)
 Processing 'sid_coeffs(beh)'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_coeffs.vhd":5)
-Returning to Verilog mode to proceed with elaboration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":158)
+Returning to Verilog mode to proceed with elaboration("C:\development\papilio_development\src\gateware\top.v":160)
 Compiling module 'sigma_delta_dac'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sigma_delta_dac.v":6)
-Switching to VHDL mode to elaborate design unit 'wb_ym2149_simple'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":213)
+Switching to VHDL mode to elaborate design unit 'wb_ym2149_simple'("C:\development\papilio_development\src\gateware\top.v":215)
 Processing 'wb_ym2149_simple(rtl)'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\wb_ym2149_simple.vhd":12)
 'others' clause is never selected("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\wb_ym2149_simple.vhd":350)
 'others' clause is never selected("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\wb_ym2149_simple.vhd":411)
-Returning to Verilog mode to proceed with elaboration("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\top.v":213)
+Returning to Verilog mode to proceed with elaboration("C:\development\papilio_development\src\gateware\top.v":215)
+Compiling module 'wb_logic_analyzer'("C:\development\papilio_development\src\gateware\wb_logic_analyzer.v":8)
+Extracting RAM for identifier 'sample_memory'("C:\development\papilio_development\src\gateware\wb_logic_analyzer.v":76)
 Compiling module 'hdmi_phy_720p'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\hdmi_phy_720p.v":23)
 Compiling module 'TMDS_rPLL'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\TMDS_rPLL.v":2)
 Compiling module 'tmds_encoder'("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v":5)
@@ -122,6 +125,6 @@ Running technical mapping ...
 WARN  (NL0002) : The module "pwm_sddac" instantiated to "digital_to_analog" is swept in optimizing("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_6581.vhd":187)
 WARN  (NL0002) : The module "pwm_sdadc" instantiated to "paddle_x" is swept in optimizing("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_6581.vhd":195)
 WARN  (NL0002) : The module "pwm_sdadc" instantiated to "paddle_y" is swept in optimizing("C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_6581.vhd":203)
-[95%] Generate netlist file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\gwsynthesis\papilio_arcade_template.vg" completed
-[100%] Generate report file "C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\gwsynthesis\papilio_arcade_template_syn.rpt.html" completed
+[95%] Generate netlist file "C:\development\papilio_development\src\gateware\impl\gwsynthesis\papilio_arcade_template.vg" completed
+[100%] Generate report file "C:\development\papilio_development\src\gateware\impl\gwsynthesis\papilio_arcade_template_syn.rpt.html" completed
 GowinSynthesis finish

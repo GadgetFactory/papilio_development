@@ -238,23 +238,18 @@ module top (
     // =========================================================================
     // Logic Analyzer (at 0x8300-0x83FF)
     // =========================================================================
-    // Test counter running at half the LA clock speed (27MHz / 2 = 13.5MHz)
-    reg la_test_counter_clk;
-    reg [31:0] la_test_counter;
-    
-    always @(posedge clk_27mhz or posedge rst) begin
-        if (rst) begin
-            la_test_counter_clk <= 1'b0;
-            la_test_counter <= 32'd0;
-        end else begin
-            la_test_counter_clk <= ~la_test_counter_clk;
-            if (la_test_counter_clk)
-                la_test_counter <= la_test_counter + 1'b1;
-        end
-    end
-    
-    // Define signals to probe (32 channels) - using test counter
-    wire [31:0] la_probe_signals = la_test_counter;
+    // Define signals to probe (32 channels)
+    // Focus on capturing Wishbone bus for RGB LED writes
+    wire [31:0] la_probe_signals = {
+        // Wishbone data bus [31:24]
+        wb_dat_o[7:0],
+        // Wishbone control and address [23:16]
+        wb_cyc_o, wb_stb_o, wb_we_o, wb_ack_i, rgb_led_selected, sid_selected, ym2149_selected, la_selected,
+        // Wishbone address bus [15:8]
+        wb_adr_o[7:0],
+        // LED and debug signals [7:0]
+        rgb_led, esp_cs_n, esp_clk, esp_mosi, esp_miso, clk_27mhz, rst, audio_left
+    };
     
     wire [7:0] la_wb_dat_o;
     wire la_wb_ack;

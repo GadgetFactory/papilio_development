@@ -149,11 +149,9 @@ module wb_logic_analyzer #(
                         8'h23: wb_dat_o <= MEM_DEPTH[7:0];
                         default: begin
                             if (wb_adr_i >= 8'h80) begin
-                                // Data read from memory
-                                wb_dat_o <= sample_memory[read_addr][7:0];
-                                if (wb_adr_i[1:0] == 2'b11) begin
-                                    read_addr <= read_addr + 1'b1;
-                                end
+                                // Data read from memory - output high byte [31:24] where wb_dat_o is mapped
+                                wb_dat_o <= sample_memory[read_addr][31:24];
+                                read_addr <= read_addr + 1'b1;  // Advance every read
                             end else begin
                                 wb_dat_o <= 8'hFF;
                             end

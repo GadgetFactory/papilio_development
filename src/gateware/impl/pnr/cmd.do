@@ -1,9 +1,9 @@
--d C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\gwsynthesis\papilio_arcade_template.vg
+-d C:\development\papilio_development\src\gateware\impl\gwsynthesis\papilio_arcade_template.vg
 -p GW2A-18C-PBGA256-8
 -pn GW2A-LV18PG256C8/I7
--cst C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\pins.cst
--cfg C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\impl\pnr\device.cfg
--sdc C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\src\gateware\timing.sdc
+-cst C:\development\papilio_development\src\gateware\pins.cst
+-cfg C:\development\papilio_development\src\gateware\impl\pnr\device.cfg
+-sdc C:\development\papilio_development\src\gateware\timing.sdc
 -bit
 -tr
 -ph
