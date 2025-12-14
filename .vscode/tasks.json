@@ -14,43 +14,89 @@
           "executable": "powershell.exe"
         }
       },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "FPGA: Upload (pesptool)",
+      "type": "shell",
+      "command": "${config:papilio.pesptoolPath}",
+      "args": [
+        "--port",
+        "${config:papilio.pesport}",
+        "write-flash",
+        "0x100000",
+        "${workspaceFolder}/src/gateware/impl/pnr/papilio_arcade_template.bin"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "powershell.exe"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Firmware: Upload (PlatformIO)",
+      "type": "shell",
+      "command": "${config:papilio.pioPath}",
+      "args": [
+        "run",
+        "-e",
+        "${config:papilio.pioEnv}",
+        "--target",
+        "upload"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "powershell.exe"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
       "group": {
         "kind": "build",
         "isDefault": true
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      },
-      "problemMatcher": []
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "pesptoolPath",
+      "type": "promptString",
+      "description": "Full path to pesptool executable",
+      "default": "${config:papilio.pesptoolPath}"
+    },
+    {
+      "id": "pesport",
+      "type": "promptString",
+      "description": "Serial port for pesptool (e.g. COM4)",
+      "default": "${config:papilio.pesport}"
     }
     ,
     {
-      "label": "FPGA: Build (TCL) (WSL)",
-      "type": "shell",
-      "command": "/usr/bin/wsl",
-      "args": [
-        "-e",
-        "bash",
-        "-lc",
-        "'/mnt/c/Program\\ Files/Gowin/IDE/bin/gw_sh.exe' build.tcl"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}/src/gateware",
-        "shell": {
-          "executable": "bash",
-          "args": ["-lc"]
-        }
-      },
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      },
-      "problemMatcher": []
+      "id": "pioPath",
+      "type": "promptString",
+      "description": "Full path to PlatformIO executable",
+      "default": "${config:papilio.pioPath}"
+    },
+    {
+      "id": "pioEnv",
+      "type": "promptString",
+      "description": "PlatformIO environment name to build/upload",
+      "default": "${config:papilio.pioEnv}"
     }
   ]
 }

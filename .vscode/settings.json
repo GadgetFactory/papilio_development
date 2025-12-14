@@ -1,0 +1,6 @@
+{
+  "papilio.pesptoolPath": "C:\\Users\\jackg\\.espressif\\python_env\\idf5.5_py3.11_env\\Scripts\\pesptool.exe",
+  "papilio.pesport": "COM4",
+  "papilio.pioPath": "C:\\Users\\jackg\\.platformio\\penv\\Scripts\\platformio.exe",
+  "papilio.pioEnv": "papilio_arcade"
+}
