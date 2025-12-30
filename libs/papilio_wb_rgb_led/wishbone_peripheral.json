@@ -1,0 +1,14 @@
+{
+  "name": "RGB LED",
+  "module_name": "pwb_rgb_led",
+  "device_id": 19525,
+  "spi_transfer_bits": 32,
+  "slots_required": 1,
+  "instance_name": "rgb_led",
+  "ports": [
+    {
+      "name": "rgb_out",
+      "connection": "rgb_led"
+    }
+  ]
+}

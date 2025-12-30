@@ -1,0 +1,12 @@
+{
+  "name": "papilio_wb_rgb_led",
+  "version": "1.0.0",
+  "description": "RGB LED Wishbone peripheral for Papilio",
+  "keywords": ["wishbone", "rgb", "led", "peripheral"],
+  "authors": {
+    "name": "Gadget Factory"
+  },
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "espressif32"
+}
