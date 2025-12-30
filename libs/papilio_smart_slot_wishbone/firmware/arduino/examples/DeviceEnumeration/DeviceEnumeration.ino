@@ -1,12 +1,13 @@
 /*
  * DeviceEnumeration.ino
  * 
- * Demonstrates Smart Slot Wishbone device enumeration.
- * Shows how to discover and identify FPGA peripherals at runtime.
+ * Demonstrates device enumeration and auto-discovery of FPGA peripherals.
+ * Shows how to detect what devices are present in each slot.
  */
 
 #include <SmartSlotWishbone.h>
 
+// Create SSW instance
 SmartSlotWishbone ssw;
 
 void setup() {
@@ -14,84 +15,60 @@ void setup() {
     while (!Serial) delay(10);
     
     Serial.println("Smart Slot Wishbone - Device Enumeration");
-    Serial.println("=========================================");
-    Serial.println();
+    Serial.println("========================================");
     
-    ssw.begin();
+    // Initialize SSW
+    if (!ssw.begin()) {
+        Serial.println("ERROR: Failed to initialize SSW!");
+        while(1) delay(1000);
+    }
     
-    // Read system information
-    Serial.println("System Information:");
-    Serial.println("------------------");
-    Serial.printf("Protocol Version: 0x%02X\n", ssw.getVersion());
-    Serial.printf("Capabilities:     0x%02X\n", ssw.getCapabilities());
-    Serial.printf("Total Slots:      %d\n", ssw.getSlotCount());
-    Serial.printf("External Memory:  %d MB\n", ssw.getMemorySize());
+    Serial.println("SSW initialized successfully\n");
+    
+    // Get system information
+    uint8_t version = ssw.getVersion();
+    uint8_t caps = ssw.getCapabilities();
+    uint8_t memSize = ssw.getMemorySize();
+    
+    Serial.println("=== System Information ===");
+    Serial.printf("Version: 0x%02X\n", version);
+    Serial.printf("Capabilities: 0x%02X\n", caps);
+    Serial.printf("Memory Size: %d MB\n", memSize);
     Serial.println();
     
     // Enumerate all devices
     Serial.println("Enumerating devices...");
-    uint8_t deviceCount = ssw.enumerateDevices();
-    Serial.println();
-    
-    if (deviceCount == 0) {
-        Serial.println("No devices found!");
-        return;
-    }
-    
-    // Print detailed device information
-    ssw.printDevices();
-    
-    // Search for specific devices
-    Serial.println("\nSearching for specific devices:");
-    Serial.println("------------------------------");
-    
-    DeviceInfo* rgbLed = ssw.findDevice(SSW_DEVID_RGB_LED);
-    if (rgbLed) {
-        Serial.printf("✓ RGB LED found at slot %d\n", rgbLed->slot);
+    if (ssw.enumerateDevices()) {
+        Serial.println("Enumeration complete!\n");
+        ssw.printDevices();
     } else {
-        Serial.println("✗ RGB LED not found");
+        Serial.println("ERROR: Enumeration failed!");
     }
     
-    DeviceInfo* sid = ssw.findDevice(SSW_DEVID_SID);
-    if (sid) {
-        Serial.printf("✓ SID 6581 found at slot %d\n", sid->slot);
-    } else {
-        Serial.println("✗ SID 6581 not found");
+    // Show detailed device info
+    Serial.println("\n=== Detailed Device Information ===");
+    uint8_t slotCount = ssw.getSlotCount();
+    
+    for (uint8_t i = 0; i < slotCount; i++) {
+        uint16_t devID = ssw.getDeviceID(i);
+        
+        if (devID != SSW_DEVID_EMPTY) {
+            Serial.printf("\nSlot %d:\n", i);
+            Serial.printf("  Device ID: 0x%04X\n", devID);
+            Serial.printf("  Name: %s\n", ssw.getDeviceName(devID));
+            Serial.printf("  Address: 0x%04X - 0x%04X\n", 
+                         i * 256, (i + 1) * 256 - 1);
+            
+            // Try to read first register
+            uint8_t reg0 = ssw.readSlot(i, 0);
+            Serial.printf("  Register 0: 0x%02X\n", reg0);
+        }
     }
     
-    DeviceInfo* ym2149 = ssw.findDevice(SSW_DEVID_YM2149);
-    if (ym2149) {
-        Serial.printf("✓ YM2149 found at slot %d\n", ym2149->slot);
-    } else {
-        Serial.println("✗ YM2149 not found");
-    }
-    
-    DeviceInfo* video = ssw.findDevice(SSW_DEVID_VIDEO);
-    if (video) {
-        Serial.printf("✓ Video controller found at slot %d\n", video->slot);
-    } else {
-        Serial.println("✗ Video controller not found");
-    }
-    
-    DeviceInfo* logicAnalyzer = ssw.findDevice(SSW_DEVID_LOGIC_AN);
-    if (logicAnalyzer) {
-        Serial.printf("✓ Logic Analyzer found at slot %d\n", logicAnalyzer->slot);
-    } else {
-        Serial.println("✗ Logic Analyzer not found");
-    }
-    
-    Serial.println();
-    Serial.println("Enumeration complete!");
+    Serial.println("\n=== Enumeration Complete ===");
 }
 
 void loop() {
-    // Print a device summary every 5 seconds
-    static unsigned long lastPrint = 0;
-    
-    if (millis() - lastPrint > 5000) {
-        lastPrint = millis();
-        
-        Serial.println("\n--- Device Summary ---");
-        ssw.printDevices();
-    }
+    // Nothing to do in loop
+    delay(1000);
 }
