@@ -2,274 +2,272 @@
 
 ## Overview
 
-Smart Slot Wishbone (SSW) is a three-tier addressing architecture for efficient ESP32-to-FPGA communication over SPI. It provides:
+Smart Slot Wishbone (SSW) is a three-tier addressing protocol designed for efficient ESP32-to-FPGA communication over SPI. It provides optimized access to both small peripherals and large external memory.
 
-- **Tier 1 (Slot Mode)**: 3-byte transactions for peripheral registers
-- **Tier 2 (Extended Mode)**: 4-byte transactions for on-chip memory
-- **Tier 3 (Large Mode)**: 5-byte transactions for external DDR/SDRAM
-- **Burst Mode**: Efficient bulk transfers with 80%+ overhead reduction
+## Protocol Version
 
-## Address Space
+Current version: 1.0
 
-```
-0x000000 - 0x001FFF (8KB)   : Tier 1 - Slot mode (32 slots × 256 bytes)
-0x002000 - 0x00FFFF (56KB)  : Tier 2 - Extended mode (on-chip BRAM)
-0x010000 - 0xFFFFFF (~16MB) : Tier 3 - Large mode (external memory)
-```
+## Physical Layer
+
+- **Interface**: SPI Mode 0 (CPOL=0, CPHA=0)
+- **Clock Speed**: Up to 40 MHz
+- **Data Width**: 8 bits per transaction
+- **Byte Order**: MSB first
 
 ## Command Byte Format
+
+Every transaction begins with a command byte:
 
 ```
 [7:RW] [6:5:MODE] [4:3:FLAGS] [2:0:MODE_DATA]
 
-RW (bit 7):
-  0 = Read
-  1 = Write
-
-MODE (bits 6:5):
-  00 = Slot mode (Tier 1)
-  01 = Extended mode (Tier 2)
-  10 = Large mode (Tier 3)
-  11 = Reserved
-
-FLAGS (bits 4:3):
-  Bit 3: Burst mode enable
-  Bit 4: Reserved
-
-MODE_DATA (bits 2:0 or 4:0):
-  Slot mode: Slot number (5 bits, bits 4:0)
-  Large mode: Memory bank (5 bits, bits 4:0)
-  Extended mode: Reserved (bits 2:0)
+Bit 7:     R/W (0=Read, 1=Write)
+Bits 6-5:  Mode select
+Bit 3:     Burst flag (0=Single, 1=Burst)
+Bits 4,2-0: Mode-specific data
 ```
+
+### Mode Values
+
+| Mode | Value | Description | Address Space |
+|------|-------|-------------|---------------|
+| Slot | 00 | Peripheral slots | 0x000000-0x001FFF (8KB) |
+| Extended | 01 | On-chip memory | 0x002000-0x00FFFF (56KB) |
+| Large | 10 | External DDR/SDRAM | 0x010000-0xFFFFFF (16MB) |
+| Reserved | 11 | Future use | - |
 
 ## Transaction Formats
 
-### Slot Mode (3 bytes)
+### Tier 1: Slot Mode (3 bytes)
 
-For accessing peripheral registers in slots 0-31.
+**Purpose**: Access to peripheral control registers
 
-**Write Transaction:**
-```
-Byte 0: [1][00][slot[4:0]]     CMD: Write, Slot mode, Slot number
-Byte 1: [register[7:0]]        Register offset within slot
-Byte 2: [data[7:0]]            Data to write
-```
+**Command byte**: `[7:RW] [6:5:00] [4:RSVD] [3:BURST] [2:0:SLOT[4:2]]`
 
-**Read Transaction:**
+**Single access**:
 ```
-TX Byte 0: [0][00][slot[4:0]]  CMD: Read, Slot mode, Slot number
-TX Byte 1: [register[7:0]]     Register offset within slot
-TX Byte 2: [0x00]              Dummy byte
-RX Byte 3: [data[7:0]]         Data read from register
+[CMD] [REG] [DATA]
+
+CMD:  [RW|00|0|SLOT[4:0]]
+REG:  8-bit register offset
+DATA: 8-bit data (write) or dummy byte (read)
 ```
 
-**Address Mapping:**
+**Burst access**:
 ```
-Physical Address = {3'b000, slot[4:0], register[7:0]}
+[CMD] [REG] [COUNT_H] [COUNT_L] [DATA...]
 
-Examples:
-  Slot 0, Reg 0x00  -> 0x000000
-  Slot 1, Reg 0x00  -> 0x000100
-  Slot 1, Reg 0xFF  -> 0x0001FF
-  Slot 31, Reg 0xFF -> 0x001FFF
-```
-
-### Extended Mode (4 bytes)
-
-For accessing on-chip BRAM (0x0000-0xFFFF).
-
-**Write Transaction:**
-```
-Byte 0: [1][01][000]           CMD: Write, Extended mode
-Byte 1: [addr[15:8]]           Address high byte
-Byte 2: [addr[7:0]]            Address low byte
-Byte 3: [data[7:0]]            Data to write
+CMD:  [RW|00|1|SLOT[4:0]]  // Burst flag set
+REG:  Starting register offset
+COUNT: 16-bit byte count
+DATA: COUNT bytes of data
 ```
 
-**Read Transaction:**
-```
-TX Byte 0: [0][01][000]        CMD: Read, Extended mode
-TX Byte 1: [addr[15:8]]        Address high byte
-TX Byte 2: [addr[7:0]]         Address low byte
-TX Byte 3: [0x00]              Dummy byte
-RX Byte 4: [data[7:0]]         Data read
-```
+**Address calculation**: `ADDR = {000, SLOT[4:0], REG[7:0]}`
 
-### Large Mode (5 bytes)
-
-For accessing external DDR/SDRAM (0x000000-0xFFFFFF).
-
-**Write Transaction:**
+**Examples**:
 ```
-Byte 0: [1][10][bank[4:0]]     CMD: Write, Large mode, Bank number
-Byte 1: [addr[23:16]]          Address bits 23:16
-Byte 2: [addr[15:8]]           Address bits 15:8
-Byte 3: [addr[7:0]]            Address bits 7:0
-Byte 4: [data[7:0]]            Data to write
-```
-
-**Read Transaction:**
-```
-TX Byte 0: [0][10][bank[4:0]]  CMD: Read, Large mode, Bank number
-TX Byte 1: [addr[23:16]]       Address bits 23:16
-TX Byte 2: [addr[15:8]]        Address bits 15:8
-TX Byte 3: [addr[7:0]]         Address bits 7:0
-TX Byte 4: [0x00]              Dummy byte
-RX Byte 5: [data[7:0]]         Data read
-```
-
-## Burst Mode
-
-Burst mode dramatically reduces overhead for sequential transfers.
-
-**Burst Write (Slot Mode Example):**
-```
-Byte 0:     [1][00][1][slot]   CMD: Write, Slot mode, Burst, Slot number
-Byte 1:     [start_reg[7:0]]   Starting register
-Byte 2:     [count[15:8]]      Byte count high
-Byte 3:     [count[7:0]]       Byte count low
-Byte 4..N:  [data[7:0]] × N   Data bytes (N = count)
-```
-
-**Burst Read (Extended Mode Example):**
-```
-TX Byte 0:    [0][01][1][000]  CMD: Read, Extended mode, Burst
-TX Byte 1:    [addr[15:8]]     Start address high
-TX Byte 2:    [addr[7:0]]      Start address low
-TX Byte 3:    [count[15:8]]    Byte count high
-TX Byte 4:    [count[7:0]]     Byte count low
-TX Byte 5:    [0x00]           Dummy byte
-RX Byte 6..N: [data[7:0]] × N Data bytes (N = count)
-```
-
-**Burst Behavior:**
-- Address auto-increments after each byte
-- Maximum burst length: 65,535 bytes per transaction
-- Bursts can cross register/address boundaries
-- For >64KB transfers, split into multiple bursts
-
-## Performance Comparison
-
-### RGB LED Update (3 bytes of data)
-
-**Single writes (current flat addressing):**
-```
-[CMD][ADDR_H][ADDR_L][DATA] × 3 = 12 bytes total
-```
-
-**Slot mode writes:**
-```
-[CMD][REG][DATA] × 3 = 9 bytes total
-25% improvement
-```
-
-### Framebuffer Update (153,600 bytes)
-
-**Single writes:**
-```
-4 bytes overhead × 153,600 = 614,400 bytes total
-```
-
-**Burst mode:**
-```
-4 bytes header + 2 bytes count + 153,600 data = 153,606 bytes
-75% reduction in overhead!
-```
-
-### Large DDR Transfer (4MB)
-
-**Single writes:**
-```
-5 bytes × 4,194,304 = 20,971,520 bytes
-```
-
-**Burst mode (64KB chunks):**
-```
-(5 + 2) × 64 chunks + 4,194,304 data = 4,194,752 bytes
-80% overhead reduction!
-```
-
-## SPI Timing
-
-**Clock Mode:** SPI Mode 0 (CPOL=0, CPHA=0)
-- Data sampled on rising edge of SCLK
-- Data changes on falling edge of SCLK
-- CS active low
-
-**Recommended Frequencies:**
-- 20 MHz: Standard operation
-- 40 MHz: High-speed (if FPGA supports)
-- 80 MHz: Maximum (ESP32 limit, requires careful PCB layout)
-
-**Transfer Rates:**
-```
-At 20 MHz:
-  Theoretical: 2.5 MB/s
-  Practical:   ~2.0 MB/s (accounting for CS overhead)
+Write to slot 1, register 0x05, data 0xFF:
+  [0x81] [0x05] [0xFF]
   
-At 40 MHz:
-  Theoretical: 5.0 MB/s
-  Practical:   ~4.0 MB/s
-```
-
-## System Control Slot (Slot 0)
-
-Slot 0 is reserved for system control and device enumeration.
-
-**Registers:**
-```
-0x00: VERSION          - Protocol version (read-only)
-0x01: CAPABILITIES     - Feature flags (read-only)
-0x02: SLOT_COUNT       - Number of populated slots (read-only)
-0x03: MEM_SIZE         - External memory size in MB (read-only)
-0x10-0x2F: Device IDs  - 16-bit device IDs for slots 0-15
-0x30-0x4F: Device IDs  - 16-bit device IDs for slots 16-31
-```
-
-**Device ID Format:**
-```
-Each device occupies 2 bytes (big-endian):
-  Byte 0: ID high byte
-  Byte 1: ID low byte
+Read from slot 2, register 0x10:
+  [0x02] [0x10] [0x00]
   
-Example - Reading device ID for slot 5:
-  Read slot 0, reg 0x1A (0x10 + 5*2) -> High byte
-  Read slot 0, reg 0x1B (0x10 + 5*2 + 1) -> Low byte
+Burst write 5 bytes to slot 3, starting at register 0x20:
+  [0x8B] [0x20] [0x00] [0x05] [0xAA] [0xBB] [0xCC] [0xDD] [0xEE]
 ```
+
+### Tier 2: Extended Mode (4 bytes)
+
+**Purpose**: Access to on-chip BRAM (framebuffers, audio buffers)
+
+**Command byte**: `[7:RW] [6:5:01] [4:RSVD] [3:BURST] [2:0:FLAGS]`
+
+**Single access**:
+```
+[CMD] [ADDR_H] [ADDR_L] [DATA]
+
+CMD:    [RW|01|0|000]
+ADDR_H: Address bits [15:8]
+ADDR_L: Address bits [7:0]
+DATA:   8-bit data
+```
+
+**Burst access**:
+```
+[CMD] [ADDR_H] [ADDR_L] [COUNT_H] [COUNT_L] [DATA...]
+
+CMD:  [RW|01|1|000]  // Burst flag set
+ADDR: 16-bit address
+COUNT: 16-bit byte count
+DATA: COUNT bytes of data
+```
+
+**Examples**:
+```
+Write to address 0x2000, data 0x42:
+  [0xA0] [0x20] [0x00] [0x42]
+  
+Read from address 0x5A3C:
+  [0x20] [0x5A] [0x3C] [0x00]
+  
+Burst write 256 bytes to address 0x3000:
+  [0xA8] [0x30] [0x00] [0x01] [0x00] [DATA×256]
+```
+
+### Tier 3: Large Memory Mode (5 bytes)
+
+**Purpose**: Access to external DDR/SDRAM (large framebuffers, textures)
+
+**Command byte**: `[7:RW] [6:5:10] [4:RSVD] [3:BURST] [2:0:BANK[4:2]]`
+
+**Single access**:
+```
+[CMD] [ADDR_H] [ADDR_M] [ADDR_L] [DATA]
+
+CMD:    [RW|10|0|BANK[4:0]]
+ADDR_H: Address bits [23:16]
+ADDR_M: Address bits [15:8]
+ADDR_L: Address bits [7:0]
+DATA:   8-bit data
+```
+
+**Burst access**:
+```
+[CMD] [ADDR_H] [ADDR_M] [ADDR_L] [COUNT_H] [COUNT_L] [DATA...]
+
+CMD:  [RW|10|1|BANK[4:0]]  // Burst flag set
+ADDR: 24-bit address
+COUNT: 16-bit byte count (max 65535)
+DATA: COUNT bytes of data
+```
+
+**Examples**:
+```
+Write to address 0x010000, data 0x55:
+  [0xC0] [0x01] [0x00] [0x00] [0x55]
+  
+Read from address 0x123456:
+  [0x40] [0x12] [0x34] [0x56] [0x00]
+  
+Burst write 1024 bytes to address 0x050000:
+  [0xC8] [0x05] [0x00] [0x00] [0x04] [0x00] [DATA×1024]
+```
+
+## Address Space Map
+
+```
+0x000000 ├─ Tier 1: Slot Mode (8KB)
+         │  Slot 0:  0x000000-0x0000FF (System Control)
+         │  Slot 1:  0x000100-0x0001FF (RGB LED)
+         │  Slot 2:  0x000200-0x0002FF (SID 6581)
+         │  Slot 3:  0x000300-0x0003FF (YM2149)
+         │  ...
+0x001FFF │  Slot 31: 0x001F00-0x001FFF
+         │
+0x002000 ├─ Tier 2: Extended Mode (56KB)
+         │  Small framebuffer (32KB)
+         │  Audio buffers (8KB)
+         │  Logic analyzer RAM (8KB)
+         │  Reserved (8KB)
+0x00FFFF │
+         │
+0x010000 ├─ Tier 3: Large Memory Mode (16MB)
+         │  Bank 0: Large framebuffer (1MB)
+         │  Bank 1: Texture cache (1MB)
+         │  Bank 2: Audio samples (1MB)
+         │  Banks 3-31: Reserved (13MB)
+0xFFFFFF └─
+```
+
+## System Control Registers (Slot 0)
+
+| Offset | Register | Access | Description |
+|--------|----------|--------|-------------|
+| 0x00 | VERSION | R | Protocol version |
+| 0x01 | CAPABILITIES | R | Capability flags |
+| 0x02 | SLOT_COUNT | R | Number of populated slots |
+| 0x03 | MEM_SIZE | R | External memory size (MB) |
+| 0x04-0x0F | Reserved | - | - |
+| 0x10-0x2F | DEV_ID_0..15 | R | Device IDs for slots 0-15 (16-bit) |
+| 0x30-0x4F | DEV_ID_16..31 | R | Device IDs for slots 16-31 (16-bit) |
+
+### Capability Flags (0x01)
+
+```
+Bit 0: Slot mode supported
+Bit 1: Extended mode supported
+Bit 2: Large mode supported
+Bit 3: Burst mode supported
+Bit 4: External DDR present
+Bit 5: External SDRAM present
+Bits 6-7: Reserved
+```
+
+## Device ID Registry
+
+| ID | ASCII | Device |
+|----|-------|--------|
+| 0x5359 | "SY" | System Control |
+| 0x4C45 | "LE" | RGB LED |
+| 0x5349 | "SI" | SID 6581 Audio |
+| 0x594D | "YM" | YM2149 Audio |
+| 0x4C41 | "LA" | Logic Analyzer |
+| 0x5649 | "VI" | Video Controller |
+| 0x414D | "AM" | Audio Mixer |
+| 0x4750 | "GP" | GPIO |
+| 0x5541 | "UA" | UART |
+| 0x5350 | "SP" | SPI |
+| 0x4943 | "IC" | I2C |
+| 0x5057 | "PW" | PWM |
+| 0x544D | "TM" | Timer |
+| 0x444D | "DM" | DMA Controller |
+| 0x4642 | "FB" | Framebuffer |
+| 0xFFFF | - | Empty Slot |
+
+## Performance Characteristics
+
+### Transaction Overhead
+
+| Mode | Single | Burst (N bytes) | Efficiency |
+|------|--------|-----------------|------------|
+| Slot | 3 bytes | 5 + N bytes | ~40% overhead for N=10 |
+| Extended | 4 bytes | 6 + N bytes | ~6% overhead for N=100 |
+| Large | 5 bytes | 7 + N bytes | ~0.7% overhead for N=1000 |
+
+### Example: 1MB Framebuffer Update
+
+- **Single writes**: 5 × 1,048,576 = 5,242,880 bytes
+- **Burst write**: 7 + 1,048,576 = 1,048,583 bytes
+- **Efficiency gain**: 80% reduction in SPI traffic!
+
+### Timing
+
+At 20 MHz SPI:
+- Slot access: ~1.2 μs per byte
+- Extended access: ~1.6 μs per byte
+- Large access: ~2.0 μs per byte
+- Burst mode: ~0.4 μs per byte (after header)
 
 ## Error Handling
 
-**Invalid Command:**
-- Bridge enters ERROR state
-- No Wishbone transaction generated
-- Waits for CS deassert to return to IDLE
+- Invalid mode: Returns 0xFF on read
+- Out-of-range address: No response (timeout)
+- Burst overflow: Wraps within current tier
+- CS deassert: Aborts current transaction
 
-**Timeout:**
-- If Wishbone slave doesn't ACK within reasonable time
-- Bridge should timeout and deassert wb_cyc
-- Return error status via debug output
+## Implementation Notes
 
-**Address Out of Range:**
-- Depends on decoder implementation
-- Can return dummy data or signal error
-- Recommended: Return 0xFF for reads, ignore writes
+1. **Clock Domain Crossing**: SPI clock is asynchronous to system clock
+2. **Synchronization**: Use 3-stage synchronizer for SPI signals
+3. **Wishbone Interface**: Single-cycle ACK for on-chip, multi-cycle for DDR
+4. **Burst Auto-increment**: Address increments automatically
+5. **CS Requirements**: CS must be deasserted between transactions
 
 ## Future Extensions
 
-### Mode 11 (Reserved) - Ultra-Large Memory
-
-Could support 32-bit addressing for 4GB address space:
-```
-Byte 0: [RW][11][flags]
-Byte 1-4: [addr[31:0]]
-Byte 5: [data[7:0]]
-
-Total: 6 bytes per transaction
-```
-
-### Enhanced Features
-- DMA support with dedicated DMA slot
-- Interrupt notification via separate GPIO
-- Multi-byte data width (16-bit, 32-bit)
-- Compressed burst modes
-- Transaction checksums for reliability
+- Mode 11: Ultra-large mode (32-bit addressing, 4GB space)
+- DMA capabilities
+- Interrupt support
+- Write protection
