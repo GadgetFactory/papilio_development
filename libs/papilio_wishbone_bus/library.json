@@ -1,0 +1,20 @@
+{
+  "name": "papilio_wishbone_bus",
+  "version": "1.0.0",
+  "description": "Wishbone bus infrastructure for ESP32-FPGA communication",
+  "keywords": ["wishbone", "fpga", "esp32", "bus", "papilio"],
+  "authors": {
+    "name": "Gadget Factory",
+    "email": "jack.gassett@gadgetfactory.net"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GadgetFactory/papilio_development.git"
+  },
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "espressif32",
+  "build": {
+    "libArchive": false
+  }
+}
