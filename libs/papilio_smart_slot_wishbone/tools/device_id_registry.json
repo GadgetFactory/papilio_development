@@ -1,143 +1,115 @@
 {
-  "device_ids": [
+  "version": "1.0",
+  "description": "Smart Slot Wishbone Device ID Registry",
+  "encoding": "Two ASCII characters encoded as 16-bit value (MSB first)",
+  "devices": [
     {
       "id": "0x5359",
+      "ascii": "SY",
       "name": "System Control",
-      "description": "System control and device enumeration",
-      "typical_slot": 0,
-      "registers": [
-        {"offset": "0x00", "name": "VERSION", "access": "RO"},
-        {"offset": "0x01", "name": "CAPABILITIES", "access": "RO"},
-        {"offset": "0x02", "name": "SLOT_COUNT", "access": "RO"},
-        {"offset": "0x03", "name": "MEM_SIZE", "access": "RO"},
-        {"offset": "0x10-0x4F", "name": "DEVICE_IDS", "access": "RO"}
-      ]
+      "description": "System control and device enumeration (Slot 0)",
+      "required": true
     },
     {
       "id": "0x4C45",
+      "ascii": "LE",
       "name": "RGB LED",
-      "description": "RGB LED controller",
-      "registers": [
-        {"offset": "0x00", "name": "RED", "access": "RW"},
-        {"offset": "0x01", "name": "GREEN", "access": "RW"},
-        {"offset": "0x02", "name": "BLUE", "access": "RW"}
-      ]
+      "description": "RGB LED controller with 3x8-bit color channels"
     },
     {
       "id": "0x5349",
+      "ascii": "SI",
       "name": "SID 6581",
-      "description": "Commodore 64 SID sound chip",
-      "registers": [
-        {"offset": "0x00-0x06", "name": "VOICE1", "access": "RW"},
-        {"offset": "0x07-0x0D", "name": "VOICE2", "access": "RW"},
-        {"offset": "0x0E-0x14", "name": "VOICE3", "access": "RW"},
-        {"offset": "0x15-0x18", "name": "FILTER", "access": "RW"}
-      ]
+      "description": "Commodore 64 SID 6581 audio synthesizer"
     },
     {
       "id": "0x594D",
+      "ascii": "YM",
       "name": "YM2149",
-      "description": "Yamaha YM2149 PSG sound chip",
-      "registers": [
-        {"offset": "0x00-0x0D", "name": "SOUND_REGS", "access": "RW"},
-        {"offset": "0x0E", "name": "IO_PORT_A", "access": "RW"},
-        {"offset": "0x0F", "name": "IO_PORT_B", "access": "RW"}
-      ]
+      "description": "Yamaha YM2149 PSG audio chip"
     },
     {
       "id": "0x4C41",
+      "ascii": "LA",
       "name": "Logic Analyzer",
-      "description": "Multi-channel logic analyzer",
-      "registers": [
-        {"offset": "0x00", "name": "CONTROL", "access": "RW"},
-        {"offset": "0x01", "name": "TRIGGER", "access": "RW"},
-        {"offset": "0x02", "name": "SAMPLE_RATE", "access": "RW"},
-        {"offset": "0x03", "name": "STATUS", "access": "RO"}
-      ]
+      "description": "Digital logic analyzer with capture buffer"
     },
     {
       "id": "0x5649",
+      "ascii": "VI",
       "name": "Video Controller",
-      "description": "Video output controller",
-      "registers": [
-        {"offset": "0x00", "name": "MODE", "access": "RW"},
-        {"offset": "0x01", "name": "HRES", "access": "RW"},
-        {"offset": "0x02", "name": "VRES", "access": "RW"},
-        {"offset": "0x03", "name": "COLOR_DEPTH", "access": "RW"}
-      ]
+      "description": "Video output controller (HDMI/VGA)"
     },
     {
       "id": "0x414D",
+      "ascii": "AM",
       "name": "Audio Mixer",
       "description": "Multi-channel audio mixer"
     },
     {
       "id": "0x4750",
+      "ascii": "GP",
       "name": "GPIO",
-      "description": "General Purpose I/O"
+      "description": "General Purpose I/O controller"
     },
     {
       "id": "0x5541",
+      "ascii": "UA",
       "name": "UART",
       "description": "Universal Asynchronous Receiver/Transmitter"
     },
     {
       "id": "0x5350",
+      "ascii": "SP",
       "name": "SPI",
-      "description": "Serial Peripheral Interface master"
+      "description": "SPI master/slave controller"
     },
     {
       "id": "0x4943",
+      "ascii": "IC",
       "name": "I2C",
-      "description": "Inter-Integrated Circuit master"
+      "description": "I2C master/slave controller"
     },
     {
       "id": "0x5057",
+      "ascii": "PW",
       "name": "PWM",
       "description": "Pulse Width Modulation controller"
     },
     {
       "id": "0x544D",
+      "ascii": "TM",
       "name": "Timer",
-      "description": "Programmable timer"
+      "description": "Hardware timer/counter"
     },
     {
       "id": "0x444D",
+      "ascii": "DM",
       "name": "DMA",
       "description": "Direct Memory Access controller"
     },
     {
       "id": "0x4642",
+      "ascii": "FB",
       "name": "Framebuffer",
       "description": "Video framebuffer memory"
     },
     {
       "id": "0xFFFF",
-      "name": "Empty Slot",
-      "description": "Unoccupied slot"
+      "ascii": "--",
+      "name": "Empty",
+      "description": "Empty/unpopulated slot"
     }
   ],
-  
-  "register_conventions": {
-    "access_modes": {
-      "RO": "Read Only",
-      "WO": "Write Only",
-      "RW": "Read/Write",
-      "RC": "Read to Clear"
-    },
-    "naming": "Use UPPER_CASE for register names",
-    "sizing": "All registers are 8-bit unless otherwise specified"
+  "guidelines": {
+    "choosing_id": "Use two uppercase ASCII letters that are mnemonic for the device name",
+    "encoding": "First character in MSB, second in LSB: ID = (char1 << 8) | char2",
+    "reserved": "0x0000-0x00FF are reserved for future use",
+    "custom": "Custom devices should use IDs starting from 0x8000"
   },
-  
-  "allocation_guidelines": {
-    "system_reserved": "0x0000-0x0FFF (System and debugging)",
-    "audio": "0x1000-0x1FFF (Audio devices)",
-    "video": "0x2000-0x2FFF (Video devices)",
-    "communication": "0x3000-0x3FFF (UART, SPI, I2C, etc)",
-    "io": "0x4000-0x4FFF (GPIO, PWM, etc)",
-    "timing": "0x5000-0x5FFF (Timers, counters)",
-    "memory": "0x6000-0x6FFF (Memory controllers)",
-    "custom": "0x7000-0xEFFF (User-defined devices)",
-    "reserved": "0xF000-0xFFFF (Future use)"
-  }
+  "examples": [
+    "RGB LED: 'LE' -> 0x4C45 (L=0x4C, E=0x45)",
+    "SID Audio: 'SI' -> 0x5349 (S=0x53, I=0x49)",
+    "Video: 'VI' -> 0x5649 (V=0x56, I=0x49)"
+  ]
 }
