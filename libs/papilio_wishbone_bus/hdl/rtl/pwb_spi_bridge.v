@@ -13,7 +13,7 @@ module pwb_spi_bridge #(
     // SPI slave interface
     input wire spi_sclk,
     input wire spi_mosi,
-    output reg spi_miso,
+    output wire spi_miso,
     input wire spi_cs_n,
     
     // Wishbone master interface (always 32-bit)
@@ -56,6 +56,9 @@ reg [7:0] spi_shift_out;
 reg [2:0] bit_count;
 reg byte_ready;
 
+// MISO output - continuously drive from shift register MSB
+assign spi_miso = spi_shift_out[7];
+
 always @(posedge clk) begin
     if (rst || !spi_cs_active) begin
         bit_count <= 3'd0;
@@ -69,11 +72,28 @@ always @(posedge clk) begin
     end
 end
 
-// SPI output (on falling edge for mode 0)
+// SPI output shift (on falling edge for mode 0)
 always @(posedge clk) begin
-    if (spi_sclk_falling && spi_cs_active) begin
-        spi_miso <= spi_shift_out[7];
-        spi_shift_out <= {spi_shift_out[6:0], 1'b0};
+    if (rst) begin
+        spi_shift_out <= 8'hFF;
+    end else begin
+        // Handle loading data from WB read
+        if (state == STATE_WB_READ && wb_ack_i) begin
+            case (bytes_expected)
+                3'd1: spi_shift_out <= wb_dat_i[7:0];
+                3'd2: spi_shift_out <= wb_dat_i[15:8];  // Will send MSB first
+                3'd4: spi_shift_out <= wb_dat_i[31:24]; // Will send MSB first
+                default: spi_shift_out <= wb_dat_i[7:0];
+            endcase
+        end
+        // Load echo data on rising edge when in echo state (parallel to receiving)
+        else if (state == STATE_ECHO && spi_sclk_rising && spi_cs_active) begin
+            spi_shift_out <= {spi_shift_in[6:0], spi_mosi_sync[1]};  // Load data being received
+        end
+        // Handle SPI shifting on falling edge (lower priority)
+        else if (spi_sclk_falling && spi_cs_active) begin
+            spi_shift_out <= {spi_shift_out[6:0], 1'b1};
+        end
     end
 end
 
@@ -92,7 +112,8 @@ localparam [3:0]
     STATE_WB_WRITE  = 4'd7,
     STATE_WB_READ   = 4'd8,
     STATE_TX_DATA   = 4'd9,
-    STATE_ERROR     = 4'd10;
+    STATE_ERROR     = 4'd10,
+    STATE_ECHO      = 4'd11;
 
 reg [3:0] state, next_state;
 
@@ -127,13 +148,23 @@ always @(*) begin
         
         STATE_RX_CMD: begin
             if (byte_ready) begin
-                case (`PWB_GET_MODE(spi_shift_in))
-                    `PWB_MODE_SLOT: next_state = STATE_RX_REG;
-                    `PWB_MODE_EXTENDED: next_state = STATE_RX_ADDR_H;
-                    `PWB_MODE_LARGE: next_state = STATE_RX_ADDR_H;
-                    default: next_state = STATE_ERROR;
-                endcase
+                // Check for echo command (0xFF)
+                if (spi_shift_in == 8'hFF) begin
+                    next_state = STATE_ECHO;
+                end else begin
+                    case (`PWB_GET_MODE(spi_shift_in))
+                        `PWB_MODE_SLOT: next_state = STATE_RX_REG;
+                        `PWB_MODE_EXTENDED: next_state = STATE_RX_ADDR_H;
+                        `PWB_MODE_LARGE: next_state = STATE_RX_ADDR_H;
+                        default: next_state = STATE_ERROR;
+                    endcase
+                end
             end
+        end
+        
+        STATE_ECHO: begin
+            if (byte_ready)  // Echo byte received, send it back
+                next_state = STATE_IDLE;
         end
         
         STATE_RX_REG: begin
@@ -185,6 +216,11 @@ always @(*) begin
         
         STATE_TX_DATA: begin
             if (byte_ready)  // Byte shifted out
+                next_state = STATE_IDLE;
+        end
+        
+        STATE_ECHO: begin
+            if (byte_ready)  // Echo byte received, send it back
                 next_state = STATE_IDLE;
         end
         
@@ -300,14 +336,7 @@ always @(posedge clk) begin
                 
                 if (wb_ack_i) begin
                     wb_stb_o <= 1'b0;
-                    // Load read data for transmission
-                    // Send back the same number of bytes that were requested
-                    case (bytes_expected)
-                        3'd1: spi_shift_out <= wb_dat_i[7:0];
-                        3'd2: spi_shift_out <= wb_dat_i[15:8];  // Will send MSB first
-                        3'd4: spi_shift_out <= wb_dat_i[31:24]; // Will send MSB first
-                        default: spi_shift_out <= wb_dat_i[7:0];
-                    endcase
+                    // Load read data for transmission (handled in SPI output block above)
                 end
             end
             

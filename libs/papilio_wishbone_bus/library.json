@@ -15,6 +15,17 @@
   "frameworks": "arduino",
   "platforms": "espressif32",
   "build": {
-    "libArchive": false
+    "libArchive": false,
+    "srcFilter": [
+      "+<firmware/arduino/src/*>"
+    ],
+    "includeDir": "firmware/arduino/src"
+  },
+  "export": {
+    "include": [
+      "firmware/arduino/src/*",
+      "hdl/*",
+      "tools/*"
+    ]
   }
 }

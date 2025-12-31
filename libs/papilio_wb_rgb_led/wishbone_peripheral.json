@@ -7,7 +7,7 @@
   "instance_name": "rgb_led",
   "ports": [
     {
-      "name": "rgb_out",
+      "name": "led_out",
       "connection": "rgb_led"
     }
   ]

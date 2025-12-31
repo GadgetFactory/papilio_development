@@ -1,0 +1,13 @@
+{
+  "name": "pwb2_rgb_led_example",
+  "version": "2.0.0",
+  "description": "Example PWB2 RGB LED peripheral",
+  "keywords": ["pwb2", "wishbone", "rgb", "led", "example"],
+  "license": "MIT",
+  "export": {
+    "include": [
+      "pwb2_rgb_led.v",
+      "wishbone_peripheral.json"
+    ]
+  }
+}

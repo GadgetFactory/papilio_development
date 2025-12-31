@@ -1,0 +1,31 @@
+{
+  "name": "RGB LED Example",
+  "module_name": "pwb2_rgb_led",
+  "device_id": 19525,
+  "version": "2.0.0",
+  "spi_transfer_bits": 32,
+  "slots_required": 1,
+  "instance_name": "rgb_led",
+  "features": ["read", "write", "pwm"],
+  "description": "PWM-controlled RGB LED with brightness and blink support",
+  "registers": [
+    {"offset": 0, "name": "RED", "width": 8, "access": "RW", "description": "Red channel (0-255)"},
+    {"offset": 1, "name": "GREEN", "width": 8, "access": "RW", "description": "Green channel (0-255)"},
+    {"offset": 2, "name": "BLUE", "width": 8, "access": "RW", "description": "Blue channel (0-255)"},
+    {"offset": 3, "name": "BRIGHTNESS", "width": 8, "access": "RW", "description": "Global brightness (0-255)"},
+    {"offset": 4, "name": "CONTROL", "width": 8, "access": "RW", "description": "Control: [0]=enable, [1]=blink"},
+    {"offset": 5, "name": "BLINK_RATE", "width": 8, "access": "RW", "description": "Blink rate in 10ms units"}
+  ],
+  "hdl_files": [
+    "pwb2_rgb_led.v"
+  ],
+  "ports": [
+    {
+      "name": "rgb_out",
+      "direction": "output",
+      "width": 3,
+      "connection": "rgb_led",
+      "description": "RGB LED output [R, G, B]"
+    }
+  ]
+}

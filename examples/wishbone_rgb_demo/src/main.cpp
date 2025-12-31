@@ -1,78 +1,59 @@
-// Wishbone RGB Demo
-// Demonstrates Papilio Wishbone Bus with automatic peripheral integration
+// Wishbone RGB Demo - Simple SPI Test
+// Tests basic SPI connectivity with constant pattern
 
 #include <Arduino.h>
-#include <PapilioWishbone.h>
+#include <SPI.h>
 
-PapilioWishbone wb;
+// SPI pins for Papilio hardware
+#define SPI_CLK   12
+#define SPI_MOSI  11
+#define SPI_MISO  9
+#define SPI_CS    10
 
 void setup() {
     Serial.begin(115200);
-    delay(1000);
+    delay(2000);
     
-    Serial.println("\n=== Papilio Wishbone Bus Demo ===");
+    Serial.println("\n=== SPI Simple Connectivity Test ===\n");
     
-    // Initialize Wishbone bus
-    if (!wb.begin(20000000)) {
-        Serial.println("ERROR: Wishbone initialization failed!");
-        while(1) delay(1000);
+    // Configure SPI
+    pinMode(SPI_CS, OUTPUT);
+    digitalWrite(SPI_CS, HIGH);
+    SPI.begin(SPI_CLK, SPI_MISO, SPI_MOSI, SPI_CS);
+    SPI.setFrequency(1000000);  // 1 MHz
+    SPI.setDataMode(SPI_MODE0);
+    
+    Serial.println("Testing basic SPI communication...");
+    Serial.println("FPGA should output constant 0xA5 pattern\n");
+    
+    // Test multiple bytes
+    bool all_passed = true;
+    for (int i = 0; i < 10; i++) {
+        digitalWrite(SPI_CS, LOW);
+        delayMicroseconds(10);
+        uint8_t received = SPI.transfer(0x00);
+        delayMicroseconds(10);
+        digitalWrite(SPI_CS, HIGH);
+        
+        bool passed = (received == 0xA5);
+        Serial.printf("Test %d: received 0x%02X [%s]\n", i+1, received, passed ? "PASS" : "FAIL");
+        
+        if (!passed) all_passed = false;
+        delay(100);
     }
     
-    Serial.println("Wishbone bus initialized");
-    
-    // Enumerate all devices
-    Serial.println("\nEnumerating devices...");
-    wb.setDebug(true);
-    wb.enumerateDevices();
-    wb.setDebug(false);
-    
-    wb.printDevices();
-    
-    Serial.println("\nStarting RGB demo...");
+    Serial.println();
+    if (all_passed) {
+        Serial.println("SUCCESS: SPI communication working!");
+    } else {
+        Serial.println("FAILURE: Check connections:");
+        Serial.printf("  SCLK: GPIO %d -> FPGA pin A11\n", SPI_CLK);
+        Serial.printf("  MOSI: GPIO %d -> FPGA pin B11\n", SPI_MOSI);
+        Serial.printf("  MISO: GPIO %d <- FPGA pin C11\n", SPI_MISO);
+        Serial.printf("  CS:   GPIO %d -> FPGA pin A12\n", SPI_CS);
+    }
 }
 
 void loop() {
-    // Cycle through colors
-    
-    // Red
-    Serial.println("Red");
-    wb.writeSlot(1, 0, 0xFF000000);  // RGB in upper 24 bits
     delay(1000);
-    
-    // Green
-    Serial.println("Green");
-    wb.writeSlot(1, 0, 0x00FF0000);
-    delay(1000);
-    
-    // Blue
-    Serial.println("Blue");
-    wb.writeSlot(1, 0, 0x0000FF00);
-    delay(1000);
-    
-    // Yellow
-    Serial.println("Yellow");
-    wb.writeSlot(1, 0, 0xFFFF0000);
-    delay(1000);
-    
-    // Cyan
-    Serial.println("Cyan");
-    wb.writeSlot(1, 0, 0x00FFFF00);
-    delay(1000);
-    
-    // Magenta
-    Serial.println("Magenta");
-    wb.writeSlot(1, 0, 0xFF00FF00);
-    delay(1000);
-    
-    // White
-    Serial.println("White");
-    wb.writeSlot(1, 0, 0xFFFFFF00);
-    delay(1000);
-    
-    // Off
-    Serial.println("Off");
-    wb.writeSlot(1, 0, 0x00000000);
-    delay(1000);
-    
-    Serial.printf("\nTransactions: %lu\n\n", wb.getTransactionCount());
 }

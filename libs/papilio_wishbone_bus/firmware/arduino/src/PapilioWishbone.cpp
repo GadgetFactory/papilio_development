@@ -270,6 +270,32 @@ uint8_t PapilioWishbone::getCapabilities() {
 }
 
 // =============================================================================
+// SPI Communication Test
+// =============================================================================
+
+bool PapilioWishbone::echoTest(uint8_t testByte) {
+    beginTransaction();
+    
+    // Send echo command (0xFF) followed by test byte, then dummy byte to clock out echo
+    transfer(0xFF);         // Command - FPGA receives 0xFF
+    transfer(testByte);     // Data to echo - FPGA receives data, loads it for TX
+    uint8_t response = transfer(0x00);  // Dummy byte - FPGA transmits echoed data
+    
+    endTransaction();
+    
+    if (_debug) {
+        Serial.printf("Echo test: sent 0x%02X, received 0x%02X", testByte, response);
+        if (response == testByte) {
+            Serial.println(" [PASS]");
+        } else {
+            Serial.println(" [FAIL]");
+        }
+    }
+    
+    return (response == testByte);
+}
+
+// =============================================================================
 // Helper Functions
 // =============================================================================
 

@@ -64,6 +64,9 @@ public:
     uint32_t getTransactionCount() { return _txCount; }
     void resetTransactionCount() { _txCount = 0; }
     
+    // SPI Communication Test
+    bool echoTest(uint8_t testByte = 0xA5);
+    
 private:
     SPIClass* _spi;
     int8_t _csPin;

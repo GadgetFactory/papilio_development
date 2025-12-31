@@ -1,34 +1,20 @@
-IO_LOC "clk_27mhz" H11;
-IO_PORT "clk_27mhz" PULL_MODE=UP;
+// Clock and Reset
+IO_LOC "clk" H11;
+IO_PORT "clk" PULL_MODE=UP;
 
-IO_LOC "rst_n" C7;
-IO_PORT "rst_n" PULL_MODE=UP;
+IO_LOC "rst" C7;
+IO_PORT "rst" PULL_MODE=DOWN;  // Active-high reset, pull down to keep inactive
 
+// RGB LED (WS2812B single wire)
 IO_LOC "rgb_led" P9;
-IO_PORT "rgb_led" PULL_MODE=NONE;
+IO_PORT "rgb_led" PULL_MODE=NONE DRIVE=8;
 
+// SPI from ESP32
 IO_LOC "esp_miso" C11;
 IO_PORT "esp_miso" PULL_MODE=NONE DRIVE=8;
-IO_LOC "esp_clk" A11;
-IO_PORT "esp_clk" PULL_MODE=NONE;
+IO_LOC "esp_sclk" A11;
+IO_PORT "esp_sclk" PULL_MODE=NONE;
 IO_LOC "esp_mosi" B11;
 IO_PORT "esp_mosi" PULL_MODE=NONE;
 IO_LOC "esp_cs_n" A12;
 IO_PORT "esp_cs_n" PULL_MODE=UP;
-
-// Audio output pins (PWM sigma-delta DAC - use RC low-pass filter)
-// Note: These pins are in a 1.8V bank (same as HDMI)
-IO_LOC "audio_left" T14;
-IO_PORT "audio_left" IO_TYPE=LVCMOS18 PULL_MODE=NONE DRIVE=8;
-IO_LOC "audio_right" R13;
-IO_PORT "audio_right" IO_TYPE=LVCMOS18 PULL_MODE=NONE DRIVE=8;
-
-// HDMI differential pairs - Using LVCMOS18D (1.8V differential) for GW2A-LV18 device
-IO_LOC "O_tmds_clk_p" P6,T6;
-IO_PORT "O_tmds_clk_p" IO_TYPE=LVCMOS18D PULL_MODE=NONE;
-IO_LOC "O_tmds_data_p[0]" M6,T8;
-IO_PORT "O_tmds_data_p[0]" IO_TYPE=LVCMOS18D PULL_MODE=NONE;
-IO_LOC "O_tmds_data_p[1]" T11,P11;
-IO_PORT "O_tmds_data_p[1]" IO_TYPE=LVCMOS18D PULL_MODE=NONE;
-IO_LOC "O_tmds_data_p[2]" T12,R11;
-IO_PORT "O_tmds_data_p[2]" IO_TYPE=LVCMOS18D PULL_MODE=NONE;

@@ -4,28 +4,10 @@
     <Version>beta</Version>
     <Device id="GW2A-18C" package="PBGA256" speed="8" partNumber="GW2A-LV18PG256C8/I7"/>
     <FileList>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\hdmi_phy_720p.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\tmds_encoder.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\TMDS_rPLL.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_testpattern.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_text.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\wb_video_framebuffer.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\framebuffer_ram.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_hdmi\gateware\src\char_ram_8x8.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_rgb_led_ctrl.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_rgb_led\gateware\wb_simple_rgb_led.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_wishbone_spi_master\gateware\simple_spi_wb_bridge.v" type="verilog"/>
-        <File path="C:\development\papilio_development\src\gateware\wb_logic_analyzer.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sigma_delta_dac.v" type="verilog"/>
+        <File path="C:\development\papilio_development\libs\papilio_wishbone_bus\hdl\rtl\pwb_pkg.vh" type="verilog"/>
+        <File path="C:\development\papilio_development\libs\papilio_wishbone_bus\hdl\rtl\pwb_memory_map.v" type="verilog"/>
+        <File path="C:\development\papilio_development\libs\papilio_wb_rgb_led\hdl\pwb_rgb_led.v" type="verilog"/>
         <File path="C:\development\papilio_development\src\gateware\top.v" type="verilog"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\wb_sid6581_simple.vhd" type="vhdl"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_6581.vhd" type="vhdl"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_voice.vhd" type="vhdl"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_filters.vhd" type="vhdl"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_coeffs.vhd" type="vhdl"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\sid_components.vhd" type="vhdl"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\wb_ym2149_simple.vhd" type="vhdl"/>
-        <File path="C:\Users\jackg\OneDrive\GadgetFactory_Engineering\papilio_development\libs\papilio_audio\gateware\AUDIO_zpuino_wb_YM2149.vhd" type="vhdl"/>
     </FileList>
     <OptionList>
         <Option type="disable_insert_pad" value="0"/>
