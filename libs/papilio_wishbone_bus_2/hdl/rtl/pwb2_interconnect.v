@@ -4,9 +4,7 @@
 `include "pwb2_pkg.vh"
 
 module pwb2_interconnect #(
-    parameter NUM_SLOTS = 32,
-    parameter [15:0] DEVICE_IDS [0:31] = '{default: `PWB2_DEVID_EMPTY},
-    parameter [5:0] SPI_WIDTHS [0:31] = '{default: `PWB2_SPI_WIDTH_8}
+    parameter NUM_SLOTS = 32
 )(
     input wire clk,
     input wire rst,
@@ -20,10 +18,10 @@ module pwb2_interconnect #(
     input wire wb_we_i,
     output reg wb_ack_o,
     
-    // Wishbone masters (to peripheral slots)
+    // Wishbone masters (to peripheral slots) - using packed arrays
     output wire [23:0] wb_slot_adr_o,
     output wire [31:0] wb_slot_dat_o,
-    input wire [31:0] wb_slot_dat_i [0:NUM_SLOTS-1],
+    input wire [1023:0] wb_slot_dat_i,  // 32 x 32-bit packed
     output reg [NUM_SLOTS-1:0] wb_slot_stb_o,
     output wire wb_slot_we_o,
     input wire [NUM_SLOTS-1:0] wb_slot_ack_i
@@ -66,13 +64,13 @@ assign wb_slot_we_o = wb_we_i;
 // Combine acknowledge signals
 wire any_ack = |(wb_slot_ack_i & slot_active);
 
-// Multiplex data from active slot
+// Multiplex data from active slot using packed array
 integer i;
 always @(*) begin
     wb_dat_o = 32'h00000000;
     for (i = 0; i < NUM_SLOTS; i = i + 1) begin
         if (slot_active[i]) begin
-            wb_dat_o = wb_slot_dat_i[i];
+            wb_dat_o = wb_slot_dat_i[(i*32) +: 32];
         end
     end
 end

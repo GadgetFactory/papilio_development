@@ -12,25 +12,92 @@ import os
 import sys
 from pathlib import Path
 
-Import("env")
+# Try to import PlatformIO env (will fail if run standalone)
+try:
+    Import("env")
+    IS_PLATFORMIO = True
+except:
+    IS_PLATFORMIO = False
+    env = None
 
 def find_pwb2_peripherals(project_dir):
     """Find all PWB2-compatible peripheral libraries"""
     peripherals = []
     
-    lib_deps = env.GetProjectOption("lib_deps", [])
-    print(f"[PWB2] Scanning for peripherals in lib_deps: {lib_deps}")
+    if IS_PLATFORMIO:
+        lib_deps = env.GetProjectOption("lib_deps", [])
+        print(f"[PWB2] Scanning for peripherals in lib_deps: {lib_deps}")
+    else:
+        # Standalone mode - read from platformio.ini
+        lib_deps = []
+        platformio_ini = project_dir / "platformio.ini"
+        if platformio_ini.exists():
+            with open(platformio_ini, 'r') as f:
+                in_lib_deps = False
+                for line in f:
+                    line_stripped = line.strip()
+                    if line_stripped.startswith('lib_deps'):
+                        in_lib_deps = True
+                        # Check if there's a value on same line
+                        if '=' in line_stripped:
+                            value = line_stripped.split('=', 1)[1].strip()
+                            if value:
+                                lib_deps.append(value)
+                        continue
+                    if in_lib_deps:
+                        # Stop at next section or config item
+                        if line_stripped.startswith('[') or (line_stripped and '=' in line_stripped and not line.startswith(' ') and not line.startswith('\t')):
+                            break
+                        # Skip comments and empty lines
+                        if line_stripped and not line_stripped.startswith(';') and not line_stripped.startswith('#'):
+                            lib_deps.append(line_stripped)
+        print(f"[PWB2] Scanning for peripherals in lib_deps: {lib_deps}")
     
     # Collect library directories
     lib_dirs = []
     
     # Check .pio/libdeps
-    libdeps_dir = project_dir / ".pio" / "libdeps" / env["PIOENV"]
-    if libdeps_dir.exists():
+    if IS_PLATFORMIO:
+        libdeps_dir = project_dir / ".pio" / "libdeps" / env["PIOENV"]
+    else:
+        # Find any environment directory
+        pio_libdeps = project_dir / ".pio" / "libdeps"
+        if pio_libdeps.exists():
+            env_dirs = [d for d in pio_libdeps.iterdir() if d.is_dir()]
+            libdeps_dir = env_dirs[0] if env_dirs else None
+        else:
+            libdeps_dir = None
+    
+    if libdeps_dir and libdeps_dir.exists():
         lib_dirs.extend([d for d in libdeps_dir.iterdir() if d.is_dir()])
     
     # Check lib_extra_dirs
-    lib_extra_dirs = env.GetProjectOption("lib_extra_dirs", [])
+    if IS_PLATFORMIO:
+        lib_extra_dirs = env.GetProjectOption("lib_extra_dirs", [])
+    else:
+        lib_extra_dirs = []
+        platformio_ini = project_dir / "platformio.ini"
+        if platformio_ini.exists():
+            with open(platformio_ini, 'r') as f:
+                in_extra_dirs = False
+                for line in f:
+                    line_stripped = line.strip()
+                    if line_stripped.startswith('lib_extra_dirs'):
+                        in_extra_dirs = True
+                        # Check if there's a value on same line
+                        if '=' in line_stripped:
+                            value = line_stripped.split('=', 1)[1].strip()
+                            if value:
+                                lib_extra_dirs.append(value)
+                        continue
+                    if in_extra_dirs:
+                        # Stop at next section or config item
+                        if line_stripped.startswith('[') or (line_stripped and '=' in line_stripped and not line.startswith(' ') and not line.startswith('\t')):
+                            break
+                        # Skip comments and empty lines
+                        if line_stripped and not line_stripped.startswith(';') and not line_stripped.startswith('#'):
+                            lib_extra_dirs.append(line_stripped)
+    
     for extra_dir in lib_extra_dirs:
         extra_path = Path(extra_dir)
         if not extra_path.is_absolute():
@@ -41,9 +108,47 @@ def find_pwb2_peripherals(project_dir):
                 lib_path = extra_path / lib_name
                 if lib_path.exists() and lib_path.is_dir():
                     lib_dirs.append(lib_path)
+                    
+                    # If this is PWB2 library itself, also scan its examples
+                    if 'wishbone_bus' in lib_name.lower() or 'pwb2' in lib_name.lower():
+                        examples_dir = lib_path / 'examples'
+                        if examples_dir.exists():
+                            for example in examples_dir.iterdir():
+                                if example.is_dir():
+                                    lib_dirs.append(example)
+            
+            # Also scan examples folder for pwb2_* peripherals
+            for item in extra_path.iterdir():
+                if item.is_dir() and item.name.startswith('pwb2_'):
+                    examples_dir = item / 'examples'
+                    if examples_dir.exists():
+                        for example in examples_dir.iterdir():
+                            if example.is_dir():
+                                lib_dirs.append(example)
+    
+    print(f"[PWB2] Scanning {len(lib_dirs)} directories")
+    for lib_dir in lib_dirs:
+        print(f"[PWB2]   - {lib_dir}")
     
     # Scan each library for PWB2 peripherals
     for lib_dir in lib_dirs:
+        # Check for wishbone_peripheral.json directly (for examples)
+        peripheral_json = lib_dir / "wishbone_peripheral.json"
+        if peripheral_json.exists():
+            try:
+                with open(peripheral_json, 'r') as f:
+                    peripheral_data = json.load(f)
+                
+                peripheral_data['lib_path'] = str(lib_dir)
+                peripheral_data['lib_name'] = peripheral_data.get('name', lib_dir.name)
+                peripherals.append(peripheral_data)
+                
+                print(f"[PWB2] Found: {peripheral_data['name']} (Device ID: 0x{peripheral_data['device_id']:04X})")
+            except Exception as e:
+                print(f"[PWB2] Warning: Error reading {peripheral_json}: {e}")
+            continue
+        
+        # Check for library.json (for full libraries)
         lib_json = lib_dir / "library.json"
         if not lib_json.exists():
             continue
@@ -340,12 +445,28 @@ assign wb_slot_ack[{slot}] = 1'b0;
 
 def main():
     """Main generation function"""
-    project_dir = Path(env["PROJECT_DIR"])
-    gateware_dir = project_dir / "src" / "gateware"
+    if IS_PLATFORMIO:
+        project_dir = Path(env["PROJECT_DIR"])
+    else:
+        # Standalone mode - use current directory or parent until we find platformio.ini
+        project_dir = Path.cwd()
+        while not (project_dir / "platformio.ini").exists() and project_dir != project_dir.parent:
+            project_dir = project_dir.parent
+        
+        if not (project_dir / "platformio.ini").exists():
+            print("[PWB2] ERROR: platformio.ini not found in current or parent directories")
+            sys.exit(1)
+    
+    # Output to library's generated directory for now
+    lib_dir = Path(__file__).parent.parent
+    output_dir = lib_dir / "hdl" / "generated"
+    output_dir.mkdir(parents=True, exist_ok=True)
     
     print("[PWB2] ========================================")
     print("[PWB2] Papilio Wishbone Bus 2 - Auto Generator")
     print("[PWB2] ========================================")
+    print(f"[PWB2] Project directory: {project_dir}")
+    print(f"[PWB2] Output directory: {output_dir}")
     
     # Find peripherals
     peripherals = find_pwb2_peripherals(project_dir)
@@ -362,14 +483,11 @@ def main():
             print(f"[PWB2]   - {error}")
         sys.exit(1)
     
-    # Create output directory
-    gateware_dir.mkdir(parents=True, exist_ok=True)
-    
     # Generate files
-    generate_config_vh(peripherals, gateware_dir / "pwb2_config.vh")
+    generate_config_vh(peripherals, output_dir / "pwb2_config.vh")
     
-    template_path = project_dir / "libs" / "papilio_wishbone_bus_2" / "hdl" / "templates" / "top_template.v"
-    generate_top_v(peripherals, gateware_dir / "top.v", template_path)
+    template_path = lib_dir / "hdl" / "templates" / "top_template.v"
+    generate_top_v(peripherals, output_dir / "top.v", template_path)
     
     print("[PWB2] ========================================")
     print("[PWB2] Generation complete!")

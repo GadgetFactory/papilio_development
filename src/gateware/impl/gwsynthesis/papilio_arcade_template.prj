@@ -4,10 +4,7 @@
     <Version>beta</Version>
     <Device id="GW2A-18C" package="PBGA256" speed="8" partNumber="GW2A-LV18PG256C8/I7"/>
     <FileList>
-        <File path="C:\development\papilio_development\libs\papilio_wishbone_bus\hdl\rtl\pwb_pkg.vh" type="verilog"/>
-        <File path="C:\development\papilio_development\libs\papilio_wishbone_bus\hdl\rtl\pwb_memory_map.v" type="verilog"/>
-        <File path="C:\development\papilio_development\libs\papilio_wb_rgb_led\hdl\pwb_rgb_led.v" type="verilog"/>
-        <File path="C:\development\papilio_development\src\gateware\top.v" type="verilog"/>
+        <File path="C:\development\papilio_development\src\gateware\spi_counter_test.v" type="verilog"/>
     </FileList>
     <OptionList>
         <Option type="disable_insert_pad" value="0"/>

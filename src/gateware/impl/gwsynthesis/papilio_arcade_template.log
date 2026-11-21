@@ -1,25 +1,12 @@
 GowinSynthesis start
 Running parser ...
-Analyzing Verilog file 'C:\development\papilio_development\libs\papilio_wishbone_bus\hdl\rtl\pwb_pkg.vh'
-Analyzing Verilog file 'C:\development\papilio_development\libs\papilio_wishbone_bus\hdl\rtl\pwb_memory_map.v'
-Analyzing included file 'C:\development\papilio_development\libs\papilio_wishbone_bus\hdl\rtl\pwb_pkg.vh'("C:\development\papilio_development\libs\papilio_wishbone_bus\hdl\rtl\pwb_memory_map.v":4)
-Back to file 'C:\development\papilio_development\libs\papilio_wishbone_bus\hdl\rtl\pwb_memory_map.v'("C:\development\papilio_development\libs\papilio_wishbone_bus\hdl\rtl\pwb_memory_map.v":4)
-Analyzing Verilog file 'C:\development\papilio_development\libs\papilio_wb_rgb_led\hdl\pwb_rgb_led.v'
-Analyzing included file 'C:\development\papilio_development\libs\papilio_wishbone_bus\hdl\rtl\pwb_pkg.vh'("C:\development\papilio_development\libs\papilio_wb_rgb_led\hdl\pwb_rgb_led.v":4)
-Back to file 'C:\development\papilio_development\libs\papilio_wb_rgb_led\hdl\pwb_rgb_led.v'("C:\development\papilio_development\libs\papilio_wb_rgb_led\hdl\pwb_rgb_led.v":4)
-Analyzing Verilog file 'C:\development\papilio_development\src\gateware\top.v'
-Analyzing included file 'C:\development\papilio_development\libs\papilio_wishbone_bus\hdl\rtl\pwb_pkg.vh'("C:\development\papilio_development\src\gateware\top.v":4)
-Back to file 'C:\development\papilio_development\src\gateware\top.v'("C:\development\papilio_development\src\gateware\top.v":4)
-Compiling module 'top'("C:\development\papilio_development\src\gateware\top.v":6)
-Compiling module 'pwb_memory_map(NUM_SLOTS=2,SLOT_DEVICE_IDS='{16'b0101001101011001,16'b0100110001000101,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111,16'b1111111111111111},SLOT_SPI_BITS='{6'b100000,6'b100000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000,6'b001000})'("C:\development\papilio_development\libs\papilio_wishbone_bus\hdl\rtl\pwb_memory_map.v":6)
-Compiling module 'pwb_rgb_led'("C:\development\papilio_development\libs\papilio_wb_rgb_led\hdl\pwb_rgb_led.v":6)
-Compiling module 'ws2812b_controller'("C:\development\papilio_development\libs\papilio_wb_rgb_led\hdl\pwb_rgb_led.v":85)
-WARN  (EX3791) : Expression size 32 truncated to fit in target size 5("C:\development\papilio_development\libs\papilio_wb_rgb_led\hdl\pwb_rgb_led.v":147)
-WARN  (EX3791) : Expression size 17 truncated to fit in target size 16("C:\development\papilio_development\libs\papilio_wb_rgb_led\hdl\pwb_rgb_led.v":150)
-WARN  (EX3791) : Expression size 17 truncated to fit in target size 16("C:\development\papilio_development\libs\papilio_wb_rgb_led\hdl\pwb_rgb_led.v":161)
+Analyzing Verilog file 'C:\development\papilio_development\src\gateware\spi_counter_test.v'
+Compiling module 'top'("C:\development\papilio_development\src\gateware\spi_counter_test.v":4)
 NOTE  (EX0101) : Current top module is "top"
 [5%] Running netlist conversion ...
-WARN  (CV0016) : Input esp_mosi is unused("C:\development\papilio_development\src\gateware\top.v":12)
+WARN  (CV0016) : Input clk is unused("C:\development\papilio_development\src\gateware\spi_counter_test.v":5)
+WARN  (CV0016) : Input rst is unused("C:\development\papilio_development\src\gateware\spi_counter_test.v":6)
+WARN  (CV0016) : Input esp_mosi is unused("C:\development\papilio_development\src\gateware\spi_counter_test.v":10)
 Running device independent optimization ...
 [10%] Optimizing Phase 0 completed
 [15%] Optimizing Phase 1 completed
@@ -33,11 +20,190 @@ Running technical mapping ...
 [60%] Tech-Mapping Phase 0 completed
 [65%] Tech-Mapping Phase 1 completed
 [75%] Tech-Mapping Phase 2 completed
+WARN  (AG0100) : Find logical loop signal : "n6"
+WARN  (AG0100) : Find logical loop signal : "n41"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[7]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[7]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[7]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[7]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n6"
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "n47"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[6]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[6]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[6]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[6]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n7"
+WARN  (AG0100) : Find logical loop signal : "n47"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "n7"
+WARN  (AG0100) : Find logical loop signal : "n49"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[6]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[6]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[6]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[6]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n7"
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "n51"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[5]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[5]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[5]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[5]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n8"
+WARN  (AG0100) : Find logical loop signal : "n51"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "n8"
+WARN  (AG0100) : Find logical loop signal : "n53"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[5]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[5]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[5]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[5]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n8"
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "n55"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[4]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[4]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[4]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[4]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n9"
+WARN  (AG0100) : Find logical loop signal : "n55"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "n9"
+WARN  (AG0100) : Find logical loop signal : "n57"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[4]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[4]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[4]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[4]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n9"
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "n59"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[3]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[3]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[3]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[3]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n10"
+WARN  (AG0100) : Find logical loop signal : "n59"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "n10"
+WARN  (AG0100) : Find logical loop signal : "n61"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[3]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[3]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[3]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[3]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n10"
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "n63"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[2]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[2]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[2]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[2]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n11"
+WARN  (AG0100) : Find logical loop signal : "n63"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "n11"
+WARN  (AG0100) : Find logical loop signal : "n65"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[2]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[2]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[2]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[2]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n11"
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "n67"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[1]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[1]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[1]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[1]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n12"
+WARN  (AG0100) : Find logical loop signal : "n67"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "shift_out[0]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[0]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[0]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "n12"
+WARN  (AG0100) : Find logical loop signal : "n69"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[1]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[1]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[1]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[1]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n12"
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "n71"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[0]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[0]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[0]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[0]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n71"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "shift_out[7]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[7]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[7]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "shift_out[6]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[6]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[6]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "shift_out[5]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[5]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[5]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "shift_out[4]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[4]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[4]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "shift_out[3]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[3]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[3]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "shift_out[2]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[2]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[2]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "shift_out[1]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[1]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "shift_out[1]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "n103"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[0]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[0]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[0]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[0]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "n103"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "counter[7]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[7]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[7]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "counter[6]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[6]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[6]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "counter[5]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[5]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[5]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "counter[4]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[4]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[4]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "counter[3]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[3]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[3]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "counter[2]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[2]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[2]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "counter[1]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[1]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[1]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
+WARN  (AG0100) : Find logical loop signal : "counter[0]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[0]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0100) : Find logical loop signal : "counter[0]"("C:\development\papilio_development\src\gateware\spi_counter_test.v":31)
+WARN  (AG0101) : The netlist is not one directed acyclic graph
 [80%] Tech-Mapping Phase 3 completed
 [90%] Tech-Mapping Phase 4 completed
-WARN  (NL0002) : The module "pwb_memory_map" instantiated to "memory_map" is swept in optimizing("C:\development\papilio_development\src\gateware\top.v":102)
-WARN  (NL0002) : The module "pwb_rgb_led" instantiated to "rgb_led_inst" is swept in optimizing("C:\development\papilio_development\src\gateware\top.v":127)
-WARN  (NL0002) : The module "ws2812b_controller" instantiated to "ws2812b_inst" is swept in optimizing("C:\development\papilio_development\libs\papilio_wb_rgb_led\hdl\pwb_rgb_led.v":79)
 [95%] Generate netlist file "C:\development\papilio_development\src\gateware\impl\gwsynthesis\papilio_arcade_template.vg" completed
 [100%] Generate report file "C:\development\papilio_development\src\gateware\impl\gwsynthesis\papilio_arcade_template_syn.rpt.html" completed
 GowinSynthesis finish

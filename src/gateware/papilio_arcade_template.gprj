@@ -6,23 +6,22 @@
     <Device name="GW2A-18C" pn="GW2A-LV18PG256C8/I7">gw2a18c-011</Device>
     <TopModule>top</TopModule>
     <FileList>
-        <!-- Wishbone Bus Infrastructure -->
-        <File path="../../libs/papilio_wishbone_bus/hdl/rtl/pwb_pkg.vh" type="file.verilog" enable="1"/>
-        <!-- SPI bridge disabled for simple test -->
-        <!-- <File path="../../libs/papilio_wishbone_bus/hdl/rtl/pwb_spi_bridge_nandland.v" type="file.verilog" enable="1"/> -->
-        <File path="../../libs/papilio_wishbone_bus/hdl/rtl/pwb_memory_map.v" type="file.verilog" enable="1"/>
-        
-        <!-- Wishbone Peripherals -->
-        <File path="../../libs/papilio_wb_rgb_led/hdl/pwb_rgb_led.v" type="file.verilog" enable="1"/>
-        
-        <!-- Top level (Auto-generated) -->
-        <File path="top.v" type="file.verilog" enable="1"/>
+        <!-- Simple SPI counter test -->
+        <File path="spi_counter_test.v" type="file.verilog" enable="1"/>
         
         <!-- Constraints -->
         <File path="pins.cst" type="file.cst" enable="1"/>
         <File path="timing.sdc" type="file.sdc" enable="1"/>
     </FileList>
 </Project>
+
+
+
+
+
+
+
+
 
 
 

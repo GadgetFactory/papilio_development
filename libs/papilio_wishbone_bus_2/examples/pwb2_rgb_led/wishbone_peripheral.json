@@ -23,9 +23,9 @@
     {
       "name": "rgb_out",
       "direction": "output",
-      "width": 3,
+      "width": 1,
       "connection": "rgb_led",
-      "description": "RGB LED output [R, G, B]"
+      "description": "WS2812 data line"
     }
   ]
 }
